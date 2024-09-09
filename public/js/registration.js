@@ -1,0 +1,1 @@
+// This is our registration js file

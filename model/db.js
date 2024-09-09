@@ -1,0 +1,1 @@
+// This is our js file for the database schema
