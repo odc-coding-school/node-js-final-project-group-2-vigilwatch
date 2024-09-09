@@ -1,1 +1,100 @@
 /* This is our dashboard css file */
+
+#dashboard-head {
+ text-align: center;
+ margin-top: 7rem;
+}
+#dashboard-head h2 {
+ text-transform: uppercase;
+ font-family: 'Ubuntu', sans-serif;
+ font-weight: bold;
+ letter-spacing: 2px;
+}
+#search {
+ margin: 0 auto;
+ width: 70%;
+ height: 10vh;
+ font-size: 1.5rem;
+ font-weight: 600;
+}
+#incident-type-tabs {
+ display: flex;
+ justify-content: center;
+ margin-top: 20px;
+}
+#incident-type-tabs button {
+ margin: 0 5px;
+ padding: 5px 10px;
+ font-size: 0.875rem; /* Smaller font size */
+ border-radius: 5px;  /* Optional: rounded corners */
+}
+#incident-type-tabs .btn-primary {
+ background-color: #007bff;
+ border-color: #007bff;
+ color: #fff;
+}
+#incident-type-tabs .btn-light {
+ background-color: #f8f9fa;
+ border-color: #f8f9fa;
+ color: #000;
+}
+
+.cards-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+ gap: 20px;
+}
+
+.card {
+ background-color: #fff;
+ border: 1px solid #ddd;
+ border-radius: 4px;
+ box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+ overflow: hidden;
+ margin-right: 18px;
+}
+#card-profile{
+ width: 25px;
+ height: 25px;
+ border-radius: 50%;
+}
+
+.tooltip-wrapper {
+ position: relative;
+ display: inline-block;
+ cursor: pointer;
+}
+
+.tooltip-wrapper .tooltip-box {
+ visibility: hidden;
+ width: 400px;
+ background-color: #e9e8e8;
+ color: #000000;
+ text-align: left;
+ border-radius: 5px;
+ padding: 10px;
+ position: absolute;
+ bottom: 125%; /* Position above the text */
+ left: 50%;
+ margin-left: -100px; /* Center the tooltip */
+ opacity: 0;
+ transition: opacity 0.3s, visibility 0.3s;
+ z-index: 1;
+}
+
+
+
+.tooltip-wrapper:hover .tooltip-box {
+ visibility: visible;
+ opacity: 1;
+}
+
+.tooltip-box img {
+ width: 100%;
+ height: 150px;
+ 
+}
+
+.tooltip-box div {
+ margin-top: 5px;
+}
