@@ -1,27 +1,36 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const session = require('express-session');
 const path = require('path');
-const dotenv = require('dotenv');
-const homeRouter = require('./routes/home');// Importting the home route
+const db = require('./model/db');
 
-// Confiq the dotevn to load variables from the .env file
-dotenv.config();
+const registerRoutes = require('./routes/registerRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
+const authRoutes = require('./routes/authRoutes');
+const incidentRoutes = require('./routes/incidentRoutes');
+const indexRoutes = require('./routes/indexRoutes');
+const logoutRoutes = require('./routes/logoutRoutes');
+
 const app = express();
 
-// static files from the "public" directory
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Setting view engine to EJS 
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// Use the home router
-app.use('/', homeRouter);
+app.use(session({ secret: 'secret', resave: false, saveUninitialized: true }));
 
-// Below will be route to other pages
 
-// Server listen on port
-const port = process.env.PORT || 3000;//Loading port number from the .env file if defined else 3000 is use
 
-app.listen(port, () => {
-    console.log(`Server is running on port: (http://localhost:${port})`);
+
+// Use the routes
+app.use(registerRoutes);
+app.use(dashboardRoutes);
+app.use(authRoutes);
+app.use(incidentRoutes);
+app.use(indexRoutes);
+app.use(logoutRoutes);
+
+// Start the server
+app.listen(3000, () => {
+    console.log('Server is running on http://localhost:3000');
 });

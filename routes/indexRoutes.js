@@ -1,4 +1,4 @@
-// Landing page route (routes/home.js)
+// Landing page route 
 const express = require('express');
 const router = express.Router();
 
