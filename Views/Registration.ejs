@@ -1,43 +1,115 @@
-<!-- Registration form for user registration -->
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vigil Watch</title>
-    <link rel="stylesheet" href="/css/registration.css">
-    <link rel="icon" href="eye.png">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="group 2">
+    <title>Police Station Form | VigilWatch</title>
+
+    <link href="../dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            font-family: 'open sans', sans-serif;
+        }
+
+        .police-form {
+            max-width: 550px;
+            padding: 1rem;
+        }
+
+
+        .police-form input[type="email"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .police-form input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    </style>
 </head>
-<body>
-    <section class="signupformcontrol">
-        <div class="signupformdivone">
-            <div class="signupformdivtwo">
-                <img src="/images/logoimg.png" alt="logoimage">
+
+<body class="d-flex align-items-center py-4 bg-body-tertiary">
+
+    <main class="police-form w-100 m-auto">
+        <form class="row g-3 rounded shadow px-5 py-3">
+            <div class="text-center">
+                <img class="mb-2" src="../images/Logo.png" alt="" width="72" height="57">
+                <h1 class="h3 fw-normal">Police Registration</h1>
             </div>
-            <div class="signupformdivthree">
-                <form action="">
-                    <p class="signup-para">Sing Up</p>
-                    <input type="text" required placeholder="Full Name">
-                    <input type="email"  placeholder="Email (optional)">
-                    <input type="text" required placeholder="Contact (Ex: +231-775...)">
-                    <input type="text" required placeholder="Address">
-                    <select name="" id="" required>
-                        <option value="" selected>Select Gander</option>
-                        <option value="">Male</option>
-                        <option value="">Female</option>
-                        <option value="">Other</option>
-                    </select>
-                    <input type="password" required placeholder="Password" class="formpassword">
-                    <input type="password" required placeholder="Confirm Password">
-                    <button class="signup-submitbtn">Submit</button>
-                    <div class="signupformdivfour">
-                        <p>Already have an account?</p>
-                        <p><a href="login.html" class="displaylogin">Log In</a></p>
-                    </div>
-                </form>
-                
+
+            <div class="col-12">
+                <label for="station-name" class="form-label">Station Name</label>
+                <input type="text" class="form-control" name="station-name" id=" station-name" required>
             </div>
-        </div>
-    </section>
+
+            <div class="col-12">
+                <label for="station-address" class="form-label">Station Address</label>
+                <input type="text" class="form-control" id="station-address" name="station-address" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="station-id" class="form-label">Station ID</label>
+                <input type="number" class="form-control" id="station-id" name="station-id" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="station-work-hours" class="form-label">Working Hours</label>
+                <input type="time" class="form-control" id="station-work-hours" name="station-work-hours">
+            </div>
+
+            <div class="col-md-6">
+                <label for="station-town" class="form-label">City/Town</label>
+                <input type="text" class="form-control" id="station-town" name="station-town" required>
+            </div>
+
+            <div class="col-md-4">
+                <label for="station-state" class="form-label">State/Province</label>
+                <select id="station-state" class="form-select" name="station-town" required>
+                    <option selected>Choose...</option>
+                    <option>...</option>
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <label for="station-zip-code" class="form-label">Zip</label>
+                <input type="number" class="form-control" id="station-zip-code" name="station-zip-code">
+            </div>
+
+            <div class="col-md-6">
+                <label for="station-phone" class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" id="station-phone" name="phone-number" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="station-email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="station-email" name="station-email" required>
+            </div>
+
+            <div class="col-md-12">
+                <label for="station-chief" class="form-label">Chief/Officer Name</label>
+                <input type=text" class="form-control" id="station-chief" name="station-chief">
+            </div>
+
+            <div class="col-12">
+                <label for="station-notes" class="form-label">Additional Notes</label>
+                <textarea class="form-control" id="station-notes" rows="3" name="station-notes"></textarea>
+            </div>
+
+            <button class="btn btn-primary w-100 mb-4 " type="submit">Submit</button>
+        </form>
+
+    </main>
+    <script src="../dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
+
 </html>
