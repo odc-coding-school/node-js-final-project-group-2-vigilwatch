@@ -98,6 +98,10 @@ body{
     cursor: pointer;
     transition: .2s;
 }
+.signupbtn a{
+    color: #000000;
+    text-decoration: none;
+}
 .signupbtn:hover{
     transform: translateY(-2px);
 }
@@ -111,6 +115,10 @@ body{
     border-radius: 5px;
     cursor: pointer;
     transition: .2s;
+}
+.loginbtn a{
+    color: rgb(266, 266, 266);
+    text-decoration: none;
 }
 .loginbtn:hover{
     transform: translateY(-2px);
@@ -456,9 +464,6 @@ body{
     border-radius: 10px; */
     overflow: hidden;
 }
-.sectionthreedivtwo{
-    /* border: 1px solid; */
-}
 .sectionthreedivtwo p:nth-child(1){
     text-align: center;
     font-size: 2rem;
@@ -500,145 +505,4 @@ body{
     transform: scale(1.1);
 }
 /* sectionthree ends */
-
-
-
-/* fot the signup form */
-.signupformcontrol{
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: rgb(266, 266, 266);
-    /* background-color: #0d6efd; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* background-color: #161d6fd2; */
-    z-index: 9999;
-    
-    display: none;
-
-}
-.signupformcontrol.displayform{
-    display: flex;
-    transition: .4s;
-}
-
-.signupformdivone{
-    /* border: 1px solid; */
-    width: 30%;
-     /* transition: .4s; */
-    /* margin-top: -1600px; */
-    /* transform: translateY(-70); */
-    /* text-align: center; */
-    margin-top: -10px;
-    animation: signupslide .4s;
-}
-.signupformdivone.removesignupform{
-    transform: translateY(-1800px);
-    transition: .4s;
-}
-@keyframes signupslide{
-    0%{
-        transform: translateY(-1800px);
-    }
-    100%{
-        transform: translateY(0);
-    }
-}
-.signupformdivtwo{
-    text-align: center;
-}
-.signupformdivtwo img{
-    width: 100px;
-}
-.signupformdivthree{
-    width: 100%;
-    padding: 20px;
-    box-shadow: 0 0 10px #1e305063;
-    border-radius: 8px;
-    position: relative;
-}
-.signupclosebtn{
-    width: fit-content;
-    position: absolute;
-    top: -15px;
-    right: -10px;
-   
-    /* border: 1px solid; */
-}
-.signupclosebtn button{
-    background-color: transparent;
-    border: none;
-    font-size: 2rem;
-    cursor: pointer;
-    color: #1e3050;
-    /* text-align: end; */
-}
-.formpassword{
-    margin-top: 13px;
-}
-.signup-para{
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-}
-.signupformdivthree form  label{
-    color: #6b6b6b;
-    margin-bottom: 10px;
-    font-size: .85rem;
-}
-.signupformdivthree form select{
-    width: 100%;
-    color: #6b6b6b;
-    border: 1px solid #ccc;
-    /* margin-bottom: 10px; */
-    border-radius: 7px;
-    padding: 8px 10px;
-    font-size: .85rem;
-    transition: .15s ease;
-    background-color: rgb(266, 266, 266);
-}
-.signupformdivthree form select:focus{
-    border: 1px solid  #0d6dfd62;
-    box-shadow: 0 0 7px #0d6efd;
-}
-.signupformdivthree form input{
-   width: 100%;
-   padding: 8px;
-   border: 1px solid #ccc;
-   border-radius: 7px;
-   font-size: .85rem;
-   outline: none;
-   transition: .15s ease;
-   margin-bottom: 13px;
-}
-.signupformdivthree form input:focus{
-    border: 1px solid  #0d6dfd62;
-    box-shadow: 0 0 7px #0d6efd;
-}
-.signup-submitbtn{
-    width: 100%;
-    padding: 8px;
-    cursor: pointer;
-    border: 1px solid  #0d6dfd62;
-    border-radius: 7px;
-    background-color: #0d6efd;
-    color: rgb(266, 266, 266);
-    font-size: 1rem;
-    outline: none;
-    transition: .15s ease;
-    margin-top: 13px;
-    margin-bottom: 5px;
-}
-.signupformdivfour{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: .8rem;
-}
-
-/* fot the signup form */
-
 
