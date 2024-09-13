@@ -6,10 +6,12 @@ const db = require('../model/db');
 
 const router = express.Router();
 
-router.get('/login', (req, res) => {
-    res.render('Login');
+//Login - Get Route
+router.get('/sign-in', (req, res) => {
+    res.render('Signin');
 });
 
+//Login - Post Route
 router.post('/login', (req, res) => {
     const { phone, password } = req.body;
 
@@ -41,5 +43,6 @@ router.post('/login', (req, res) => {
         });
     });
 });
+
 
 module.exports = router;
