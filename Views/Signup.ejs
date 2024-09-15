@@ -1,61 +1,75 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Group 2">
-    <title>Sign Up | VigilWatch</title>
-    <link href="../css/vendor/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
-    <link href="../css/log-in.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vigil Watch</title>
+    <link rel="stylesheet" href="/css/registration.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="icon" href="eye.png">
 </head>
-
-<body class="d-flex align-items-center py-4 bg-body-tertiary">
-
-    <main class="form-signin w-100 m-auto">
-        <form class="rounded shadow bg-body-tertiary p-5">
-            <div class="text-center text-primary mb-2">
-                <img class=" mb-4" src="../images/logo2.png" alt="" width="72" height="57">
-                <span class="h3 mb-3 fw-normal">
-                    <strong>V</strong>igil <strong>W</strong>itch
-                </span>
+<body>
+    <section class="signupformcontrol">
+        <div class="signupformdivone">
+            <div class="signupformdivtwo">
+                <img src="/images/Logo.png" alt="logoimage">
             </div>
+            <div class="signupformdivthree">
+                <form action="/registration" method="post" enctype="multipart/form-data">
+                    <p class="signup-para">Sign Up</p>
+                    <input type="text" required placeholder="Full Name" name="name">
+                    <input type="email"  placeholder="Email (optional)" name="email">
 
-            <div class="mb-3">
-
-                <input type="text" class="form-control form-control-lg" id="full-name" placeholder="Enter full name"
-                    equired>
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Location:</label>
+                        <input type="text" class="form-control" id="location" name="location" required>
+                    </div>
+                    <select name="sex" id="sex" required>
+                        <option selected>Select Gander</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone:</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" required placeholder="+231 XXXXXXXXX">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password:</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                            <input type="password" class="form-control" id="password" name="password" required placeholder="Enter your password">
+                            <span class="input-group-text" onclick="togglePasswordVisibility()"><i id="toggleIcon" class="bi bi-eye"></i></span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Confirm Password:</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required placeholder="Confirm your password">
+                            <span class="input-group-text" onclick="toggleConfirmPasswordVisibility()"><i  id="ConfirmPasswordtoggleIcon" class="bi bi-eye"></i></span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="profile_picture" class="form-label">Profile Picture:</label>
+                        <input type="file" class="form-control" id="profile_picture" name="profile_picture" accept="image/jpg, image/jpeg, image/png" onchange="previewImage(event)">
+                    </div>
+                    <div class="mb-3">
+                        <img id="profile_picture_preview" src="#" alt="Profile Picture Preview" style="display: none; width: 150px;height: 150px; border-radius: 50%; margin: 0 auto;">
+                    </div>
+                    
+                 <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                </div>
+                    <div class="signupformdivfour">
+                        <p>Already have an account?</p>
+                        <p><a href="/login" class="displaylogin">Log In</a></p>
+                    </div>
+                </form>
+                
             </div>
-            <div class="mb-3">
-                <!-- <label for="address" class="form-label">Address</label> -->
-                <input type="email" class="form-control form-control-lg" id="email" placeholder="Enter email (Optional)"
-                    equired>
-            </div>
-            <div class="mb-3">
-                <!-- <label for="address" class="form-label">Address</label> -->
-                <input type="text" class="form-control form-control-lg" id="address" placeholder="Enter address"
-                    equired>
-            </div>
-            <div class="mb-3">
-                <!-- <label for="password" class="form-label">Password</label> -->
-                <input type="password" class="form-control form-control-lg" id="password" placeholder="Enter password"
-                    equired>
-            </div>
-
-            <button class="btn btn-primary w-100 fs-5 my-2" type="submit">Sign Up</button>
-            <div class="mt-3 text-center">
-                <strong class="signup-text">
-                    Already Have Account?<a href="/sign-in"
-                        class="link-offset-2 link-underline link-underline-opacity-0">
-                        Sign in</a>
-                    </strongcl>
-            </div>
-        </form>
-    </main>
-    <script src="../js/bootstrap.bundle.min.js"></script>
-
+        </div>
+    </section>
+    <script src="/js/registration.js"></script>
 </body>
-
 </html>

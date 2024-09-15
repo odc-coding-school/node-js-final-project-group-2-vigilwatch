@@ -1,5 +1,3 @@
-/* This is our dashboard css file */
-
 #dashboard-head {
  text-align: center;
  margin-top: 7rem;
@@ -68,7 +66,7 @@
 .tooltip-wrapper .tooltip-box {
  visibility: hidden;
  width: 400px;
- background-color: #e9e8e8;
+ background-color: #ffffff;
  color: #000000;
  text-align: left;
  border-radius: 5px;
@@ -88,13 +86,48 @@
  visibility: visible;
  opacity: 1;
 }
-
-.tooltip-box img {
- width: 100%;
- height: 150px;
- 
+.hover-item {
+ display: grid;
+ grid-template-columns: auto 1fr; /* The first column for the image, the second for the text */
+ gap: 20px; /* Optional: adds space between the image and the text */
+ align-items: center; /* Vertically align the image and text */
 }
+
+.hover-item img {
+ width: 70px; 
+ height: 70px; 
+ border-radius: 50%; 
+ object-fit: cover; 
+}
+
+.info {
+ display: flex;
+ flex-direction: column;
+}
+.info #description {
+ white-space: nowrap; /* Prevents text from wrapping */
+ overflow: hidden; /* Hides overflowed text */
+ text-overflow: ellipsis; /* Adds ellipsis (...) when text overflows */
+ max-width: 100%; /* Ensures the description doesn't exceed the container's width */
+ display: block; /* Ensures the block level behavior */
+}
+
+
+#name {
+ font-size: 16px;
+ font-weight: bold;
+}
+
+
 
 .tooltip-box div {
  margin-top: 5px;
+}
+ 
+#images{
+ width: 80px;
+ height: 80px;
+ vertical-align: middle;
+ margin-top: 2rem;
+ margin-inline: 5px;
 }

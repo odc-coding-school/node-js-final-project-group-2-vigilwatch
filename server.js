@@ -1,36 +1,38 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const session = require('express-session');
 const path = require('path');
-const dotenv = require('dotenv');
-const homeRouter = require('./routes/home');
-const loginRouter = require('./routes/authRoutes');
-const registerRoute = require('./routes/registerRoutes');
+const db = require('./model/db');
 
-// Confiq the dotevn to load variables from the .env file
-dotenv.config();
+const registerRoutes = require('./routes/registerRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
+const authRoutes = require('./routes/authRoutes');
+const incidentRoutes = require('./routes/incidentRoutes');
+const indexRoutes = require('./routes/home');
+const logoutRoutes = require('./routes/logoutRoutes');
+const analysisRoutes = require('./routes/incidentAnalysisRoutes');
+
 const app = express();
 
-// static files from the "public" directory
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Setting view engine to EJS 
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// Use the home router
-app.use(homeRouter);
+app.use(session({ secret: 'secret', resave: false, saveUninitialized: true }));
 
-//use the login router
-app.use(loginRouter);
 
-//Use the sign-up router
-app.use(registerRoute);
 
-// Below will be route to other pages
 
-// Server listen on port
-const port = process.env.PORT || 3000;//Loading port number from the .env file if defined else 3000 is use
-//guys please let us use the .env file for storing sensitive variables.
+// Use the routes
+app.use(registerRoutes);
+app.use(dashboardRoutes);
+app.use(authRoutes);
+app.use(incidentRoutes);
+app.use(indexRoutes);
+app.use(logoutRoutes);
+app.use(analysisRoutes);
 
-app.listen(port, () => {
-    console.log(`Server is running on: (http://localhost:${port})`);
+// Start the server
+app.listen(3100, () => {
+    console.log('Server is running on http://localhost:3100');
 });

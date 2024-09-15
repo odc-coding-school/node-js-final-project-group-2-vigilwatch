@@ -1,17 +1,13 @@
-// This is our auth routes
-
 const express = require('express');
 const bcrypt = require('bcrypt');
 const db = require('../model/db');
 
 const router = express.Router();
 
-//Login - Get Route
-router.get('/sign-in', (req, res) => {
+router.get('/login', (req, res) => {
     res.render('Signin');
 });
 
-//Login - Post Route
 router.post('/login', (req, res) => {
     const { phone, password } = req.body;
 
@@ -43,6 +39,5 @@ router.post('/login', (req, res) => {
         });
     });
 });
-
 
 module.exports = router;

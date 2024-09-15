@@ -8,8 +8,9 @@ db.serialize(() => {
     // Create 'users' table
     db.run(`CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-        location TEXT,
+        name TEXT NOT NULL,
+        location TEXT NOT NULL,
+        sex TEXT NOT NULL, 
         profile_picture BLOB
     )`);
 
@@ -17,8 +18,8 @@ db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS auth (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         email TEXT UNIQUE,
-        phone INTEGER UNIQUE,
-        password TEXT,
+        phone INTEGER UNIQUE NOT NULL,
+        password TEXT NOT NULL,
         user_id INTEGER,
         FOREIGN KEY(user_id) REFERENCES users(id)
     )`);
@@ -33,7 +34,9 @@ db.serialize(() => {
     description TEXT NOT NULL,        
     location TEXT NOT NULL,
     user_id INTEGER REFERENCES users       
-);`)
+);`);
+
+// 
    
 });
 module.exports = db;

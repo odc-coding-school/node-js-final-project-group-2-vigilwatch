@@ -1,1 +1,80 @@
 <!-- This is our Incident Report Page -->
+
+<!-- This is our Incident Report Page -->
+<%- include('layouts/header')%>
+<link rel="stylesheet" href="/css/Report.css">
+<body>
+ <header>
+  <%- include ('layouts/navbar')%>
+  <%- include ('layouts/sidebar')%>
+ </header>
+ <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+ <div class="container">
+  <h2 class="mb-4">Incident Report Form</h2>
+  <form action="/report-incident" method="post" enctype="multipart/form-data" id="incidentForm">
+
+      <!-- Incident Type -->
+      <div class="mb-3">
+       <label for="incidentType" class="form-label">Incident Type</label>
+       <select class="form-select" id="incidentType" name="incidentType" required>
+           <option selected disabled>Select incident type</option>
+           <option value="fire">Fire</option>
+           <option value="violence">Violence</option>
+           <option value="theft">Theft</option>
+           <option value="vandalism">Vandalism</option>
+           <option value="other">Other</option>
+       </select>
+   </div>
+   
+   <div class="mb-3" id="otherIncidentDiv" style="display: none;">
+       <label for="otherIncident" class="form-label">Please specify the incident</label>
+       <input type="text" class="form-control" id="otherIncident" name="otherIncident" placeholder="Specify other incident type">
+   </div>
+
+   <div class="mb-3">
+    <label for="images" class="form-label">Upload Incident Images</label>
+    <input class="form-control" type="file" id="images" name="images" accept="image/*" multiple>
+    <div id="imagePreviewContainer" class="mt-3"></div>
+</div>
+
+      <!-- Date -->
+      <div class="mb-3">
+       <label for="date" class="form-label">Date</label>
+       <input type="date" class="form-control" id="date" name="date" required>
+   </div>
+
+      <!-- Time -->
+      <div class="mb-3">
+          <label for="time" class="form-label">Time</label>
+          <input type="time" class="form-control" id="time" name="time" required>
+      </div>
+
+      <!-- Description -->
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="3" placeholder="Tell us more about the case" required></textarea>
+      </div>
+
+      <!-- Real-time Location (Hidden) -->
+      <input type="hidden" id="location" name="location" value="">
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary">Submit Incident Report</button>
+  </form>
+</div>
+</div>
+ <script>
+     document.getElementById('images').addEventListener('change', function(event) {
+        const fileInput = event.target;
+        const maxFiles = 4;
+
+        if (fileInput.files.length > maxFiles) {
+            alert(`You can only upload a maximum of ${maxFiles} images.`);
+            // Clear the file input
+            fileInput.value = '';
+        }
+    });
+ </script>
+<script src="/js/report.js"></script>
+
+<%- include('layouts/footer')%>

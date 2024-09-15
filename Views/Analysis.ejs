@@ -1,1 +1,122 @@
-<!-- Incidents Report Analysis Page -->
+
+<%- include('layouts/header')%>
+<link rel="stylesheet" href="/css/analysis.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+    <%- include('layouts/sidebar.ejs') %>
+    <%- include('layouts/navbar.ejs') %>
+
+    <div class="container-fluid analysis">
+      <div class="month-selector" style="width: 30%;margin: 0 auto;">
+        <label for="month">Select Month:</label>
+        <select id="month" class="form-select" onchange="changeMonth()" style="color: black;">
+            <option value="Jan">January</option>
+            <option value="Feb">February</option>
+            <option value="Mar">March</option>
+            <option value="Apr">April</option>
+            <option value="May">May</option>
+            <option value="Jun">June</option>
+            <option value="Jul">July</option>
+            <option value="Aug">August</option>
+            <option value="Sep">September</option>
+            <option value="Oct">October</option>
+            <option value="Nov">November</option>
+            <option value="Dec">December</option>
+        </select>
+    </div>
+        <h2>Incidents Analysis for <%= selectedMonth %></h2>
+        
+        <div class="card-trend-container">
+            <div class="card-container p-3 mb-5 rounded">
+                <div class="card-parent shadow-lg p-3 mb-5 rounded">
+                    <div class="card shadow-lg" style="background-color: rgb(32, 149, 188);">
+                        <div class="card-body">
+                            <h5 class="card-title" style="font-size: 15px;text-align: left;">Total Incidents</h5>
+                            <h6 class="card-subtitle" style="font-size: 6rem; font-weight: bold;text-align: left;margin-top: 1pc;">
+                                <%= totalIncident %>
+                            </h6>
+                            <p class="card-text" style="float: right;margin-top: -4rem;margin-right: 5px; font-size: 15px;">
+                                <i class="fa-solid fa-arrow-up-right-dots" style="font-size: 30px;"></i><br>Counting..
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shadow-lg p-3 mb-5 bg-body rounded" style="padding-top: 10px;">
+                    <div class="bg-light">
+                        <h5>Incident Analysis Chart</h5>
+                        <% if (showNoDataMessage) { %>
+                            <p>No data available for <%= selectedMonth %>.</p>
+                        <% } else { %>
+                            <div id="chart"></div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <div class="trend-container shadow-lg p-3 mb-5 rounded">
+              <div class="trend-body">
+                  <h4>Trending incidents for <%= selectedMonth %></h4>
+                  <hr>
+                  <% if (!showNoDataMessage && incidents.length > 0) { %>
+                      <% incidents.forEach(incident => { %>
+                          <div class="trend-item-container">
+                              <h6><%= incident.incident_type %></h6>
+                              <p class="card-text"><%= incident.description%></p>
+                              <button class="btn btn-primary">Read More</button> <hr>
+                          </div>
+                      <% }) %>
+                  <% } else { %>
+                      <p>No trending incidents available for <%= selectedMonth %>.</p>
+                  <% } %>
+              </div>
+          </div>
+          
+        </div>
+
+       
+    </div>
+
+    <script>
+      function changeMonth() {
+         const selectedMonth = document.getElementById('month').value;
+         window.location.href = `/analysis?month=${selectedMonth}`;
+       }
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {packages: ['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        // Create the data table.
+        const data = new google.visualization.DataTable();
+        data.addColumn('string', 'Month');
+        data.addColumn('number', 'Incidents');
+
+        // Add rows from the incidents data
+        <% if (!showNoDataMessage) { %>
+          <% incidents.forEach(incident => { %>
+            data.addRow(['<%= incident.month %>', <%= incident.incidents_count %>]);
+          <% }) %>
+        <% } %>
+
+        // Set chart options
+        const options = {
+          title: 'Monthly Incidents Overview',
+          hAxis: {title: 'Month'},
+          vAxis: {title: 'Number of Incidents'},
+          legend: 'none'
+        };
+
+        // Instantiate and draw the chart.
+        const chart = new google.visualization.LineChart(document.getElementById('chart'));
+        chart.draw(data, options);
+      }
+    </script>
+
+    <%- include('layouts/footer.ejs') %>
+</body>
+</html>

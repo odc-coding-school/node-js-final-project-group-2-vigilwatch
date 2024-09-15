@@ -1,6 +1,5 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,7 +14,7 @@
 <body class="d-flex align-items-center py-4 bg-body-tertiary">
 
     <main class="form-signin w-100 m-auto">
-        <form action="/" method="post" class=" rounded shadow bg-body-tertiary p-5">
+        <form action="/login" method="post" class=" rounded shadow bg-body-tertiary p-5">
             <div class="text-center text-primary mb-2">
                 <img class=" mb-4" src="../images/logo2.png" alt="" width="72" height="57">
                 <span class="h3 mb-3 fw-normal">
@@ -25,18 +24,14 @@
 
             <div class="mb-3">
                 <!-- <label for="phone-number" class="form-label">Phone Number</label> -->
-                <input type="tel" class="form-control form-control-lg" id="phone-number"
-                    placeholder="Enter phone number" equired>
+                <input type="tel" class="form-control form-control-lg" id="phone" name="phone"
+                    placeholder="Enter phone number" required>
             </div>
-            <div class="mb-3">
-                <!-- <label for="address" class="form-label">Address</label> -->
-                <input type="text" class="form-control form-control-lg" id="address" placeholder="Enter current address"
-                    equired>
-            </div>
+            
             <div class="mb-3">
                 <!-- <label for="password" class="form-label">Password</label> -->
-                <input type="password" class="form-control form-control-lg" id="password" placeholder="Enter password"
-                    equired>
+                <input type="password" class="form-control form-control-lg" id="password" placeholder="Enter password" name="password"
+                    required>
             </div>
 
             <div class="form-check text-start my-3">
