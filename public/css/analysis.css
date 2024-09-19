@@ -1,97 +1,169 @@
 /* analysis.css */
 
 /* Base Styles */
-.analysis {
- text-align: center;
- margin-top: 7rem;
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f8f9fa;
+    box-sizing: border-box;
+    overflow-y: scroll;
+}
+
+.report-container-form {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 3em;
+    padding: 1.5rem 2.2rem;
+    background-color: white;
+    border-radius: 8px;
+
 }
 
 .analysis h2 {
- text-transform: uppercase;
- font-family: 'Ubuntu', sans-serif;
- letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Ubuntu', sans-serif;
+    letter-spacing: 2px;
 }
 
 .analysis #text-analysis {
- margin-top: -15px;
+    margin-top: -15px;
 }
 
 .card-trend-container {
- display: grid;
- grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
- gap: 20px; /* Adjusted gap to prevent too much space */
- max-width: 1200px; /* Restrict the width of the incident cards container */
- margin: 0 auto;
+    max-width: 1200px;
 }
 
-.card-container {
- display: grid;
- grid-template-columns: 1fr;
- width: 100%; /* Remove fixed width to allow flexibility */
- padding: 1rem;
- margin-left: 14pc;
-}
+.card-container {}
 
 .card {
- margin: 0 auto;
- border: none;
- width: 30rem;
- height: 12rem;
- color: white;
- border-radius: 15px;
- background-color: #007bff; /* Default background color, adjust for dark mode */
+    margin: 0 auto;
+    border: none;
+    width: 30rem;
+    height: 12rem;
+    color: white;
+    border-radius: 15px;
+    background-color: #007bff;
+    /* Default background color, adjust for dark mode */
 }
 
 .trend-container {
- max-width: 400px; 
- background-color: #f8f9fa; /* Default background color, adjust for dark mode */
- border-right: 1px solid #ddd;
- padding: 1rem;
- margin-left: 15pc; 
- top: 20px; 
- position: sticky; 
- z-index: 999; 
- overflow-y: auto; 
+    max-width: 400px;
+    background-color: #f8f9fa;
+    /* Default background color, adjust for dark mode */
+    border-right: 1px solid #ddd;
+    padding: 1rem;
+    margin-left: 15pc;
+    top: 20px;
+    position: sticky;
+    z-index: 999;
+    overflow-y: auto;
 }
 
 .trend-body {
- overflow-y: auto; 
- max-height: 700px; 
+    overflow-y: auto;
+    max-height: 700px;
 }
 
 .incident-card {
- margin-bottom: 1rem;
- width: 50px;
- color: black; /* Default text color, adjust for dark mode */
+    margin-bottom: 1rem;
+    width: 50px;
+    color: black;
+    /* Default text color, adjust for dark mode */
 }
 
 .incident-title {
- font-weight: bold;
+    font-weight: bold;
 }
 
 .incident-date {
- font-size: 0.85rem;
- color: #6c757d; /* Default text color, adjust for dark mode */
+    font-size: 0.85rem;
+    color: #6c757d;
+    /* Default text color, adjust for dark mode */
 }
 
 /* Dark Mode Styles */
 body.dark-mode .analysis {
- color: #fff;
+    color: #fff;
 }
 
 body.dark-mode .card {
- background-color: #343a40; /* Dark mode background color */
+    background-color: #343a40;
+    /* Dark mode background color */
 }
 
 body.dark-mode .trend-container {
- background-color: #495057; /* Dark mode background color */
- border-right: 1px solid #6c757d; /* Adjust border color for dark mode */
+    background-color: #495057;
+    /* Dark mode background color */
+    border-right: 1px solid #6c757d;
+    /* Adjust border color for dark mode */
 }
 
 body.dark-mode .incident-card {
- color: #fff; /* Dark mode text color */
+    color: #fff;
+    /* Dark mode text color */
 }
 
 body.dark-mode .incident-date {
- color: #adb5bd; /* Light text color for dark mode */
+    color: #adb5bd;
+    /* Light text color for dark mode */
+}
+
+/* Media query for small and meduim screens */
+@media (max-width: 768px) {
+
+    .month-selector {
+        position: relative;
+        margin-top: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .month-selector select {
+        text-align: center;
+        width: 100%;
+
+    }
+
+    .month-selector label {
+        text-align: center;
+        width: 100%;
+        margin-right: 10px;
+    }
+
+    #trending-incident {
+        margin: 10px auto 30px auto;
+    }
+
+}
+
+/* For meduim screens specifically */
+@media (min-width: 768px) and (max-width: 991px) {
+
+    .month-selector {
+        position: relative;
+        margin-top: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .month-selector select {
+        text-align: center;
+        width: 100%;
+
+    }
+
+    .month-selector label {
+        text-align: center;
+        width: 100%;
+        margin-right: 10px;
+    }
+
+
 }
