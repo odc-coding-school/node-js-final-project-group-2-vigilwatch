@@ -40,14 +40,21 @@
                                 <i class="fa-solid fa-arrow-up-right-dots" style="font-size: 30px;"></i><br>Counting..
                             </p>
                         </div>
-                    </div>
+
+                      </div><br>
+                      <p>Specific Incident Report for <%=selectedMonth%></p>
+                      <button class="btn btn-secondary">Fire</button>
+                      <button class="btn btn-secondary">Violence</button>
+                      <button class="btn btn-secondary">Theft</button>
+                      <button class="btn btn-secondary">Vandalism</button>
+                      <button class="btn btn-secondary">Other</button>
                 </div>
 
                 <div class="shadow-lg p-3 mb-5 bg-body rounded" style="padding-top: 10px;">
                     <div class="bg-light">
-                        <h5>Incident Analysis Chart</h5>
+                        <h5 style="color: black;">Incident Analysis Chart</h5>
                         <% if (showNoDataMessage) { %>
-                            <p>No data available for <%= selectedMonth %>.</p>
+                            <p style="color: black;">No data available for <%= selectedMonth %>.</p>
                         <% } else { %>
                             <div id="chart"></div>
                         <% } %>
@@ -57,19 +64,24 @@
 
             <div class="trend-container shadow-lg p-3 mb-5 rounded">
               <div class="trend-body">
-                  <h4>Trending incidents for <%= selectedMonth %></h4>
+                  <h4>Trending incidents</h4>
                   <hr>
-                  <% if (!showNoDataMessage && incidents.length > 0) { %>
-                      <% incidents.forEach(incident => { %>
+                <% allIncidents.forEach(incident => { %>
+
+               
                           <div class="trend-item-container">
-                              <h6><%= incident.incident_type %></h6>
-                              <p class="card-text"><%= incident.description%></p>
+                            <h3 style="text-transform: capitalize;"><%= incident.incident_type %></h3>
+                            <h6 class="card-text" id="description"><%= incident.description%></h6>
+                            <span> <img src="data:image/png;base64,<%= incident.profile_picture %>" alt="profile picture" id="trending-profile"></span> <span style="font-family: 'Ubuntu', sans-serif; font-size: 12px;">
+                              <%= incident.name %>
+                            </span>
+                            <p style="font-size: 12px;">
+                              <%= incident.formatted_date %> - <%= incident.formatted_time %>
+                          </p>
                               <button class="btn btn-primary">Read More</button> <hr>
                           </div>
-                      <% }) %>
-                  <% } else { %>
-                      <p>No trending incidents available for <%= selectedMonth %>.</p>
-                  <% } %>
+                          <% }) %>
+                 
               </div>
           </div>
           

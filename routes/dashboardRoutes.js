@@ -23,8 +23,8 @@ router.get('/dashboard', (req, res) => {
             return res.send('User not found');
         }
 
-        const base64Image = user.profile_picture.toString('base64');
-        const imageSrc = `data:image/png;base64,${base64Image}`;
+        const base64Image = user.profile_picture ? user.profile_picture.toString('base64'): null;
+        const imageSrc = base64Image ? `data:image/png;base64,${base64Image}`: '/images/profile-default.png';
 
         // Fetch all incidents for the "ALL" tab
         db.all(`SELECT incident_reports.*, users.profile_picture, users.name, auth.email, auth.phone

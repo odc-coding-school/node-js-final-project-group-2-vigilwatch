@@ -105,11 +105,11 @@
  flex-direction: column;
 }
 .info #description {
- white-space: nowrap; /* Prevents text from wrapping */
- overflow: hidden; /* Hides overflowed text */
- text-overflow: ellipsis; /* Adds ellipsis (...) when text overflows */
- max-width: 100%; /* Ensures the description doesn't exceed the container's width */
- display: block; /* Ensures the block level behavior */
+ white-space: nowrap; 
+ overflow: hidden; 
+ text-overflow: ellipsis; 
+ max-width: 100%; 
+ display: block; 
 }
 
 

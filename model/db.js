@@ -36,7 +36,8 @@ db.serialize(() => {
     user_id INTEGER REFERENCES users       
 );`);
 
-// 
+// db.run(`ALTER TABLE users ADD COLUMN bio TEXT`);
+// db.run(`ALTER TABLE users ADD COLUMN cover_picture BLOB`);
    
 });
 module.exports = db;

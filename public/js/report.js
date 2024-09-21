@@ -58,53 +58,163 @@ document.getElementById("incidentType").addEventListener("change", function () {
 });
 
 // REAL TIME LOCATION
-// ============== saving the user  live location =================
+
 document.addEventListener("DOMContentLoaded", function () {
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
 
-      const geocodeUrl = `https://maps.gomaps.pro/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AlzaSydsurS3YqxGVdqaV4yrn1AD-8nu9OhpIUB`;
+        // Replace with your actual Google Maps Geocoding API key
+        const geocodeUrl = `https://maps.gomaps.pro/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AlzaSydsurS3YqxGVdqaV4yrn1AD-8nu9OhpIUB`;
 
-      fetch(geocodeUrl)
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.results.length > 0) {
-            let locationName = "Location not found";
-            const addressComponents = data.results[0].address_components;
+        fetch(geocodeUrl)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "OK" && data.results.length > 0) {
+              let locationName = "Location not found";
+              const addressComponents = data.results[0].address_components;
 
-            for (const component of addressComponents) {
-              if (component.types.includes("locality")) {
-                locationName = component.long_name;
-                break;
-              } else if (component.types.includes("sublocality_level_1")) {
-                locationName = component.long_name;
-              } else if (
-                component.types.includes("administrative_area_level_2")
-              ) {
-                locationName = component.long_name;
-              } else if (
-                component.types.includes("administrative_area_level_1")
-              ) {
-                locationName = component.long_name;
+              for (const component of addressComponents) {
+                if (component.types.includes("locality")) {
+                  locationName = component.long_name;
+                  break;
+                } else if (component.types.includes("sublocality_level_1")) {
+                  locationName = component.long_name;
+                } else if (
+                  component.types.includes("administrative_area_level_2")
+                ) {
+                  locationName = component.long_name;
+                } else if (
+                  component.types.includes("administrative_area_level_1")
+                ) {
+                  locationName = component.long_name;
+                }
               }
+              document.getElementById("location").value = locationName;
+            } else {
+              document.getElementById("location").value = "Location not found";
+              alert(
+                "Location not found. Please make sure that your location is enabled."
+              );
             }
-            document.getElementById("location").value = locationName;
-          } else {
-            document.getElementById("location").value = "Location not found";
-            alert(
-              "Location not found. Please make sure that your location is enable"
-            );
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          document.getElementById("location").value =
-            "Error retrieving location";
-        });
-    });
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            document.getElementById("location").value =
+              "Error retrieving location";
+          });
+      },
+      function (error) {
+        console.error("Geolocation error:", error);
+        alert(
+          "Error retrieving location. Please ensure location services are enabled."
+        );
+      }
+    );
   } else {
-    alert("Geolocation is not supported by this browser, Please try another.");
+    alert("Geolocation is not supported by this browser. Please try another.");
   }
 });
+
+// ============== saving the user  live location =================
+// document.addEventListener("DOMContentLoaded", function () {
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(function (position) {
+//       const latitude = position.coords.latitude;
+//       const longitude = position.coords.longitude;
+
+//       const geocodeUrl = `https://maps.gomaps.pro/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AlzaSydsurS3YqxGVdqaV4yrn1AD-8nu9OhpIUB`;
+
+//       fetch(geocodeUrl)
+//         .then((response) => response.json())
+//         .then((data) => {
+//           if (data.results.length > 0) {
+//             let locationName = "Location not found";
+//             const addressComponents = data.results[0].address_components;
+
+//             for (const component of addressComponents) {
+//               if (component.types.includes("locality")) {
+//                 locationName = component.long_name;
+//                 break;
+//               } else if (component.types.includes("sublocality_level_1")) {
+//                 locationName = component.long_name;
+//               } else if (
+//                 component.types.includes("administrative_area_level_2")
+//               ) {
+//                 locationName = component.long_name;
+//               } else if (
+//                 component.types.includes("administrative_area_level_1")
+//               ) {
+//                 locationName = component.long_name;
+//               }
+//             }
+//             document.getElementById("location").value = locationName;
+//           } else {
+//             document.getElementById("location").value = "Location not found";
+//             alert(
+//               "Location not found. Please make sure that your location is enable"
+//             );
+//           }
+//         })
+//         .catch((error) => {
+//           console.error("Error:", error);
+//           document.getElementById("location").value =
+//             "Error retrieving location";
+//         });
+//     });
+//   } else {
+//     alert("Geolocation is not supported by this browser, Please try another.");
+//   }
+// });
+
+// document.addEventListener("DOMContentLoaded", function () {
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(
+//       function (position) {
+//         const latitude = position.coords.latitude;
+//         const longitude = position.coords.longitude;
+
+//         // Replace with your actual Google Maps Geocoding API key
+//         const geocodeUrl = `https://maps.gomaps.pro/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AlzaSydsurS3YqxGVdqaV4yrn1AD-8nu9OhpIUB`;
+
+//         fetch(geocodeUrl)
+//           .then((response) => response.json())
+//           .then((data) => {
+//             if (data.results.length > 0) {
+//               let locationName = "Location not found";
+//               const addressComponents = data.results[0].address_components;
+
+//               for (const component of addressComponents) {
+//                 if (component.types.includes("locality")) {
+//                   locationName = component.long_name;
+//                   break;
+//                 } else if (component.types.includes("sublocality_level_1")) {
+//                   locationName = component.long_name;
+//                 } else if (component.types.includes("administrative_area_level_2")) {
+//                   locationName = component.long_name;
+//                 } else if (component.types.includes("administrative_area_level_1")) {
+//                   locationName = component.long_name;
+//                 }
+//               }
+//               document.getElementById("location").value = locationName;
+//             } else {
+//               document.getElementById("location").value = "Location not found";
+//               alert("Location not found. Please make sure that your location is enabled.");
+//             }
+//           })
+//           .catch((error) => {
+//             console.error("Error:", error);
+//             document.getElementById("location").value = "Error retrieving location";
+//           });
+//       },
+//       function (error) {
+//         console.error("Geolocation error:", error);
+//         alert("Error retrieving location. Please ensure location services are enabled.");
+//       }
+//     );
+//   } else {
+//     alert("Geolocation is not supported by this browser. Please try another.");
+//   }
+// });

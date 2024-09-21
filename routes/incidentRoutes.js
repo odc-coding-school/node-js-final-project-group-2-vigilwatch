@@ -25,8 +25,8 @@ router.get('/report-incident', (req, res) => {
             return res.send('User not found');
         }
 
-        const base64Image = user.profile_picture.toString('base64');
-        const imageSrc = `data:image/png;base64,${base64Image}`;
+        const base64Image = user.profile_picture ? user.profile_picture.toString('base64'): null;
+        const imageSrc = base64Image ? `data:image/png;base64,${base64Image}` : '/images/profile-default.png';
 
         res.render('Report', { userProfile: imageSrc });
     });

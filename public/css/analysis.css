@@ -95,3 +95,17 @@ body.dark-mode .incident-card {
 body.dark-mode .incident-date {
  color: #adb5bd; /* Light text color for dark mode */
 }
+
+#description{
+ white-space: nowrap;
+ overflow: hidden;
+ text-overflow: ellipsis;
+ max-width: 100%;
+ display: block;
+}
+#trending-profile{
+ width: 20px;
+ height: 20px;
+ border-radius: 50%;
+ text-align: right;
+}
