@@ -12,7 +12,7 @@ const indexRoutes = require('./routes/home');
 const logoutRoutes = require('./routes/logoutRoutes');
 const analysisRoutes = require('./routes/incidentAnalysisRoutes');
 const profileRoutes = require('./routes/profileRoutes');
-
+const statisticsRoutes = require('./routes/StatisticsRoutes');
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -33,6 +33,7 @@ app.use(indexRoutes);
 app.use(logoutRoutes);
 app.use(analysisRoutes);
 app.use(profileRoutes);
+app.use(statisticsRoutes);
 
 // Start the server
 app.listen(3100, () => {
