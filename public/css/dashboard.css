@@ -65,14 +65,126 @@
     object-fit: cover;
     border-radius: 5px;
 }
+.tooltip-wrapper {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
 
-/* Responsive layout */
-@media (max-width: 768px) {
+.tooltip-wrapper .tooltip-box {
+    visibility: hidden;
+    width: 400px;
+    background-color: #ffffff;
+    color: #000000;
+    text-align: left;
+    border-radius: 5px;
+    padding: 10px;
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -2pc;
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+    z-index: 1;
+}
+
+.tooltip-wrapper:hover .tooltip-box {
+    visibility: visible;
+    opacity: 1;
+}
+
+.hover-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px;
+    align-items: center;
+}
+
+.hover-item img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+}
+
+#name {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#description {
+    overflow: hidden;           
+    white-space: nowrap;        
+    text-overflow: ellipsis;    
+    max-width: 300px; 
+}
+
+.contact {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.contact .btn {
+    flex: 1;
+    text-align: center;
+    margin: 0 5px;
+    padding: 5px 10px;
+}
+
+
+/* Responsive layout for medium devices and up */
+@media (max-width: 992px) {
+    .dashboard-container {
+        margin-left: 0;
+        margin-top: 2pc;
+    }
+
+    .profile-section img {
+        width: 120px;
+        height: 120px;
+    }
+
     .incidents-section {
-        grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+/* Responsive layout for small devices and below */
+@media (max-width: 576px) {
+    .dashboard-container {
+        padding: 10px;
+        margin-left: 0;
+        margin-top: 2pc;
+    }
+
+    .incidents-section {
+        grid-template-columns: 1fr;
     }
 
     .incident-card {
         padding: 10px;
     }
+
+    .incident-images img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .profile-section img {
+        width: 100px;
+        height: 100px;
+        margin-top: 3pc;
+    }
+    .tooltip-wrapper .tooltip-box {
+        margin-left: -8pc;
+       
+    }
+    
 }
+

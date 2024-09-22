@@ -4,168 +4,150 @@ const db = require("../model/db");
 
 router.get("/statistics", (req, res) => {
   if (!req.session.user) {
-    return res.redirect("/");
+      return res.redirect("/");
   }
 
-  const selectedMonth = req.query.month || "Jan"; // Default to 'Jan' if no month is selected
-
-  db.get(
-    `SELECT * FROM users WHERE id = ?`,
-    [req.session.user.id],
-    (err, user) => {
-      if (err) {
-        console.error("Error occurred while fetching user data:", err);
-        return res.send("Error occurred while fetching user data");
-      }
-
-      if (!user) {
-        return res.send("User not found");
-      }
-
-      const base64Image = user.profile_picture.toString("base64");
-      const imageSrc = `data:image/png;base64,${base64Image}`;
-
-      // Query to get total incidents for the selected month
-      db.get(
-        `SELECT COUNT(*) AS totalIncident FROM incident_reports WHERE strftime('%m', date) = ?`,
-        [getMonthNumber(selectedMonth)],
-        (err, row) => {
-          if (err) {
-            console.error("Error fetching total incident:", err);
-            return res.status(500).send("Error fetching total incident");
-          }
-
-          const totalIncidentsCount = row.totalIncident;
-
-          // Query to get incidents aggregated by month, sorted by date in descending order
-          db.all(
-            `SELECT strftime('%Y-%m', date) AS month, COUNT(*) AS incidents_count 
-                    FROM incident_reports 
-                    GROUP BY strftime('%Y-%m', date) 
-                    ORDER BY strftime('%Y-%m', date) DESC`,
-            (err, monthlyIncidents) => {
-              if (err) {
-                console.error("Error fetching monthly incidents:", err);
-                return res.status(500).send("Error fetching incident data");
-              }
-
-              const incidentsForSelectedMonth = monthlyIncidents.find(
-                (incident) =>
-                  incident.month ===
-                  `${new Date().getFullYear()}-${getMonthNumber(selectedMonth)}`
-              );
-
-              db.all(
-                `SELECT incident_reports.*, users.profile_picture, users.name, auth.email, auth.phone
-                    FROM incident_reports
-                    JOIN users ON incident_reports.user_id = users.id
-                    JOIN auth ON users.id = auth.user_id
-                    ORDER BY incident_reports.id DESC`,
-                [],
-                (err, allIncidents) => {
-                  if (err) {
-                    console.error(
-                      "Error occurred while fetching all incidents:",
-                      err
-                    );
-                    return res.status(500).send("Error fetching all incidents");
-                  }
-                  // Process each incident in "ALL"
-                  allIncidents.forEach((incident) => {
-                    // Convert profile pictures to base64 format
-                    if (incident.profile_picture) {
-                      incident.profile_picture =
-                        incident.profile_picture.toString("base64");
-                    }
-
-                    // Format the time and date
-                    if (incident.time) {
-                      const date = new Date(`1970-01-01T${incident.time}Z`); // Convert time to Date object
-                      let hours = date.getUTCHours();
-                      const minutes = date.getUTCMinutes();
-                      const ampm = hours >= 12 ? "PM" : "AM";
-                      hours = hours % 12;
-                      hours = hours ? hours : 12; // the hour '0' should be '12'
-                      incident.formatted_time = `${hours}:${
-                        minutes < 10 ? "0" + minutes : minutes
-                      } ${ampm}`;
-                    }
-
-                    if (incident.date) {
-                      const incidentDate = new Date(incident.date); // Convert to Date object
-                      incident.formatted_date = incidentDate.toLocaleDateString(
-                        "en-US",
-                        {
-                          weekday: "long",
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        }
-                      );
-                    }
-
-                    // Parse and convert each image to base64 format
-                    if (incident.images) {
-                      const imagesArray = JSON.parse(incident.images);
-                      incident.imageSrcs = imagesArray.map(
-                        (imageBuffer) =>
-                          `data:image/png;base64,${Buffer.from(
-                            imageBuffer
-                          ).toString("base64")}`
-                      );
-                    }
-                  });
-
-                  // Check if there are incidents for the selected month
-                  if (incidentsForSelectedMonth) {
-                    // Slice the top 10 incidents
-                    const topIncidents = monthlyIncidents.slice(0, 10);
-
-                    res.render("statistics", {
-                      userProfile: imageSrc,
-                      totalIncident: totalIncidentsCount,
-                      incidents: topIncidents,
-                      selectedMonth: selectedMonth,
-                      showNoDataMessage: false,
-                      allIncidents,
-                    });
-                  } else {
-                    res.render("statistics", {
-                      userProfile: imageSrc,
-                      totalIncident: totalIncidentsCount,
-                      incidents: [], // No incidents to show
-                      selectedMonth: selectedMonth,
-                      showNoDataMessage: true,
-                      allIncidents,
-                    });
-                  }
-                }
-              );
-            }
-          );
-        }
-      );
+  db.get(`SELECT * FROM users WHERE id = ?`, [req.session.user.id], (err, user) => {
+    if (err) {
+        console.error('Error occurred while fetching user data:', err);
+        return res.send('Error occurred while fetching user data');
     }
-  );
+
+    if (!user) {
+        return res.send('User not found');
+    }
+
+    const base64Image = user.profile_picture ? user.profile_picture.toString('base64') : null;
+    const imageSrc = base64Image ? `data:image/png;base64,${base64Image}` : '/images/profile-default.png';
+
+  const selectedMonth = req.query.month || "Jan"; // Default to January
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+  // Fetch incident counts by type
+  const getIncidentCounts = (callback) => {
+      const query = `
+          SELECT incident_type, COUNT(*) AS count
+          FROM incident_reports
+          WHERE strftime('%Y', date) = strftime('%Y', 'now')
+          GROUP BY incident_type
+      `;
+      db.all(query, [], (err, rows) => {
+          if (err) {
+              console.error('Error fetching incident counts:', err);
+              return callback({});
+          }
+          const counts = {};
+          rows.forEach(row => {
+              counts[row.incident_type] = row.count;
+          });
+          callback(counts);
+      });
+  };
+
+  const getTrendingIncidents = (callback) => {
+    const query = `
+        SELECT incident_reports.*, users.name, users.profile_picture
+        FROM incident_reports
+        JOIN users ON users.id = incident_reports.user_id
+        WHERE date >= date('now', '-7 days')
+        ORDER BY id DESC
+        LIMIT 10 
+    `;
+    db.all(query, [], (err, rows) => {
+        if (err) {
+            console.error('Error fetching trending incidents:', err);
+            return callback([]);
+        }
+       const incidentsWithBase64Profile = rows.map(row => {
+            const base64Image = row.profile_picture ? row.profile_picture.toString('base64') : null;
+            return {
+                ...row,
+                profile_picture: base64Image,
+            };
+        });
+
+        callback(incidentsWithBase64Profile);
+    });
+};
+
+
+
+  const getMonthlyIncidents = (callback) => {
+    const monthNumber = getMonthNumber(selectedMonth);
+    const query = `
+        SELECT incident_type, COUNT(*) AS incidents_count
+        FROM incident_reports 
+        WHERE strftime('%Y', date) = strftime('%Y', 'now') 
+        AND strftime('%m', date) = ?
+        GROUP BY incident_type
+    `;
+    db.all(query, [monthNumber], (err, rows) => {
+        if (err) {
+            console.error('Error fetching monthly incident data:', err);
+            return callback([]);
+        }
+        const incidentData = rows.map(row => ({
+            incident_type: row.incident_type,
+            incidents_count: row.incidents_count
+        }));
+
+        // Calculate total incidents for the selected month
+        const totalIncident = incidentData.reduce((sum, incident) => sum + incident.incidents_count, 0);
+
+        // Create counts for each incident type based on monthly data
+        const monthlyCounts = {};
+        incidentData.forEach(incident => {
+            monthlyCounts[incident.incident_type] = incident.incidents_count;
+        });
+
+        // Return the incident data, total incidents, and monthly counts
+        callback({ incidentData, totalIncident, monthlyCounts });
+    });
+};
+
+
+getIncidentCounts((counts) => {
+  getMonthlyIncidents(({ incidentData, totalIncident, monthlyCounts }) => {
+    getTrendingIncidents((trendingIncidents) => {
+      // Use the counts from monthly data instead of overall
+      const fireCount = monthlyCounts.fire || 0;
+      const violenceCount = monthlyCounts.violence || 0;
+      const theftCount = monthlyCounts.theft || 0;
+      const vandalismCount = monthlyCounts.vandalism || 0;
+      const otherCount = monthlyCounts.other || 0;
+
+      const showNoDataMessage = totalIncident === 0;
+
+      res.render("statistics", {
+          selectedMonth,
+          totalIncident,
+          fireCount,
+          violenceCount,
+          theftCount,
+          vandalismCount,
+          otherCount,
+          showNoDataMessage,
+          incidentData,
+          trendingIncidents, 
+          userProfile: imageSrc // Pass userProfile to the view
+      });
+  });
 });
 
-// Helper function to get month number from abbreviation
+});
+});
+});
+
+
+
+
+// Helper function for month abbreviation to number
 function getMonthNumber(month) {
   const months = {
-    Jan: "01",
-    Feb: "02",
-    Mar: "03",
-    Apr: "04",
-    May: "05",
-    Jun: "06",
-    Jul: "07",
-    Aug: "08",
-    Sep: "09",
-    Oct: "10",
-    Nov: "11",
-    Dec: "12",
+    Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
+    Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
   };
-  return months[month];
+  return months[month] || "01"; // Default to January if not found
 }
 
 module.exports = router;

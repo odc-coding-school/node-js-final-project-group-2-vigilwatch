@@ -68,43 +68,10 @@
                                                 allowfullscreen>
                                             </iframe>
                                         </div>
-                                        <h6 class="card-title" style="margin-top: 5px;"><%= incident.location %></h6>
+                                        <h4 class="card-title" style="margin-top: 5px;"><%= incident.location %></h4>
                                         <div class="">
-                                            <h6 style="margin-bottom: -5px; text-transform: capitalize;">
-                                                Type: <%= incident.incident_type !== 'fire' && incident.incident_type !== 'violence' && incident.incident_type !== 'theft' && incident.incident_type !== 'vandalism' ? 'Other - ' + incident.incident_type : incident.incident_type %>
-                                            </h6><br>
-                                            <span>
-                                                <img src="data:image/png;base64,<%= incident.profile_picture %>" alt="profile picture" id="card-profile">
-                                            </span>
-                                            <div class="tooltip-wrapper">
-                                                <span style="color: #505050; font-family: 'Ubuntu', sans-serif; font-size: 12px;">
-                                                  <%= incident.name %>
-                                                </span>
-                                                <div class="tooltip-box">
-                                                    <div class="hover-item">
-                                                        <img src="data:image/png;base64,<%= incident.profile_picture %>" alt="Profile Picture" id="profile">
-                                                        <div class="info">
-                                                          <div id="name"><strong><%= incident.name %></strong></div>
-                                                          <div id="description">"<%= incident.description %>"</div>
-                                                        </div>
-                                                    </div>
-                                                    <% if (incident.imageSrcs && incident.imageSrcs.length > 0) { %>
-                                                        <% incident.imageSrcs.forEach(imageSrc => { %>
-                                                            <img src="<%= imageSrc %>" alt="Incident Image" class="incident-image" id="images">
-                                                        <% }); %>
-                                                    <% } else { %>
-                                                        <p>No images available</p>
-                                                    <% } %>
-                                                    <div class="contact">
-                                                        <button class="btn btn-primary"><i class="fas fa-user"></i> Contact</button>
-                                                        <button class="btn btn-primary"><i class="fas fa-message"></i> Private Message</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <br>
-                                            <span style="color: #505050; font-size: 12px;">
-                                                <%= incident.formatted_date %> - <%= incident.formatted_time %>
-                                            </span>
+                                            <h3 style="margin-bottom: -5px;"><%= incident.incident_count < 10 ? '0' + incident.incident_count : incident.incident_count %></h3>
+                                            <span>Total Number of Incidents</span>
                                         </div>
                                     </div>
                                 </div>

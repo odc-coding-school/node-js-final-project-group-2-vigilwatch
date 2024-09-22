@@ -27,10 +27,9 @@ router.get('/analysis', (req, res) => {
         const imageSrc = base64Image ? `data:image/png;base64,${base64Image}`: '/images/profile-default.png';
 
         // Fetch all incidents for the "ALL" tab
-        db.all(`SELECT incident_reports.*, users.profile_picture, users.name, auth.email, auth.phone
+        db.all(`SELECT *, COUNT(*) as incident_count
             FROM incident_reports
-            JOIN users ON incident_reports.user_id = users.id
-            JOIN auth ON users.id = auth.user_id
+            GROUP BY incident_reports.location
             ORDER BY incident_reports.id DESC`, [], (err, allIncidents) => {
             if (err) {
                 console.error('Error occurred while fetching all incidents:', err);

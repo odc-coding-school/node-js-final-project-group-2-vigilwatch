@@ -50,29 +50,34 @@ body {
 }
 
 .trend-container {
- max-width: 400px;
- background-color: #f8f9fa;
- /* Default background color, adjust for dark mode */
- border-right: 1px solid #ddd;
- padding: 1rem;
- margin-left: 15pc;
- top: 20px;
- position: sticky;
- z-index: 999;
- overflow-y: auto;
+    max-width: 400px; /* Width of the trend container */
+    background-color: #f8f9fa; /* Background color */
+    border-right: 1px solid #ddd; /* Right border */
+    padding: 1rem; /* Padding inside the container */
+    position: sticky; /* Make it sticky */
+    top: 20px; /* Offset from the top */
+    z-index: 999; /* Ensure it stays above other content */
 }
 
 .trend-body {
- overflow-y: auto;
- max-height: 700px;
+    max-height: 700px; /* Max height for the scrolling area */
+    overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .incident-card {
- margin-bottom: 1rem;
- width: 50px;
- color: black;
- /* Default text color, adjust for dark mode */
+    margin-bottom: 1rem; /* Space between cards */
+    width: 100%; /* Full width of the container */
+    color: black; /* Default text color */
 }
+
+/* Media query adjustments */
+@media (max-width: 768px) {
+    .trend-container {
+        max-width: 100%; /* Full width on smaller screens */
+    }
+}
+
+
 
 .incident-title {
  font-weight: bold;
@@ -178,3 +183,17 @@ text-align: right;
      margin-right: 10px;
  }
 }
+.incident-description {
+    overflow: hidden;          
+    white-space: nowrap;        
+    text-overflow: ellipsis;    
+    max-width: 500px;          
+}
+#incident_button{
+    display: flex;
+    flex-direction: row;
+}
+
+
+
+

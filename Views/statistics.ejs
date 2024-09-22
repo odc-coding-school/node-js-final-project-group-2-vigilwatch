@@ -1,148 +1,166 @@
 <%- include('layouts/header')%>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <link rel="stylesheet" href="/css/statistics.css">
-    </head>
+<link rel="stylesheet" href="/css/statistics.css">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
 
-    <body>
-        <header>
-            <%- include('layouts/sidebar.ejs') %>
-                <%- include('layouts/navbar.ejs') %>
-        </header>
+<body>
+    <header>
+        <%- include('layouts/sidebar.ejs') %>
+        <%- include('layouts/navbar.ejs') %>
+    </header>
 
-        <main class="analysis">
-
-            <div class="row justify-content-center">
-                <div class="col-lg-4 col-md-4 col-sm-4 justify-content-center align-items-center">
-                    <div class="month-selector" style="margin-top: 5pc;">
-                        <label for="month">Select Month:</label>
-                        <select id="month" class="form-select" onchange="changeMonth()" style="color: black;">
-                            <option value="Jan">January</option>
-                            <option value="Feb">February</option>
-                            <option value="Mar">March</option>
-                            <option value="Apr">April</option>
-                            <option value="May">May</option>
-                            <option value="Jun">June</option>
-                            <option value="Jul">July</option>
-                            <option value="Aug">August</option>
-                            <option value="Sep">September</option>
-                            <option value="Oct">October</option>
-                            <option value="Nov">November</option>
-                            <option value="Dec">December</option>
-                        </select>
-                    </div>
+    <main class="analysis">
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-4 col-sm-4 justify-content-center align-items-center">
+                <div class="month-selector" style="margin-top: 5pc;">
+                    <select id="month" class="form-select" onchange="changeMonth()" style="color: black;">
+                        <option selected disabled>Select Month</option>
+                        <option value="Jan">January</option>
+                        <option value="Feb">February</option>
+                        <option value="Mar">March</option>
+                        <option value="Apr">April</option>
+                        <option value="May">May</option>
+                        <option value="Jun">June</option>
+                        <option value="Jul">July</option>
+                        <option value="Aug">August</option>
+                        <option value="Sep">September</option>
+                        <option value="Oct">October</option>
+                        <option value="Nov">November</option>
+                        <option value="Dec">December</option>
+                    </select>
                 </div>
             </div>
+        </div>
 
-            <h3 class="text-center m-5">
-                Incidents Analysis for <%= selectedMonth %>
-            </h3>
+        <h3 class="text-center m-5">
+            Incidents Analysis for <%= selectedMonth %>
+        </h3>
 
-            <div class="row mx-5">
-
-                <div class="col-md-6 col-sm-12 mb-4">
-                    <div class="row d-flex align-items-center gap-5">
-
-                        <div class="card col-md-6 col-sm-12" style="background-color: rgb(32, 149, 188);">
-
-                            <div class="card-body justify-content-center align-items-center">
-
-                                <p class="card-title fs-3 mb-2" style="text-align: left;">Total
-                                    Incidents
-                                </p>
-
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h3 class="card-subtitle fw-bold display-3">
-                                        <%= totalIncident %>
-                                    </h3>
-                                    <div class="card-text fs-3"><i class="fa-solid fa-arrow-up-right-dots"></i>
-                                        </i><br>Counting..</div>
+        <div class="row mx-5">
+            <div class="col-md-6 col-sm-12 mb-4">
+                <div class="row d-flex align-items-center gap-5">
+                    <div class="card col-md-6 col-sm-12" style="background-color: rgb(32, 149, 188);">
+                        <div class="card-body justify-content-center align-items-center">
+                            <p class="card-title fs-3 mb-2" style="text-align: left;">Total Incidents</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h3 class="card-subtitle fw-bold display-3">
+                                    <%= totalIncident < 10 ? '0' + totalIncident : totalIncident %>
+                                </h3>
+                                <div class="card-text fs-3">
+                                    <i class="fa-solid fa-arrow-up-right-dots"></i><br>Counting..
                                 </div>
-
                             </div>
 
+                            <!-- Incident Type Buttons -->
+                            <div class="mt-4" id="incident_button">
+                                <button class="btn btn-primary me-2" onclick="filterIncidents('fire')">Fire (<%= fireCount %>)</button>
+                                <button class="btn btn-danger me-2" onclick="filterIncidents('violence')">Violence (<%= violenceCount %>)</button>
+                                <button class="btn btn-warning me-2" onclick="filterIncidents('theft')">Theft (<%= theftCount %>)</button>
+                                <button class="btn btn-dark me-2" onclick="filterIncidents('vandalism')">Vandalism (<%= vandalismCount %>)</button>
+                                <button class="btn btn-secondary" onclick="filterIncidents('other')">Other (<%= otherCount %>)</button>
+                            </div>
                         </div>
 
-                        <div class=" shadow rounded">
+                        <script>
+                            function filterIncidents(incidentType) {
+                                window.location.href = `/statistics?type=${incidentType}&month=<%= selectedMonth %>`;
+                            }
+                        </script>
+                    </div>
 
-                            <div class="bg-light">
-                                <h5>Incident Analysis Chart</h5>
-                                <% if (showNoDataMessage) { %>
-                                    <p>No data available for <%= selectedMonth %>.</p>
-                                    <% } else { %>
-                                        <div id="chart"></div>
-                                        <% } %>
-                            </div>
+                    <div class="shadow rounded">
+                        <div class="bg-light">
+                            <h5>Incident Analysis Chart</h5>
+                            <% if (showNoDataMessage) { %>
+                                <p>No data available for <%= selectedMonth %>.</p>
+                            <% } else { %>
+                                <div id="chart" style="height: 400px;"></div>
 
+                            <% } %>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="col-md-6 col-sm-12" id="trending-incident">
-                    <div class=" shadow rounded p-4">
-                        <div class="trend-body ">
-                            <h4>Trending incidents for <%= selectedMonth %>
-                            </h4>
-                            <hr>
-                            <% if (!showNoDataMessage && incidents.length> 0) { %>
-                                <% incidents.forEach(incident=> { %>
-                                    <div class="trend-item-container mb-3">
-                                        <h6>
-                                            <%= incident.incident_type %>
-                                        </h6>
-                                        <p class="card-text">
-                                            <%= incident.description %>
-                                        </p>
-                                        <button class="btn btn-primary">Read More</button>
-                                        <hr>
-                                    </div>
-                                    <% }) %>
-                                        <% } else { %>
-                                            <p>No trending incidents available for <%= selectedMonth %>.</p>
+            <div class="col-md-6 col-sm-12 sticky-top" id="trending-incident" style="top: 20pc;">
+                <div class="shadow rounded p-4">
+                    <div class="trending-incidents mt-4 trend-container">
+                        <h3>Trending Incidents</h3>
+                        <div class="trend-body">
+                            <ul class="list-group">
+                                <% trendingIncidents.forEach(incident => { %>
+                                    <li class="list-group-item">
+                                        <strong>Type:</strong> <%= incident.incident_type %>
+                                        <br>
+                                        <strong>Description:</strong>
+                                        <div class="incident-description">
+                                            <span><%= incident.description %></span>
+                                        </div>
+                                        <br>
+                                        <strong>Date:</strong>
+                                        <span style="color: #666;font-size: 14px;">
+                                            <%= new Date(incident.date).toLocaleDateString() %>
+                                        </span>
+                                        <span class="badge bg-info float-end">
+                                            Reported at: <%= incident.time %>
+                                        </span>
+                                        <div class="user-profile">
+                                            <% if (incident.profile_picture) { %>
+                                                <img src="data:image/png;base64,<%= incident.profile_picture %>" alt="Profile Picture" class="rounded-circle" width="20" height="20">
+                                                <span style="color: #666;font-size: 12px;"><%= incident.name %></span>
+                                            <% } else { %>
+                                                <img src="/images/profile-default.png" alt="Default Profile" class="rounded-circle" width="50" height="50">
                                             <% } %>
+                                        </div>
+                                    </li>
+                                <% }); %>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            </div>
+            
+            
+        </div>
+    </main>
+
+    <script>
+        function changeMonth() {
+            const selectedMonth = document.getElementById('month').value;
+            window.location.href = `/statistics?month=${selectedMonth}`;
+        }
+    
+        google.charts.load('current', { packages: ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+    
+        function drawChart() {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'Incident Type');
+    data.addColumn('number', 'Count');
+
+    <% if (!showNoDataMessage && incidentData.length > 0) { %>
+    <% incidentData.forEach(incident => { %>
+        data.addRow(['<%= incident.incident_type %>', <%= incident.incidents_count %>]);
+    <% }) %>
+<% } else { %>
+    document.getElementById('chart').innerHTML = '<p>No data available for <%=selectedMonth%>.</p>';
+        console.log('No data available for chart');
+        return; // Exit the function to prevent drawing the chart
+<% } %>
 
 
-            <script>
-                function changeMonth() {
-                    const selectedMonth = document.getElementById('month').value;
-                    window.location.href = `/statistics?month=${selectedMonth}`;
-                }
+    const options = {
+        title: 'Incident Type Distribution for <%= selectedMonth %>',
+        hAxis: { title: 'Incident Type' },
+        vAxis: { title: 'Number of Incidents' },
+        legend: 'none'
+    };
 
-                // Load the Visualization API and the corechart package.
-                google.charts.load('current', { packages: ['corechart'] });
+    const chart = new google.visualization.BarChart(document.getElementById('chart'));
+    chart.draw(data, options);
+}
 
-                // Set a callback to run when the Google Visualization API is loaded.
-                google.charts.setOnLoadCallback(drawChart);
+    </script>
+    
 
-                function drawChart() {
-                    // Create the data table.
-                    const data = new google.visualization.DataTable();
-                    data.addColumn('string', 'Month');
-                    data.addColumn('number', 'Incidents');
-
-        // Add rows from the incidents data
-        <% if (!showNoDataMessage) { %>
-          <% incidents.forEach(incident => { %>
-                        data.addRow(['<%= incident.month %>', <%= incident.incidents_count %>]);
-          <% }) %>
-        <% } %>
-
-        // Set chart options
-        const options = {
-                        title: 'Monthly Incidents Overview',
-                        hAxis: { title: 'Month' },
-                        vAxis: { title: 'Number of Incidents' },
-                        legend: 'none'
-                    };
-
-                    // Instantiate and draw the chart.
-                    const chart = new google.visualization.LineChart(document.getElementById('chart'));
-                    chart.draw(data, options);
-                }
-            </script>
-
-            <%- include('layouts/footer.ejs') %>
+    <%- include('layouts/footer.ejs') %>

@@ -24,8 +24,45 @@
                 <div class="incident-card shadow-sm">
                     <h3>Incident: <%= incident.incident_type %></h3>
                     <p>Location: <%= incident.location %></p>
-                    <p>Reported by: <%= incident.name %> </p>
-
+                    <div class="tooltip-wrapper">
+                        <span style="color: #666;">
+                           Reported by: <%= incident.name %>
+                        </span>
+                        <div class="tooltip-box">
+                            <div class="hover-item">
+                                <img src="data:image/png;base64,<%= incident.profile_picture %>" alt="Profile Picture" id="profile">
+                                <div class="info">
+                                    <div id="name"><strong><%= incident.name %></strong></div>
+                                    <div id="description">"<%= incident.description %>"</div>
+                                </div>
+                            </div>
+                    
+                           
+                    
+                            <div class="contact">
+                                <!-- Contact button with a dropdown -->
+                                <div class="btn-group">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" id="contactDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-user"></i> Contact
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="contactDropdown">
+                                        <li><a class="dropdown-item" href="tel:<%= incident.phone %>">Call</a></li>
+                                        <li><a class="dropdown-item" href="mailto:<%= incident.email %>">Email</a></li>
+                                        <li><a class="dropdown-item" href="sms:<%= incident.phone %>">Send SMS</a></li>
+                                    </ul>
+                                </div>
+                                
+                            
+                                <!-- Private Message button -->
+                                <button class="btn btn-primary"><i class="fas fa-message"></i> Private Message</button>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
                     <p><a href="mailto: <%= incident.email %>"><%= incident.email %></a> ( <a href="tel: <%= incident.phone %>"><%= incident.phone %></a>)</p>
 
                     <p>Time: <%= incident.formatted_time %></p>
@@ -47,11 +84,19 @@
 
 
 <script>
-    
+ // Activate Bootstrap 5 tooltips
+document.addEventListener('DOMContentLoaded', function () {
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+        new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+
+
 </script>
 
 
-<script src="/js/script.js"></script>
+
 <%- include('layouts/footer')%>
 
 

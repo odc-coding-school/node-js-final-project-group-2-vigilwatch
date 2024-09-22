@@ -98,6 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
               alert(
                 "Location not found. Please make sure that your location is enabled."
               );
+              window.location.href='/dashboard';
             }
           })
           .catch((error) => {
@@ -111,6 +112,8 @@ document.addEventListener("DOMContentLoaded", function () {
         alert(
           "Error retrieving location. Please ensure location services are enabled."
         );
+        window.location.href='/dashboard';
+       
       }
     );
   } else {

@@ -38,9 +38,9 @@ router.post('/report-incident', upload.array('images', 10), (req, res) => {
 
     console.log("Received Location from Form:", location);
 
-    if (incidentType === 'other' && otherIncident) {
-        incidentType = otherIncident;
-    }
+    // if (incidentType === 'other' && otherIncident) {
+    //     incidentType = otherIncident;
+    // }
 
     const userId = req.session.user.id;
 
