@@ -4,6 +4,7 @@ const session = require('express-session');
 const path = require('path');
 const db = require('./model/db');
 
+//Variable to various routes
 const registerRoutes = require('./routes/registerRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const authRoutes = require('./routes/authRoutes');
@@ -13,16 +14,14 @@ const logoutRoutes = require('./routes/logoutRoutes');
 const analysisRoutes = require('./routes/incidentAnalysisRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const statisticsRoutes = require('./routes/StatisticsRoutes');
+
 const app = express();
 
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs'); //Set templating engine
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(session({ secret: 'thisisoursecretcode48425', resave: false, saveUninitialized: true }));
-
-
-
 
 // Use the routes
 app.use(registerRoutes);
