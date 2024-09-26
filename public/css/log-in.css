@@ -1,0 +1,24 @@
+html,
+body {
+  height: 100%;
+}
+
+.form-signin {
+  max-width: 450px;
+  padding: 1rem;
+}
+
+/* set carousel image to 100% in smaller device */
+@media (max-width: 576px) {
+
+  .form-signin input[type="tel"],
+  .form-signin input[type="password"],
+  .form-signin input[type="text"],
+  .form-signin input[type="email"] {
+    font-size: 1rem;
+  }
+
+  .signup-text {
+    font-size: 0.8rem;
+  }
+}

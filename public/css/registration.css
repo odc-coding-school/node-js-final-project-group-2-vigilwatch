@@ -1,0 +1,9 @@
+html,
+body {
+    height: 100vh;
+}
+
+.signup-form {
+    max-width: 530px;
+    padding: 1rem;
+}

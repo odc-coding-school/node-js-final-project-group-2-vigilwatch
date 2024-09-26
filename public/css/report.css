@@ -1,0 +1,18 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f8f9fa;
+}
+
+.report-container-form {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 3em;
+    padding: 1.5rem 2.2rem;
+    background-color: white;
+    border-radius: 8px;
+
+}
