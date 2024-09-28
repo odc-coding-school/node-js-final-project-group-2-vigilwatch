@@ -3,8 +3,12 @@
 <link rel="stylesheet" href="/css/profile.css">
 </head>
 <body>
-
-<main>
+  
+  <header>
+    <%- include ('layouts/profileNavbar')%>
+  </header>
+  
+  <main>  
  <div class="wrapper">
   <div class="contents">
     <div class="header">
@@ -17,7 +21,7 @@
         </div>
       </div>
       <div class="profile-picture">
-        <img src="<%= profilePicture %>" alt="profile-picture" />
+        <img src="<%= userProfile %>" alt="profile-picture" />
         <div class="camera-icon profile-camera">
           <i class="fa fa-camera"></i>
           <!-- Hidden input field for profile picture upload -->
@@ -28,14 +32,24 @@
       <div class="info">
        <h4><%= user.name %></h4>
        <p id="bio"><%= user.bio %></p>
-       <p>Neighbours: 
-         <img src="/images/person-1.jpg" alt="Neighbour">
-         <img src="/images/person-2.jpg" alt="Neighbour">
-         <img src="/images/person-3.jpg" alt="Neighbour">
-       </p>
+       <div class="neighbors">
+         Neighbours:
+         <% if (neighbors.length > 0) { %>
+           <% neighbors.forEach(neighbor => { %>
+             <img src="<%= neighbor.profile_picture 
+                       ? 'data:image/jpeg;base64,' + neighbor.profile_picture.toString('base64') 
+                       : '/images/profile-default.png' %>" 
+                  alt="<%= neighbor.name %>" 
+                  class="rounded-circle" width="50" height="50">
+           <% }); %>
+         <% } else { %>
+           <p style="margin-left: 6pc;">No neighbors found</p>
+         <% } %>
+       </div>
+       
      </div>
      
-     <div id="profile-type-tabs" class="d-flex justify-content-center">
+     <div id="profile-type-tabs" class="d-flex justify-content-between  mx-3">
       <ul class="nav nav-tabs" id="profileTab" role="tablist">
        <li class="nav-item" role="presentation">
         <button class="nav-link active" id="report-tab" data-bs-toggle="tab" data-bs-target="#report" type="button" role="tab" aria-controls="report" aria-selected="true">
@@ -56,13 +70,16 @@
         <ul>
           <li><i class="fa fa-user"></i> Name: <%= user.name %></li>
           <li><i class="fa-solid fa-map-location"></i> Location: <%= user.location %></li>
-          <li class="nav-item dropdown">
-            <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">Contact</a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <li><a class="dropdown-item" href="mailto:<%=user.email%>">Email</a></li>
-              <li><a class="dropdown-item" href="tel:<%=user.phone%>">Phone</a></li>
-            </ul>
+          <li><i class="fa-solid fa-phone"></i><span></span> <a href="tel:<%=user.phone%>" style="color: #262626; text-decoration: none;"><%= user.phone %></a></li>
+          <li><i class="fa-solid fa-mail"></i><span></span>
+            <% if (user.email) { %>
+              <a href="mailto:<%= user.email %>" style="color: #262626; text-decoration: none;"><%= user.email %></a>
+            <% } else { %>
+              <span>No email address available</span>
+            <% } %>
           </li>
+          
+          
           <br>
           <li><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBio">Add Bio</button></li>
         </ul>
@@ -93,7 +110,7 @@
            <div class="cards-grid">
              <% if (allIncidents.length > 0) { %>
                <% allIncidents.forEach(incident => { %>
-                 <div class="card">
+                 <div class="card shadow-sm">
                    <div class="card-body">
                      <div class="align-self-center">
                       
@@ -102,7 +119,7 @@
                          <img src="data:image/jpeg;base64,<%= incident.profile_picture %>" alt="profile picture" id="card-profile">
                         </span>
                          <span id="name">
-                                                  <%= incident.name %> - reported
+                                                  <%= incident.name %>
                                                 </span> <br>
                         <span id="incident_type">
 
@@ -137,7 +154,7 @@
                  </div>
                <% }) %>
              <% } else { %>
-               <h2>No incidents available.</h2>
+               <h2>You have no reported incidents available.</h2>
              <% } %>
            </div>
          </article>

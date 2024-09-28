@@ -66,39 +66,34 @@ document.addEventListener("DOMContentLoaded", function () {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
-        // Replace with your actual Google Maps Geocoding API key
-        const geocodeUrl = `https://maps.gomaps.pro/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AlzaSydsurS3YqxGVdqaV4yrn1AD-8nu9OhpIUB`;
+        // OpenStreetMap Nominatim reverse geocoding URL
+        const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
 
         fetch(geocodeUrl)
           .then((response) => response.json())
           .then((data) => {
-            if (data.status === "OK" && data.results.length > 0) {
+            if (data && data.address) {
               let locationName = "Location not found";
-              const addressComponents = data.results[0].address_components;
 
-              for (const component of addressComponents) {
-                if (component.types.includes("locality")) {
-                  locationName = component.long_name;
-                  break;
-                } else if (component.types.includes("sublocality_level_1")) {
-                  locationName = component.long_name;
-                } else if (
-                  component.types.includes("administrative_area_level_2")
-                ) {
-                  locationName = component.long_name;
-                } else if (
-                  component.types.includes("administrative_area_level_1")
-                ) {
-                  locationName = component.long_name;
-                }
+              // Nominatim address breakdown
+              if (data.address.city) {
+                locationName = data.address.city;
+              } else if (data.address.town) {
+                locationName = data.address.town;
+              } else if (data.address.village) {
+                locationName = data.address.village;
+              } else if (data.address.state) {
+                locationName = data.address.state;
               }
+
+              // Set location name to input field
               document.getElementById("location").value = locationName;
             } else {
               document.getElementById("location").value = "Location not found";
               alert(
                 "Location not found. Please make sure that your location is enabled."
               );
-              window.location.href='/dashboard';
+              window.location.href = '/dashboard';
             }
           })
           .catch((error) => {
@@ -112,14 +107,14 @@ document.addEventListener("DOMContentLoaded", function () {
         alert(
           "Error retrieving location. Please ensure location services are enabled."
         );
-        window.location.href='/dashboard';
-       
+        window.location.href = '/dashboard';
       }
     );
   } else {
     alert("Geolocation is not supported by this browser. Please try another.");
   }
 });
+
 
 // ============== saving the user  live location =================
 // document.addEventListener("DOMContentLoaded", function () {

@@ -1,1 +1,164 @@
 <!-- Notification Page -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>Vigil Watch | Crime Management System</title>
+  <link rel="shortcut icon" href="/images/Logo.png" type="image/x-icon">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+  <!-- Google Fonts Roboto -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
+  <!-- Bootstrap CSS -->
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom styles -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/css/notification.css">
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/socket.js"></script>
+</head>
+<body>
+  
+  <header>
+    <%- include ('layouts/profileNavbar')%>
+  </header>
+  
+  <main> 
+   <div class="container" style="background-color: white;">
+    <div class="details">
+     <div class="header">
+      <h4>Notifications</h4>
+      <i class="fa fa-ellipsis" style="color: #666; cursor: pointer;"></i>
+     </div>
+     
+     <div class="buttons">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab" aria-controls="all" aria-selected="true">All</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="unread-tab" data-bs-toggle="tab" data-bs-target="#unread" type="button" role="tab" aria-controls="unread" aria-selected="false">Unread</button>
+        </li>
+      </ul>
+    </div>
+    
+    <div class="tab-content mt-3">
+      <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+        <h2>All Notifications</h2>
+        <div class="notification_body">
+         <% if (notifications.length > 0) { %>
+          <% notifications.forEach(notification => { %>
+         <div class="card_container mt-5 ">
+          <div class="card" style="border: none;">
+            <div class="card-header">
+              <h5 class="card-title placeholder-glow">
+                <span class="placeholder col-6" id="card-title-placeholder">
+                  <img src="data:image/png;base64,<%= notification.profile_picture.toString('base64') %>" alt="profile" class="profile-img" />        
+                 <div class="info">
+                  <span><%= notification.user_name %></span>
+                  <span id="date"><i class="fa fa-clock" style="color: #9cbdf5"></i> <%= notification.date %>, <%= notification.time %></span>
+   
+                 </div>
+                </span>
+              </h5>
+            </div>
+            <div class="card-body">
+              <p class="card-text placeholder-glow">
+                <h6 class="placeholder col-7" id="type" style="text-transform: capitalize;"><%= notification.incident_type %> Incident Reported</h6>
+
+                <span class="placeholder col-4" id="description"><%= notification.description %>.</span>
+
+                
+              </p>
+              
+              
+              <a href="#" class="btn btn-primary read-more-btn" data-id="<%= notification.id %>">Read more</a>
+
+
+<!-- Modal (Single, shared for all notifications) -->
+<div class="modal fade" id="notificationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="notificationModalLabel">
+          <!-- <img src="data:image/png;base64,<%= notification.profile_picture.toString('base64') %>" alt="profile" class="profile-img" id="modal-profile-img" />         -->
+          <div class="info">
+            <span id="modal-user-name"></span>
+            <span id="modal-date-time"><i class="fa fa-clock" style="color: #9cbdf5"></i> </span>
+          </div>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p id="modal-description"></p>
+        <div class="images" id="modal-images"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    
+<% }); %>
+<% } else { %>
+    <p>No notifications available.</p>
+<% } %>
+        </div>
+
+      </div>
+
+
+      <div class="tab-pane fade" id="unread" role="tabpanel" aria-labelledby="unread-tab">
+        <h2>Unread Notifications</h2>
+        
+     
+    </div>
+   </div>
+   </main>
+
+
+
+   <script>
+// Ensure that notifications array is available globally
+const notifications = <%- JSON.stringify(notifications) %>;
+
+// Simulate content loading (this part seems fine)
+setTimeout(function() {
+  document.querySelectorAll('.placeholder').forEach(function(el) {
+    el.classList.remove('placeholder');
+  });
+  document.querySelectorAll('.placeholder-glow').forEach(function(el) {
+    el.classList.remove('placeholder-glow');
+  });
+  document.getElementById('button-placeholder').classList.remove('disabled');
+}, 3000); 
+
+// Listen for clicks on "Read more" buttons
+document.querySelectorAll('.read-more-btn').forEach(button => {
+  button.addEventListener('click', function (event) {
+  event.preventDefault(); 
+  const notificationId = this.getAttribute('data-id');
+
+  const notification = notifications.find(n => n.id == notificationId);
+  console.log(notification); // Debugging line to check notification object
+  
+  if (notification) {
+
+    document.getElementById('modal-user-name').textContent = notification.user_name;
+    document.getElementById('modal-date-time').innerHTML = `<i class="fa fa-clock" style="color: #9cbdf5"></i> ${notification.date}, ${notification.time}`;
+    document.getElementById('modal-description').textContent = notification.description;
+
+    const modal = new bootstrap.Modal(document.getElementById('notificationModal'));
+    modal.show();
+  }
+});
+
+});
+
+
+   </script>
+   
+   <%- include('layouts/footer')%>

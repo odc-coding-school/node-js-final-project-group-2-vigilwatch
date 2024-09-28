@@ -22,7 +22,7 @@
 
 .incidents-section {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 20px;
 }
 
@@ -73,7 +73,7 @@
 
 .tooltip-wrapper .tooltip-box {
     visibility: hidden;
-    width: 400px;
+    width: 300px;
     background-color: #ffffff;
     color: #000000;
     text-align: left;

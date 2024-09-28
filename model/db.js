@@ -11,7 +11,9 @@ db.serialize(() => {
         name TEXT NOT NULL,
         location TEXT NOT NULL,
         sex TEXT NOT NULL, 
-        profile_picture BLOB
+        bio TEXT,
+        profile_picture BLOB,
+        cover_picture BLOB
     )`);
 
     // Create 'auth' table
@@ -35,9 +37,14 @@ db.serialize(() => {
     location TEXT NOT NULL,
     user_id INTEGER REFERENCES users       
 );`);
+db.run(`CREATE TABLE IF NOT EXISTS notification (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    notification TEXT,
+    date_sent TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    user_id INTEGER REFERENCES users
+);`);
 
-// db.run(`ALTER TABLE users ADD COLUMN bio TEXT`);
-// db.run(`ALTER TABLE users ADD COLUMN cover_picture BLOB`);
+
    
 });
 module.exports = db;

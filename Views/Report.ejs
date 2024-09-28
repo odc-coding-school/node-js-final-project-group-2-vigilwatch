@@ -81,6 +81,83 @@
                 }
             });
         </script>
-        <script src="/js/report.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    var lat = position.coords.latitude;
+                    var lon = position.coords.longitude;
+                    console.log(lat);
+                    console.log(lon);
+
+                    // Replace 'YOUR_API_KEY' with your actual Geocode.xyz API key
+                    fetch(`https://geocode.xyz/${lat},${lon}?geoit=json&auth=91621034661881661466x51189`)
+                        .then(response => response.json())
+                        .then(data => {
+                            var community = data.city || data.region || data.state || "Unknown Area";
+                            var road = data.staddress || '';
+                            var fullLocation = road ? `${road}, ${community}` : community;
+
+                            document.getElementById("location").value = fullLocation;
+                           
+
+                            console.log("Location set: " + fullLocation);
+                        })
+                        .catch(error => {
+                            console.error("Error with reverse geocoding:", error);
+                        });
+                },
+                function (error) {
+                    console.error("Geolocation error:", error);
+                }
+            );
+        } else {
+            alert("Geolocation is not supported by your browser.");
+        }
+    });
+</script>
+
+        
+<!-- <script>
+    // Ensure all DOM elements are loaded before running this script
+    window.addEventListener('DOMContentLoaded', (event) => {
+        // Check if geolocation is supported by the browser
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    // Get the user's coordinates
+                    var lat = position.coords.latitude;
+                    var lon = position.coords.longitude;
+
+                    // Use Nominatim for reverse geocoding to get the area name
+                    fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Get more specific location information
+                            var community = data.address.neighbourhood || data.address.suburb || data.address.village || data.address.town || data.address.city || "Unknown Area";
+                            var road = data.address.road || '';
+                            var fullLocation = road ? `${road}, ${community}` : community;
+                            
+                            // Set the value of the hidden input field with the more specific location
+                            document.getElementById("location").value = fullLocation;
+
+                            console.log("Location set: " + fullLocation);
+                        })
+                        .catch(error => {
+                            console.error("Error with reverse geocoding:", error);
+                        });
+                },
+                function (error) {
+                    console.error("Geolocation error:", error);
+                }
+            );
+        } else {
+            alert("Geolocation is not supported by your browser.");
+        }
+    });
+</script> -->
+
+
 
         <%- include('layouts/footer')%>

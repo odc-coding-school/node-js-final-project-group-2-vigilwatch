@@ -14,6 +14,7 @@ router.get('/profile', (req, res) => {
     return res.redirect('/');
   }
 
+  // Fetch the current user's profile
   db.get(`
     SELECT users.*, auth.phone, auth.email
     FROM users
@@ -29,61 +30,87 @@ router.get('/profile', (req, res) => {
     }
 
     // Convert binary data to base64 strings for the profile and cover pictures
-    const profilePicture = user.profile_picture ? `data:image/jpeg;base64,${user.profile_picture.toString('base64')}` : '/images/profile-default.png';
-    const coverPicture = user.cover_picture ? `data:image/jpeg;base64,${user.cover_picture.toString('base64')}` : '/images/cover-default.png';
+    const profilePicture = user.profile_picture
+      ? `data:image/jpeg;base64,${user.profile_picture.toString('base64')}`
+      : '/images/profile-default.png';
+    const coverPicture = user.cover_picture
+      ? `data:image/jpeg;base64,${user.cover_picture.toString('base64')}`
+      : '/images/cover-default.jpeg';
 
+    // Fetch neighbors (users with the same address)
+    db.all(`
+      SELECT profile_picture, name
+      FROM users
+      WHERE location = ?
+      AND id != ?
+    `, [user.location, req.session.user.id], (err, neighbors) => {
+      if (err) {
+        return res.status(500).send('Error fetching neighbors');
+      }
 
-      // Fetch incident reports from the database
       db.all(`
-       SELECT incident_reports.*, users.profile_picture, users.name, auth.email, auth.phone
-       FROM incident_reports
-       JOIN users ON incident_reports.user_id = users.id
-       JOIN auth ON users.id = auth.user_id
-       WHERE incident_reports.user_id = ?
-       ORDER BY incident_reports.id DESC
-   `, [req.session.user.id], (err, allIncidents) => {
-       if (err) {
-           console.error('Error occurred while fetching all incidents:', err);
-           return res.status(500).send('Error fetching all incidents');
-       }
-   // Process each incident in "ALL"
-   allIncidents.forEach(incident => {
-    // Convert profile pictures to base64 format
-    if (incident.profile_picture) {
-        incident.profile_picture = incident.profile_picture.toString('base64');
-    }
-
-    // Format the time and date
-    if (incident.time) {
-        const date = new Date(`1970-01-01T${incident.time}Z`); // Convert time to Date object
-        let hours = date.getUTCHours();
-        const minutes = date.getUTCMinutes();
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        hours = hours ? hours : 12; // the hour '0' should be '12'
-        incident.formatted_time = `${hours}:${minutes < 10 ? '0' + minutes : minutes} ${ampm}`;
-    }
-
-    if (incident.date) {
-        const incidentDate = new Date(incident.date); // Convert to Date object
-        incident.formatted_date = incidentDate.toLocaleDateString('en-US', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
+        SELECT incident_reports.*, users.profile_picture, users.name, auth.email, auth.phone
+        FROM incident_reports
+        JOIN users ON incident_reports.user_id = users.id
+        JOIN auth ON users.id = auth.user_id
+        WHERE incident_reports.user_id = ?
+        ORDER BY incident_reports.id DESC
+      `, [req.session.user.id], (err, allIncidents) => {
+        if (err) {
+          console.error('Error occurred while fetching all incidents:', err);
+          return res.status(500).send('Error fetching all incidents');
+        }
+      
+        // Process each incident in "allIncidents"
+        allIncidents.forEach(incident => {
+          // Convert profile pictures to base64 format
+          if (incident.profile_picture) {
+            incident.profile_picture = incident.profile_picture.toString('base64');
+          }
+      
+          // Format the time and date
+          if (incident.time) {
+            const date = new Date(`1970-01-01T${incident.time}Z`); // Correct string template for Date
+            let hours = date.getUTCHours();
+            const minutes = date.getUTCMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            incident.formatted_time = `${hours}:${minutes < 10 ? '0' + minutes : minutes} ${ampm}`;
+          }
+      
+          // Format the incident date
+          if (incident.date) {
+            const incidentDate = new Date(incident.date); // Convert to Date object
+            incident.formatted_date = incidentDate.toLocaleDateString('en-US', {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            });
+          }
+      
+          // Parse and convert each image to base64 format
+          if (incident.images) {
+            const imagesArray = JSON.parse(incident.images);
+            incident.imageSrcs = imagesArray.map(imageBuffer => 
+              `data:image/png;base64,${Buffer.from(imageBuffer).toString('base64')}`
+            );
+          }
         });
-    }
+        
 
-    // Parse and convert each image to base64 format
-    if (incident.images) {
-        const imagesArray = JSON.parse(incident.images);
-        incident.imageSrcs = imagesArray.map(imageBuffer => `data:image/png;base64,${Buffer.from(imageBuffer).toString('base64')}`);
-    }
-});
-    // Render the profile page with user data
-    res.render('Profile', { user, profilePicture, coverPicture, allIncidents });
+        // Render the profile page with user data and neighbors
+        res.render('Profile', {
+          user,
+          userProfile: profilePicture,
+          coverPicture,
+          allIncidents,
+          neighbors // pass the neighbors to the view
+        });
+      });
+    });
   });
-});
 });
 
 router.post('/addbio', (req, res) => {

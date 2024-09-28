@@ -35,9 +35,12 @@ router.post('/login', (req, res) => {
                 id: row.user_id,
                 email: row.email
             };
+            
+            // Redirect to dashboard (or intermediate page)
             res.redirect('/dashboard');
         });
     });
 });
+
 
 module.exports = router;

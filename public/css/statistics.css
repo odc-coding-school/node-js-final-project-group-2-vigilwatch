@@ -1,199 +1,212 @@
-/* analysis.css */
-
 /* Base Styles */
 body {
- display: flex;
- justify-content: center;
- align-items: center;
- min-height: 100vh;
- margin: 0;
- background-color: #f8f9fa;
- box-sizing: border-box;
- overflow-y: scroll;
-}
-
-.report-container-form {
- width: 100%;
- max-width: 600px;
- margin-top: 3em;
- padding: 1.5rem 2.2rem;
- background-color: white;
- border-radius: 8px;
-
-}
-
-.analysis h2 {
- text-transform: uppercase;
- font-family: 'Ubuntu', sans-serif;
- letter-spacing: 2px;
-}
-
-.analysis #text-analysis {
- margin-top: -15px;
-}
-
-.card-trend-container {
- max-width: 1200px;
-}
-
-.card-container {}
-
-.card {
- margin: 0 auto;
- border: none;
- width: 30rem;
- height: 12rem;
- color: white;
- border-radius: 15px;
- background-color: #007bff;
- /* Default background color, adjust for dark mode */
-}
-
-.trend-container {
-    max-width: 400px; /* Width of the trend container */
-    background-color: #f8f9fa; /* Background color */
-    border-right: 1px solid #ddd; /* Right border */
-    padding: 1rem; /* Padding inside the container */
-    position: sticky; /* Make it sticky */
-    top: 20px; /* Offset from the top */
-    z-index: 999; /* Ensure it stays above other content */
-}
-
-.trend-body {
-    max-height: 700px; /* Max height for the scrolling area */
-    overflow-y: auto; /* Enable vertical scrolling */
-}
-
-.incident-card {
-    margin-bottom: 1rem; /* Space between cards */
-    width: 100%; /* Full width of the container */
-    color: black; /* Default text color */
-}
-
-/* Media query adjustments */
-@media (max-width: 768px) {
-    .trend-container {
-        max-width: 100%; /* Full width on smaller screens */
-    }
-}
-
-
-
-.incident-title {
- font-weight: bold;
-}
-
-.incident-date {
- font-size: 0.85rem;
- color: #6c757d;
- /* Default text color, adjust for dark mode */
-}
-
-/* Dark Mode Styles */
-body.dark-mode .analysis {
- color: #fff;
-}
-
-body.dark-mode .card {
- background-color: #343a40;
- /* Dark mode background color */
-}
-
-body.dark-mode .trend-container {
- background-color: #495057;
- /* Dark mode background color */
- border-right: 1px solid #6c757d;
- /* Adjust border color for dark mode */
-}
-
-body.dark-mode .incident-card {
- color: #fff;
- /* Dark mode text color */
-}
-
-body.dark-mode .incident-date {
- color: #adb5bd;
- /* Light text color for dark mode */
-}
-
-#description{
-white-space: nowrap;
-overflow: hidden;
-text-overflow: ellipsis;
-max-width: 100%;
-display: block;
-}
-#trending-profile{
-width: 20px;
-height: 20px;
-border-radius: 50%;
-text-align: right;
-}
-/* Media query for small and meduim screens */
-@media (max-width: 768px) {
-
- .month-selector {
-     position: relative;
-     margin-top: 100px;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     flex-direction: column;
- }
-
- .month-selector select {
-     text-align: center;
-     width: 100%;
-
- }
-
- .month-selector label {
-     text-align: center;
-     width: 100%;
-     margin-right: 10px;
- }
-
- #trending-incident {
-     margin: 10px auto 30px auto;
- }
-
-}
-
-/* For meduim screens specifically */
-@media (min-width: 768px) and (max-width: 991px) {
-
- .month-selector {
-     position: relative;
-     margin-top: 100px;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     flex-direction: column;
- }
-
- .month-selector select {
-     text-align: center;
-     width: 100%;
-
- }
-
- .month-selector label {
-     text-align: center;
-     width: 100%;
-     margin-right: 10px;
- }
-}
-.incident-description {
-    overflow: hidden;          
-    white-space: nowrap;        
-    text-overflow: ellipsis;    
-    max-width: 500px;          
-}
-#incident_button{
     display: flex;
-    flex-direction: row;
-}
-
-
-
-
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f8f9fa;
+    box-sizing: border-box;
+    overflow-y: scroll;
+   }
+   
+   .report-container-form {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 3em;
+    padding: 1.5rem 2.2rem;
+    background-color: white;
+    border-radius: 8px;
+   }
+   
+   .analysis h2 {
+    text-transform: uppercase;
+    font-family: 'Ubuntu', sans-serif;
+    letter-spacing: 2px;
+   }
+   
+   .analysis #text-analysis {
+    margin-top: -15px;
+   }
+   
+   .card {
+    margin: 0 auto;
+    border: none;
+    width: 30rem;
+    height: 12rem;
+    color: white;
+    border-radius: 15px;
+    background-color: #007bff;
+   }
+   
+   .trend-container {
+    max-width: 400px;
+    background-color: #f8f9fa;
+    border-right: 1px solid #ddd;
+    padding: 1rem;
+    position: sticky;
+    top: 20px;
+    z-index: 999;
+   }
+   
+   .trend-body {
+    max-height: 700px;
+    overflow-y: auto;
+   }
+   
+   .incident-card {
+    margin-bottom: 1rem;
+    width: 100%;
+    color: black;
+   }
+   
+   .incident-title {
+    font-weight: bold;
+   }
+   
+   .incident-date {
+    font-size: 0.85rem;
+    color: #6c757d;
+   }
+   
+   #description {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: block;
+   }
+   
+   #trending-profile {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    text-align: right;
+   }
+   
+   /* Dark Mode Styles */
+   body.dark-mode .analysis {
+    color: #fff;
+   }
+   
+   body.dark-mode .card {
+    background-color: #343a40;
+   }
+   
+   body.dark-mode .trend-container {
+    background-color: #495057;
+    border-right: 1px solid #6c757d;
+   }
+   
+   body.dark-mode .incident-card {
+    color: #fff;
+   }
+   
+   body.dark-mode .incident-date {
+    color: #adb5bd;
+   }
+   
+   /* Incident description */
+   .incident-description {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 500px;
+   }
+   
+   /* Button Row */
+   #incident_button {
+    display: flex;
+   flex-direction: row;
+    
+   }
+   
+   /* Media Queries */
+   @media (max-width: 768px) {
+    .report-container-form {
+      width: 90%;
+      padding: 1rem;
+    }
+    #incident_button {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 10px;
+    }
+    .card {
+        width: 100%;
+        height: auto;
+        padding-left: 2pc;
+    }
+   
+    .trend-container {
+      display: none;
+    }
+   
+    .incident-description {
+      max-width: 100%;
+    }
+   
+    .month-selector {
+      margin-top: 1em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 50%;
+      margin: 0 auto;
+    }
+    #chart-container{
+        text-align: center;
+    }
+   
+    .month-selector select, .month-selector label {
+      width: 100%;
+      text-align: center;
+    }
+   }
+   
+   @media (min-width: 576px) and (max-width: 768px) {
+    .report-container-form {
+      width: 80%;
+    }
+   
+    .card {
+      width: 90%;
+      height: auto;
+    }
+   
+    .trend-container {
+      max-width: 100%;
+      position: static;
+    }
+   }
+   
+   @media (min-width: 769px) and (max-width: 991px) {
+    .report-container-form {
+      width: 70%;
+    }
+   
+    .card {
+      width: 80%;
+      height: auto;
+    }
+   
+    .trend-container {
+      max-width: 50%;
+    }
+   }
+   
+   @media (min-width: 992px) and (max-width: 1200px) {
+    .report-container-form {
+      width: 60%;
+    }
+   
+    .card {
+      width: 40%;
+      height: 12rem;
+    }
+   
+    .trend-container {
+      max-width: 30%;
+    }
+   }
+   
