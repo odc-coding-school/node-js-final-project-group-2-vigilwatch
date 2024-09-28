@@ -6,6 +6,7 @@ const path = require('path');
 const db = require('./model/db');
 const http = require('http'); // Import http module
 
+//Variable to various routes
 const registerRoutes = require('./routes/registerRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const authRoutes = require('./routes/authRoutes');
@@ -18,11 +19,12 @@ const statisticsRoutes = require('./routes/StatisticsRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const { initSocket } = require('./socket'); 
 
+
 const app = express();
 const server = http.createServer(app); // Create HTTP server
 initSocket(server); // Initialize Socket.io
 
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs'); //Set templating engine
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({ secret: 'thisisoursecretcode48425', resave: false, saveUninitialized: true }));
