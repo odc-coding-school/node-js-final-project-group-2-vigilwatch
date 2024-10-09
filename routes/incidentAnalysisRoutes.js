@@ -8,7 +8,7 @@ const router = express.Router();
 // Serve static files from the 'public' directory
 router.use(express.static('public'));
 
-router.get('/analysis', (req, res) => {
+router.get('#', (req, res) => {
     if (!req.session.user) {
         return res.redirect('/');
     }

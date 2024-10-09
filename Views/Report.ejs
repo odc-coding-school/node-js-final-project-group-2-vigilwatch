@@ -2,73 +2,97 @@
 <%- include('layouts/header')%>
     <link rel="stylesheet" href="/css/report.css">
 
-    <body>
-        <header>
-            <%- include ('layouts/navbar')%>
-                <%- include ('layouts/sidebar')%>
-        </header>
+    
+
+    <body style="background-color: #e1ecfe;">
+
+        <section class="h-100">
+            <div class="container py-5">
+              <div class="row justify-content-center align-items-center details">
+                <!-- Image section (responsive) -->
+                <div class="col-12 col-md-5 col-lg-4 mb-4 mb-md-0">
+                  <img
+                    src="/images/new-reporter.jpeg"
+                    alt="Verification"
+                    class="img-fluid"
+                    style="position: fixed; top: 40px; left: 0; height: calc(100vh - 50px); z-index: 1; overflow: hidden; border-radius: 5px 0 0 5px;width: 40%;"
+                  />
+                </div>
+        
+                <!-- Form section (responsive) -->
+                <div class="col-12 col-md-7 col-lg-6">
+                  <div class="form-control py-5">
+                    <div class="row text-center mt-4">
+                        <div class="col-12">
+                            <h1 class="h4 fw-bold text-uppercase">Incident Report Form</h1>
+                        </div>
+                    </div>
+        
+                    <form action="/report-incident" method="post" enctype="multipart/form-data" id="incidentForm"
+                        class="row gap-3 mt-3">
+        
+                        <div class="col-md-12">
+                            <label for="incidentType" class="form-label">Incident Type</label>
+                            <select class="form-select" id="incidentType" name="incidentType" required>
+                                <option selected disabled>Select incident type</option>
+                                <option value="fire">Fire</option>
+                                <option value="violence">Violence</option>
+                                <option value="theft">Theft</option>
+                                <option value="vandalism">Vandalism</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+        
+                        <div class="col-md-12" id="otherIncidentDiv" style="display: none;">
+                            <label for="otherIncident" class="form-label">Please specify the incident</label>
+                            <input type="text" class="form-control" id="otherIncident" name="otherIncident"
+                                placeholder="Specify other incident type">
+                        </div>
+        
+                        <div class="col-12">
+                            <label for="images" class="form-label">Upload Incident Images</label>
+                            <input class="form-control" type="file" id="images" name="images" accept="image/*" multiple>
+                            <div id="imagePreviewContainer" class="mt-3"></div>
+                        </div>
+        
+                        <div class="col-12">
+                            <label for="date" class="form-label">Date</label>
+                            <input type="date" class="form-control" id="date" name="date" required>
+                        </div>
+        
+                        <div class="col-12">
+                            <label for="time" class="form-label">Time</label>
+                            <input type="time" class="form-control" id="time" name="time" required>
+                        </div>
+        
+                        <div class="col-12">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="3"
+                                placeholder="Tell us more about the case" required></textarea>
+                        </div>
+        
+                        <div class="col-12">
+                            <!-- Real-time Location (Hidden) -->
+                            <input type="hidden" id="location" name="location" value="">
+                        </div>
+        
+                        <div class="col-12">
+                            <button type="submit" class="w-100 btn btn-primary">Submit Incident Report</button>
+                        </div>
+        
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+ 
         <main class="report-container-form w-100">
 
-            <div class="row text-center mt-4">
-                <div class="col-12">
-                    <h1 class="h4 fw-bold text-uppercase">Incident Report Form</h1>
-                </div>
-            </div>
-
-            <form action="/report-incident" method="post" enctype="multipart/form-data" id="incidentForm"
-                class="row gap-3 mt-3">
-
-                <div class="col-md-12">
-                    <label for="incidentType" class="form-label">Incident Type</label>
-                    <select class="form-select" id="incidentType" name="incidentType" required>
-                        <option selected disabled>Select incident type</option>
-                        <option value="fire">Fire</option>
-                        <option value="violence">Violence</option>
-                        <option value="theft">Theft</option>
-                        <option value="vandalism">Vandalism</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-
-                <div class="col-md-12" id="otherIncidentDiv" style="display: none;">
-                    <label for="otherIncident" class="form-label">Please specify the incident</label>
-                    <input type="text" class="form-control" id="otherIncident" name="otherIncident"
-                        placeholder="Specify other incident type">
-                </div>
-
-                <div class="col-12">
-                    <label for="images" class="form-label">Upload Incident Images</label>
-                    <input class="form-control" type="file" id="images" name="images" accept="image/*" multiple>
-                    <div id="imagePreviewContainer" class="mt-3"></div>
-                </div>
-
-                <div class="col-12">
-                    <label for="date" class="form-label">Date</label>
-                    <input type="date" class="form-control" id="date" name="date" required>
-                </div>
-
-                <div class="col-12">
-                    <label for="time" class="form-label">Time</label>
-                    <input type="time" class="form-control" id="time" name="time" required>
-                </div>
-
-                <div class="col-12">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" id="description" name="description" rows="3"
-                        placeholder="Tell us more about the case" required></textarea>
-                </div>
-
-                <div class="col-12">
-                    <!-- Real-time Location (Hidden) -->
-                    <input type="hidden" id="location" name="location" value="">
-                </div>
-
-                <div class="col-12">
-                    <button type="submit" class="w-100 btn btn-primary">Submit Incident Report</button>
-                </div>
-
-            </form>
+           
         </main>
+
+
         <script>
             document.getElementById('images').addEventListener('change', function (event) {
                 const fileInput = event.target;
@@ -81,42 +105,7 @@
                 }
             });
         </script>
-<script>
-    window.addEventListener('DOMContentLoaded', (event) => {
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(
-                function (position) {
-                    var lat = position.coords.latitude;
-                    var lon = position.coords.longitude;
-                    console.log(lat);
-                    console.log(lon);
-
-                    // Replace 'YOUR_API_KEY' with your actual Geocode.xyz API key
-                    fetch(`https://geocode.xyz/${lat},${lon}?geoit=json&auth=91621034661881661466x51189`)
-                        .then(response => response.json())
-                        .then(data => {
-                            var community = data.city || data.region || data.state || "Unknown Area";
-                            var road = data.staddress || '';
-                            var fullLocation = road ? `${road}, ${community}` : community;
-
-                            document.getElementById("location").value = fullLocation;
-                           
-
-                            console.log("Location set: " + fullLocation);
-                        })
-                        .catch(error => {
-                            console.error("Error with reverse geocoding:", error);
-                        });
-                },
-                function (error) {
-                    console.error("Geolocation error:", error);
-                }
-            );
-        } else {
-            alert("Geolocation is not supported by your browser.");
-        }
-    });
-</script>
+<script src="/js/report.js"></script>
 
         
 <!-- <script>
