@@ -50,7 +50,7 @@ router.post('/', (req, res)=>{
                         <script>
                             setTimeout(function() {
                                 window.location.href = "/";
-                            }, 480000);
+                            }, 960000);
                         </script>
                     </head>
                     <body>
