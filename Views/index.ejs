@@ -3,7 +3,7 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="/css/analysis.css">
 <link rel="stylesheet" href="/css/statistics.css">
     <!-- <link rel="stylesheet" href="index.css"> -->
@@ -89,7 +89,7 @@
                     <li><a href="/" class="home">Home</a></li>
                     <li><a href="" class="about">About</a></li>
                     <li><a href="" class="services">Services</a></li>
-                    <li><a href="" class="contact">Contact</a></li>
+                    <li><a href="" class="contact btn " data-bs-toggle="modal" data-bs-target="#contactModal">Contact</a></li>
                     <li><a href="#incident_report" class="contact">Incident Report</a></li>
                     <li><a href="#analysis" class="contact">Analysis</a></li>
                 </ol>
@@ -169,9 +169,50 @@
         <hr>
         <%- include('./statistics.ejs')%>
         <%- include('./Trending.ejs')%>
+
+
+    <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+      
+            <div class="modal-header">
+              <h5 class="modal-title" id="contactModalLabel">Contact Us</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+  
+
+            <div class="modal-body">
+              <form id="contactForm">
+                <div class="mb-3">
+                  <label for="user-name" class="form-label">Your Name</label>
+                  <input type="text" class="form-control" id="user-name" placeholder="Enter your name" required>
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email address</label>
+                  <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="mb-3">
+                  <label for="subject" class="form-label">Subject</label>
+                  <input type="text" class="form-control" id="subject" placeholder="Enter subject" required>
+                </div>
+                <div class="mb-3">
+                  <label for="message" class="form-label">Message</label>
+                  <textarea class="form-control" id="message" rows="4" placeholder="Write your message" required></textarea>
+                </div>
+              </form>
+            </div>
+  
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" form="contactForm">Send Message</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
-
+<!-- Bootstrap JS and dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://kit.fontawesome.com/3e247721a8.js" crossorigin="anonymous"></script>
 
 <script>

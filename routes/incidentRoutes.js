@@ -12,7 +12,9 @@ const insertIncident = (incident) => {
     const trendingExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours from now
     const sql = `INSERT INTO incident_reports (id, incident_type, images, date, time, description, location, trending, trending_expiry, user_id) 
                  VALUES (?, ?, ?, ?, ?, ?, ?, TRUE, ?, ?)`;
-    db.run(sql, [incident.id, incident.incident_type, JSON.stringify(images), incident.date, incident.time, incident.description, incident.location, trendingExpiry.toISOString(), incident.user_id], (err) => {
+    
+    // Use incident.images instead of images
+    db.run(sql, [incident.id, incident.incident_type, incident.images, incident.date, incident.time, incident.description, incident.location, trendingExpiry.toISOString(), incident.user_id], (err) => {
         if (err) {
             console.error('Error inserting incident:', err);
         }

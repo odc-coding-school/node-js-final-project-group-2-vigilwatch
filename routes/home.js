@@ -278,40 +278,11 @@ router.post('/update-follower-count/:reporterId', (req, res) => {
 router.delete('/update-follower-count/:reporterId', (req, res) => {
     const reporterId = req.params.reporterId;
 
-<<<<<<< HEAD
-    // Send the email
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.log(error);
-            res.status(500).send('Error sending message');
-        } else {
-            console.log('Email sent: ' + info.response);
-            res.status(200).send('Message sent successfully');
-            // Redirect user back to homepage
-
-            res.send(`
-                <html>
-                    <head>
-                        <title>Message Sent</title>
-                        <script>
-                            setTimeout(function() {
-                                window.location.href = "/";
-                            }, 960000);
-                        </script>
-                    </head>
-                    <body>
-                        <h1>Thank you for contacting us!</h1>
-                        <p>We'll will get reply you very shortly.</p>
-                        <small>You will be redirected to the homepage in 5 seconds.</small>
-                    </body>
-                </html>
-            `);
-=======
     // Update the follower count in the database (remove a follower)
     db.run(`UPDATE users SET followers = followers - 1 WHERE id = ?`, [reporterId], function(err) {
         if (err) {
             return res.status(500).json({ success: false, message: 'Database error' });
->>>>>>> 3c4ffd0ee515eb2a4b50ad79e2364692aea2785e
+
         }
         
         // Successfully updated the follower count
