@@ -25,50 +25,55 @@ router.get("/statistics", (req, res) => {
 
   // Fetch incident counts by type
   const getIncidentCounts = (callback) => {
-      const query = `
-          SELECT incident_type, COUNT(*) AS count
-          FROM incident_reports
-          WHERE strftime('%Y', date) = strftime('%Y', 'now')
-          GROUP BY incident_type
-      `;
-      db.all(query, [], (err, rows) => {
-          if (err) {
-              console.error('Error fetching incident counts:', err);
-              return callback({});
-          }
-          const counts = {};
-          rows.forEach(row => {
-              counts[row.incident_type] = row.count;
-          });
-          callback(counts);
-      });
-  };
-
-  const getTrendingIncidents = (callback) => {
     const query = `
-        SELECT incident_reports.*, users.name, users.profile_picture
+        SELECT incident_type, location, COUNT(*) AS count
         FROM incident_reports
-        JOIN users ON users.id = incident_reports.user_id
-        WHERE date >= date('now', '-7 days')
-        ORDER BY id DESC
-        LIMIT 10 
+        WHERE strftime('%Y', date) = strftime('%Y', 'now')
+        GROUP BY incident_type, location
     `;
     db.all(query, [], (err, rows) => {
         if (err) {
-            console.error('Error fetching trending incidents:', err);
+            console.error('Error fetching incident counts:', err);
             return callback([]);
         }
-       const incidentsWithBase64Profile = rows.map(row => {
-            const base64Image = row.profile_picture ? row.profile_picture.toString('base64') : null;
-            return {
-                ...row,
-                profile_picture: base64Image,
-            };
-        });
-
-        callback(incidentsWithBase64Profile);
+        console.log('Incident counts:', rows); // Log the counts fetched
+        const counts = rows.map(row => ({
+            incident_type: row.incident_type,
+            location: row.location,
+            count: row.count
+        }));
+        callback(counts);
     });
 };
+
+
+
+
+//   const getTrendingIncidents = (callback) => {
+//     const query = `
+//         SELECT incident_reports.*, users.name, users.profile_picture
+//         FROM incident_reports
+//         JOIN users ON users.id = incident_reports.user_id
+//         WHERE date >= date('now', '-7 days')
+//         ORDER BY id DESC
+//         LIMIT 10 
+//     `;
+//     db.all(query, [], (err, rows) => {
+//         if (err) {
+//             console.error('Error fetching trending incidents:', err);
+//             return callback([]);
+//         }
+//        const incidentsWithBase64Profile = rows.map(row => {
+//             const base64Image = row.profile_picture ? row.profile_picture.toString('base64') : null;
+//             return {
+//                 ...row,
+//                 profile_picture: base64Image,
+//             };
+//         });
+
+//         callback(incidentsWithBase64Profile);
+//     });
+// };
 
 
 
@@ -106,17 +111,13 @@ router.get("/statistics", (req, res) => {
 };
 
 
-getIncidentCounts((counts) => {
-  getMonthlyIncidents(({ incidentData, totalIncident, monthlyCounts }) => {
-    getTrendingIncidents((trendingIncidents) => {
-      // Use the counts from monthly data instead of overall
-      const fireCount = monthlyCounts.fire || 0;
-      const violenceCount = monthlyCounts.violence || 0;
-      const theftCount = monthlyCounts.theft || 0;
-      const vandalismCount = monthlyCounts.vandalism || 0;
-      const otherCount = monthlyCounts.other || 0;
-
-      const showNoDataMessage = totalIncident === 0;
+getIncidentCounts((incidentCounts) => {
+    // Prepare data for the chart
+    const chartData = incidentCounts.length > 0 ? incidentCounts : [['Incident Type', 'Location', 'Count']];
+    incidentCounts.forEach(row => {
+        chartData.push([row.incident_type, row.location, row.count]);
+    });
+console.log(chartData);
 
       res.render("statistics", {
           selectedMonth,
@@ -129,17 +130,13 @@ getIncidentCounts((counts) => {
           showNoDataMessage,
           incidentData,
           trendingIncidents, 
-          userProfile: imageSrc // Pass userProfile to the view
+          userProfile: imageSrc,
+          chartData: JSON.stringify(chartData),
       });
   });
 });
 
 });
-});
-});
-
-
-
 
 // Helper function for month abbreviation to number
 function getMonthNumber(month) {

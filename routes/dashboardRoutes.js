@@ -6,7 +6,7 @@ const router = express.Router();
 // Serve static files from the 'public' directory
 router.use(express.static('public'));
 
-router.get('/dashboard', (req, res) => {
+router.get('#', (req, res) => {
     if (!req.session.user) {
         return res.redirect('/');
     }
@@ -25,26 +25,25 @@ router.get('/dashboard', (req, res) => {
         const base64Image = user.profile_picture ? user.profile_picture.toString('base64') : null;
         const imageSrc = base64Image ? `data:image/png;base64,${base64Image}` : '/images/profile-default.png';
 
-        // Fetch all incidents for the user's location
-        db.all(`SELECT incident_reports.*, users.profile_picture, users.name, auth.email, auth.phone
+        // Fetch all incidents and include pseudo_name from the auth table
+        const query = `
+            SELECT incident_reports.*, auth.pseudo_name, auth.phone
             FROM incident_reports
-            JOIN users ON incident_reports.user_id = users.id
-            JOIN auth ON users.id = auth.user_id
-            WHERE incident_reports.location = ? -- Match incident location with user's location
-            ORDER BY incident_reports.id DESC`, [user.location], (err, allIncidents) => {
+            JOIN auth ON incident_reports.user_id = auth.user_id
+            ORDER BY incident_reports.id DESC`;
+
+        db.all(query, [], (err, allIncidents) => {
             if (err) {
                 console.error('Error occurred while fetching incidents:', err);
                 return res.status(500).send('Error fetching incidents');
             }
+        
+            // Log the result to debug
+            console.log('Fetched incidents:', allIncidents);
 
-            // Process each incident in "ALL"
+            // Process each incident (add formatted time/date, images in base64)
             allIncidents.forEach(incident => {
-                // Convert profile pictures to base64 format
-                if (incident.profile_picture) {
-                    incident.profile_picture = incident.profile_picture.toString('base64');
-                }
-
-                // Format the time and date
+                // Format time
                 if (incident.time) {
                     const date = new Date(`1970-01-01T${incident.time}Z`); // Convert time to Date object
                     let hours = date.getUTCHours();
@@ -55,6 +54,7 @@ router.get('/dashboard', (req, res) => {
                     incident.formatted_time = `${hours}:${minutes < 10 ? '0' + minutes : minutes} ${ampm}`;
                 }
 
+                // Format date
                 if (incident.date) {
                     const incidentDate = new Date(incident.date); // Convert to Date object
                     incident.formatted_date = incidentDate.toLocaleDateString('en-US', {
@@ -72,9 +72,10 @@ router.get('/dashboard', (req, res) => {
                 }
             });
 
+            // Render the dashboard and pass the incidents to the view
             res.render('Dashboard', {
                 userProfile: imageSrc,
-                allIncidents, // Incidents matching the user's location
+                allIncidents
             });
         });
     });

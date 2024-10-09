@@ -1,6 +1,7 @@
 #dashboard-head {
     text-align: center;
-    margin-top: 7rem;
+    margin-top: 3rem;
+    margin-left: -12pc;
 }
 
 #dashboard-head h2 {
@@ -22,6 +23,8 @@
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    margin-left: -12pc;
+
 }
 
 #incident-type-tabs button {
@@ -47,8 +50,10 @@
 
 .cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
+    background-color: rgb(255, 255, 255);
+    margin-top: 20px; margin-left: -16pc;
 }
 
 .card {
@@ -56,6 +61,8 @@
     border: 1px solid #ddd;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: auto;
+    width: 100%;
     overflow: hidden;
     margin-right: 18px;
 }
@@ -125,15 +132,10 @@
  max-width: 100%; 
  display: block; 
     white-space: nowrap;
-    /* Prevents text from wrapping */
     overflow: hidden;
-    /* Hides overflowed text */
     text-overflow: ellipsis;
-    /* Adds ellipsis (...) when text overflows */
     max-width: 100%;
-    /* Ensures the description doesn't exceed the container's width */
     display: block;
-    /* Ensures the block level behavior */
 }
 
 
@@ -155,3 +157,8 @@
     margin-top: 2rem;
     margin-inline: 5px;
 }
+ /* Add any required CSS here */
+ .spinner-border {
+    display: none;
+    margin-left: 10px;
+  }

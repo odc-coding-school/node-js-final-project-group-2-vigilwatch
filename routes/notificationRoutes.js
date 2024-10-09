@@ -39,15 +39,23 @@ router.get('/notification', (req, res) => {
               return res.send('Error fetching notifications');
           }
           
-       
+          const unreadNotifications = notifications.filter(notification => notification.read === 0);
       
 
          res.render('Notification', {
              userProfile: imageSrc,
-             notifications: notifications
+             notifications: notifications,
+             unreadNotifications 
          });
      });
  });
 });
+
+
+  
+  
+  
+  
+
 
 module.exports = router;

@@ -1,381 +1,296 @@
-<%- include("layouts/_home-header.ejs") -%>
 
-    <body class="pb-0">
+<%- include('layouts/header')%>
 
-        <!-- Page header starts -->
-        <header>
-            <nav class="navbar navbar-expand-md navbar-light text-secondary fixed-top bg-light">
-                <div class="container">
-                    <a class="navbar-brand" href="/">
-                        <img src="../images/Logo.png" alt="logo" width="100" height="50">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+
+<link rel="stylesheet" href="/css/analysis.css">
+<link rel="stylesheet" href="/css/statistics.css">
+    <!-- <link rel="stylesheet" href="index.css"> -->
+    <link rel="icon" href="/images/new-logo.png">
+
+    <style>
+.navbarlogocont img {
+    width: 120px; 
+    height: auto; 
+    max-height: 80px; 
+}
+
+.navbarlogocont {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+}
+
+.navbarlogocont p {
+    font-size: 1.2rem; 
+    margin: 0;
+}
+.rounded-pulse {
+    border-radius: 50px; 
+    animation: pulse 1.5s infinite; 
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05); 
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+.contactbtn {
+    position: relative;
+    display: inline-flex;
+    align-items: center; 
+    transition: background-color 0.3s; 
+}
+
+.arrow-icon {
+    margin-left: 8px; 
+    transition: transform 0.3s; 
+}
+
+.contactbtn:hover {
+    background-color: #005f5f; 
+}
+
+.contactbtn:hover .arrow-icon {
+    transform: translateX(5px); 
+}
+
+
+
+
+.description {
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  overflow: hidden; /* Prevent overflow while transitioning */
+  max-height: 50px; /* Set a max height for the truncated state */
+}
+
+.description.expanded {
+  max-height: 500px; /* Adjust as needed for full height */
+  opacity: 1; /* Full opacity for the expanded state */
+}
+
+    </style>
+</head>
+<body id="index-body">
+    <nav class="navbarcontrol shadow-sm">
+        <div class="navbarlogocont">
+            <a href="#top"><img src="/images/new-logo.png" alt="vigil watch logo"></a>
+        </div>
+        <div class="navbarlistcont">
+            <div class="navcollapsone">
+                <ol class="navbarlist">
+                    <li><a href="/" class="home">Home</a></li>
+                    <li><a href="" class="about">About</a></li>
+                    <li><a href="" class="services">Services</a></li>
+                    <li><a href="" class="contact">Contact</a></li>
+                    <li><a href="#incident_report" class="contact">Incident Report</a></li>
+                    <li><a href="#analysis" class="contact">Analysis</a></li>
+                </ol>
+                <div class="navbtncont">
+                    <a href="/report-incident">
+                        <button class="btn btn-light rounded-pulse" style="margin-top: -5px; background-color: teal; color: #fff;">Report Incident</button>
                     </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarCollapse">
-                        <ul class="navbar-nav ms-auto mb-2 mb-md-0">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="/">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#about">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#services">Services</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="btn btn-primary" href="/registration">Sign up</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="btn btn-outline-primary" href="/login">Login</a>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
-            </nav>
-        </header>
-        <!-- /Page header ends -->
-
-        <!-- Page contain starts -->
-        <main>
-            <!-- CAROUSEL SECTION STARTS -->
-            <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"
-                        aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1"
-                        aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2"
-                        aria-label="Slide 3"></button>
-                </div>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="../images/police-car.jpg" class="bd-placeholder-img"
-                            style="width: 100%; object-fit: cover;" " aria-hidden=" true" focusable="false">
-                        <div class="container">
-                            <div class="carousel-caption text-start">
-                                <h1 class="text-uppercase mb-lg-4 m-0 p-0">
-                                    <p>With</p> Vigil Watch
-                                </h1>
-                                <p class="opacity-75">Your safety is our priority, and serving you is our dedication.
-                                </p>
-                                <p><a class="btn btn-lg btn-primary" href="#contact" role="button">Contact Us today
-                                        &rarr;</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="carousel-item">
-                        <img src="../images/police-car2.jpg" class="bd-placeholder-img"
-                            style="width: 100%; object-fit: cover;" width="100%" height="100%" aria-hidden="true"
-                            preserveAspectRatio="xMidYMid slice" focusable="false">
-                        <rect width="100%" height="100%" fill="var(--bs-secondary-color)" />
-
-                        <div class="container">
-                            <div class="carousel-caption">
-                                <h1 class="text-uppercase display-4 mb-4">
-                                    <p> With </p> Vigil Watch
-                                </h1>
-                                <p class="opacity-75">We Empower Neighbors to Ensure Safety Together.</p>
-                                <p><a class="btn btn-lg btn-primary" href="#contact">Contact Us today &srarr;</a> <i
-                                        class="fa fas-arrow-right"></i></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="../images/police-car3.jpg" class="bd-placeholder-img"
-                            style="width: 100%; object-fit: cover;" width="100%" height="100%" aria-hidden="true"
-                            preserveAspectRatio="xMidYMid slice" focusable="false">
-                        <rect width="100%" height="100%" fill="var(--bs-secondary-color)" />
-
-                        <div class="container">
-                            <div class="carousel-caption text-end">
-                                <h1 class="text-uppercase display-4 mb-4">
-                                    <p> With </p> Vigil Watch
-                                </h1>
-                                <p class="opacity-75">We Connect Citizens for a Safer Neighborhood.
-                                </p>
-                                <p><a class="btn btn-lg btn-primary" href="#contact">Contact Us today &srarr;</a> <i
-                                        class="fa fas-arrow-right"></i></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+                
             </div>
-            <!-- /CAROUSEL ENDS -->
+            <div class="hamburgercont" style="background-color: #000000;">
+                <div class="line line1"></div>
+                <div class="line line2"></div>
+                <div class="line line3"></div>
+            </div>
+        </div>    
+    </nav>
+    <main class="centered-content">
+        <section class="mainsection" id="home">
+            <!-- main1 -->
+            <section class="main1">
+                <div class="main2">
+                    <img src="/images/car1.png" alt="Image 1">
+                <img src="/images/officer1.png" alt="Image 2">
+                <img src="/images/handcuff.jpg" alt="Image 3">
+            </div>
+            <!-- Left and right controls -->
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
 
-            <!-- Wrap the page in another container to center all the content. -->
-            <div class="container vigilWatchTips">
+            <!-- Indicators -->
+            <div class="dot-container">
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+            </div>
+            <!-- textsection -->
+            <div class="textsection">
+                <div class="textsectio-paracont">
+                    <p>With</p>
+                    <p>Vigil Watch</p>
+                    <p>Your safety is our priority, and</p>
+                    <p>serving you is our dedication.</p>
+                    <a href="#" class="contactbtn" style="background-color: teal; border: none; border-radius: 70px; color: #fff; padding: 10px 20px; text-decoration: none;">
+                        Explore with us 
+                        <i class="fa-solid fa-arrow-right-long arrow-icon" style="color: rgb(255, 255, 255);"></i>
+                    </a>
+                    <!-- <button class="contactbtn">Report Case <i class="fa-solid fa-arrow-right-long"></i></button> -->
+                </div>
+            
+            </div>
+            <!-- textsection ends -->
+        </section>
 
-                <!-- Three columns of two below the carousel -->
-                <div class="row">
-
-                    <!-- START THE FEATURETTES -->
-                    <div class="row featurette">
-                        <div class="col-md-5">
-                            <img src="../images/prisoner-1.jpg"
-                                class="rounded-3 bd-placeholder-img  bd-placeholder-img-lg featurette-image img-fluid mx-auto"
-                                width="500" height="500" role="img" preserveAspectRatio="xMidYMid slice"
-                                focusable="false">
-
-                        </div>
-                        <div class="col-md-7">
-                            <h2 class="featurette-heading fw-normal lh-1 ">What We Do?</h2>
-                            <p class="lead fs-2">We are dedicated to safeguarding all communities by providing
-                                comprehensive
-                                security solutions.</p>
-                        </div>
-                    </div>
-
-                    <hr class="featurette-divider">
-
-                    <div class="row featurette">
-                        <div class="col-md-5 order-md-2">
-                            <img src="../images/security.webp"
-                                class="rounded-3 bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
-                                width="500" height="500" role="img" aria-label="Placeholder: 500x500"
-                                preserveAspectRatio="xMidYMid slice" focusable="false">
-
-                        </div>
-                        <div class="col-md-7 order-md-1">
-                            <h2 class="featurette-heading fw-normal lh-1">Preserving <p>the Peace of every Citizen!</p>
-                            </h2>
-                            <p class="lead fs-2">Ensuring the safty and well being of those we serve.</p>
-                        </div>
-                    </div>
-                    <!-- /FEATURETTES ENDS-->
-
-                    <!--  /TESTIMONIAL SECTION START -->
-                    <div class="row bg-primary my-5 p-5 text-center align-items-center justify-content-center gap-3">
-                        <div class="mb-4">
-                            <h2 class="text-light">What people say About Us?</h2>
-                        </div>
-
-                        <div class="col-lg-3 col-md-5 col-sm-8 bg-light border rounded position-relative">
-                            <img src="../images/person-1.jpg" class=" bd-placeholder-img rounded-circle" width="140"
-                                height="140" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice"
-                                focusable="false">
-
-                                <h2 class="fw-normal">Miatta Collins</h2>
-                                <p><i>"VigilWatch is an essential tool that keeps me informed about
-                                        any incidents happening in our area due to it real-time updates and reporting
-                                        features."</i></p>
-                        </div><!-- /.col-lg-4 -->
-
-                        <div class="col-lg-3 col-md-5 col-sm-8 bg-light border rounded">
-                            <img src="../images/person-2.jpg" class="bd-placeholder-img rounded-circle" width="140"
-                                height="140" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice"
-                                focusable="false">
-
-                                <h2 class="fw-normal">John Smith</h2>
-                                <p><i>"With VigilWatch, I feel more connected and informed about what’s happening around me.
-                                        It’s a must-have for every community!"</i></p>
-                        </div><!-- /.col-lg-4 -->
-
-                        <div class="col-lg-3 col-md-5 col-sm-8 bg-light border rounded">
-                            <img src="../images/person-3.jpg" class="bd-placeholder-img rounded-circle" width="140"
-                                height="140" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice"
-                                focusable="false">
-
-                                <h2 class="fw-normal">Musu Kumeh</h2>
-                                <p><i> "VigilWatch has transformed how we report incidents in our neighborhood. It’s
-                                        quick,
-                                        easy, and has made our communities safer."</i></p>
-                        </div><!-- /.col-lg-4 -->
-                    </div>
-                    <!-- /TESTIMONIAL ENDS -->
-
-                </div><!-- /.row -->
-
-                <!-- ABOUT SECTION STARTS -->
-                <div class="row" id="about">
-                    <div class="col-12 d-flex text-center align-items-center justify-content-center my-2">
-                        <hr class="flex-grow d-none d-md-block"
-                            style="background-color: #0d6efd; height: 3px; width: 150px; border: none;">
-                        <h1 class="px-3 fw-bold display-4">About Us</h1>
-                        <hr class="flex-grow d-none d-md-block"
-                            style="background-color: #0d6efd; height: 3px; width: 150px; border: none;">
-                    </div>
-
-                    <div class="col-12 p-4">
-                        <h3 class="text-center fw-normal fs-1 p-2">Welcome to Vigil Watch</h3>
-                        <p class="fs-5 lead p-3">At Vigil Watch, we understand that safety is a fundamental need, and we
-                            are
-                            committed to providing our community with the highest level of security and pretection.
-                            Funded
-                            on the principles of vigilance, integrity, and responsiveness. Vigil Watch is more than just
-                            a
-                            security organization - we are a didicated partner in safetguarding what matters most to
-                            you.
-                        </p>
-                    </div>
-                    <div class=" row d-flex justify-content-center">
-                        <div class="col-xl-6 col-md-12">
-                            <h2 class="fw-normal fs-1">Our Mission</h2>
-                            <p class="fs-5 lead p-3">Our mission is to create a safe environment for individuals,
-                                businesses, and communities by services. We strive to be the most reliable and trusted
-                                security provider, ensuring peace of mind of our clients through our unwavering
-                                commitment
-                                to excellence and our passion for sevice.</p>
-                        </div>
-                        <div class="col-xl-6 col-md-12">
-                            <h2 class="fw-normal fs-1">Our Vision</h2>
-                            <p class="fs-5 lead p-3">At Vigil Watch, our vision is to become the leading force in
-                                community
-                                security and protection, empowering individuals and organizations with the confidence to
-                                live and operate in a sage and secure environment. We aim to set the standard for
-                                execellence in the adapting to emerging threats, and fostering a culture of trust,
-                                reponsibility, and vigilance.</p>
-                        </div>
-                    </div>
-                </div> <!-- /.row -->
-                <!-- /ABOUT SECTION ENDS -->
-
-                <!-- SERVICES SECTION STARTS -->
-                <div class="row" id="services">
-                    <div class="col-12 d-flex text-center align-items-center justify-content-center my-2">
-                        <hr class="flex-grow d-none d-md-block"
-                            style="background-color: #0d6efd; height: 3px; width: 150px; border: none;">
-                        <h1 class="px-3 fw-bold display-4">Services</h1>
-                        <hr class="flex-grow d-none d-md-block"
-                            style="background-color: #0d6efd; height: 3px; width: 150px; border: none;">
-                    </div>
-                    <div class="col-12 p-4">
-                        <h3 class="text-center fw-normal fs-1 p-2">Welcome to Vigil Watch Services</h3>
-                        <p class="fs-5 lead p-3">Vigil Watch is dedicated to providing a comprehensive range of security
-                            services tailored to meet the unique needs of our clients. Our services are designed to
-                            ensure
-                            the safety and protection of individuals, businesses, and communities. Below is a detailed
-                            overview of the services we offer:</p>
-                    </div>
-
-                    <div class="row d-flex justify-content-center align-items-center gap-1 mb-5">
-                        <div class="col-xl-5 col-md-12">
-                            <h2 class="fw-normal fs-1 p-2">1. Community Patrol Services</h2>
-                            <p class="fs-5 lead p-3">Our trained security personnel provide regular patrols in
-                                residentail
-                                and commercial areas to deter criminal activity, ensure public safety, and respond
-                                swiftly
-                                to any incidents. We offer both foot patrols and vehicle patrols, depending on the
-                                specific
-                                needs of the area.</p>
-                        </div>
-                        <div class="col-xl-5 col-md-12">
-                            <h2 class="fw-normal fs-1 p-2">2. 24/7 Monitoring and Surveilance</h2>
-                            <p class="fs-5 lead p-3">Vigil Watch offers round-the-clock monitoring servies using
-                                state-of-the-art surveillance technology. our command center is staffed by expreinced
-                                professionals who minitor CCTV footage, respond to alarms, and coordinate with local law
-                                enforcement when necessary.</p>
-                        </div>
-                        <div class="col-xl-5 col-md-12">
-                            <h2 class="fw-normal fs-1 p-2">3. Incident Response and Crisis Management</h2>
-                            <p class="fs-5 lead p-3">In the event of an emergency, our repid response teams are equipped
-                                to
-                                handle a wide range of situations, from medical emergency services to manage crises
-                                efffectively and ensure the safety of all involved.</p>
-                        </div>
-                        <div class="col-xl-5 col-md-12">
-                            <h2 class="fw-normal fs-1 p-2">4. Personal Protection Services</h2>
-                            <p class="fs-5 lead p-3">We provide specialized protection services for individuals who
-                                requre
-                                additional security. Whether for executive, public fiqures, or private citizens, our
-                                bodyguards are trained to handle high-risk situations and ensure personal saftey at all
-                                times.</p>
-                        </div>
-                    </div>
-                </div> <!-- /.row -->
-                <!-- /SERVICES SECTION ENDS -->
-
-                <!-- CONTACT SECTION STARTS -->
-                <div class="row" id="contact">
-                    <div class="col-12 d-flex text-center align-items-center justify-content-center my-2">
-                        <hr class="flex-grow d-none d-md-block"
-                            style="background-color: #0d6efd; height: 3px; width: 150px; border: none;">
-                        <h1 class="px-3 fw-bold display-4">Contact Us</h1>
-                        <hr class="flex-grow d-none d-md-block"
-                            style="background-color: #0d6efd; height: 3px; width: 150px; border: none;">
-                    </div>
-                    <div class="col-12 p-4">
-                        <h3 class="text-center fw-normal fs-1 p-2">Welcome to Vigil Watch Contact Session</h3>
-                        <p class="fs-5 lead p-3 text-center">If you have any questions or need assistance, please reach
-                            out
-                            to us. We are here to help and ensure your safety.</p>
-                    </div>
-                    <div class=" row d-flex justify-content-center gap-3 mb-5">
-                        <div class="col-xl-5 col-md-12">
-                            <h2 class=" h-1">Send Us a Message</h2>
-                            <div class="border-bottom border-4 border-primary mb-5" style="width: 50%;"></div>
-
-                            <form action="/" method="post">
-                                <div class="mb-3">
-                                    <label for="full-name" class="form-label fw-bold">Name</label>
-                                    <input type="text" class="form-control" name="name" id="full-name" placeholder="Enter your full name" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label fw-bold">Email</label>
-                                    <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="address" class="form-label fw-bold">Address</label>
-                                    <input type="text" class="form-control" name="address" id="full-name" placeholder="Enter your address" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="message" class="form-label fw-bold">Message</label>
-                                    <textarea class="form-control" id="message" rows="5" name="message" required></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <button type="submit" class="btn btn-primary w-100">Send Message</button>
-                                </div>
-                            </form>
-                            
-
-                        </div>
-                        <div class="col-xl-5 col-md-12">
-                            <h2 class="fw-normal fs-1">Reach Out to Us</h2>
-                            <div class="border-bottom border-4 border-primary mb-5" style="width: 30%;"></div>
-                            <div class="">
-                                <i class="fa fa-phone"></i> &nbsp; <a href="tel:(+231) 777-000-999"
-                                    class="link-offset-2 link-underline link-underline-opacity-0 text-dark fs-5 lead p-3">(+231)
-                                    777-000-999</a><br>
-                                <i class="fa fa-phone"></i> &nbsp; <a href="tel:(+231) 888-000-999"
-                                    class="link-offset-2 link-underline link-underline-opacity-0 text-dark fs-5 lead p-3">(+231)
-                                    888-000-999</a>
-                            </div>
-                            <div class="mt-3">
-                                <i class="fa fa-envelope"></i> &nbsp; <a href="mailto:info@vigilwatch.org"
-                                    class="link-offset-2 link-underline link-underline-opacity-0 fs-5 lead p-3">info@vigilwatch.org</a>
-                            </div>
-                            <div class="mt-3">
-                                <i class="fa fa-location-dot"></i> &nbsp; <a
-                                    class="fs-5 lead p-3 link-offset-2 link-underline link-underline-opacity-0 text-dark"
-                                    href="https://maps.app.goo.gl/937KBSWNzEaGkucy7" target="_blank">Congo Town,
-                                    Monrovia, Liberia</a>
-                                <p class="mt-3" style="margin: 0 auto;">
-                                    <iframe
-                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1982.9504304742804!2d-10.759195407035897!3d6.276763774280633!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xf0a031f15003a0b%3A0xa2add4b0e43be3!2sOrange%20Digital%20Center!5e0!3m2!1sen!2s!4v1726238302818!5m2!1sen!2s"
-                                        width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"
-                                        referrerpolicy="no-referrer-when-downgrade"></iframe>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- /.row -->
-                <!-- /CONTACT SECTION ENDS -->
-
-            </div><!-- /.container -->
-
-        </main>
+        <section class="little-about shadow-sm">
+            <div class="about-details">
+                <img src="/images/police.png" alt="police">
+                <div class="about_info">
+                    <h2>Vigil Watch: Empowering Communities for Safer Cities</h2>
+                    <p>Vigil Watch is a comprehensive crime management platform designed to streamline reporting and enhance public safety. With a focus on real-time incident tracking, user-friendly reporting, and community engagement, Vigil Watch serves as a critical tool for citizens, law enforcement, and community leaders.</p>
+                </div>
+            </div>
+            <h4>Key Features</h4>
+            <ul>
+                <li><i class="fa-solid fa-circle-info"></i> <span style="font-weight: bold;">Easy Reporting</span>: Vigil Watch allows citizens to quickly report incidents through an intuitive interface, ensuring vital information reaches law enforcement instantly.</li>
+                <li><i class="fa-solid fa-circle-info"></i> <span style="font-weight: bold;">Real-Time Alerts</span> : Stay informed about crimes in your area with real-time notifications, helping you stay safe and aware.</li>
+                <li><i class="fa-solid fa-circle-info"></i> <span style="font-weight: bold;">Anonymous Reporting</span> : Protect your identity while reporting suspicious activities, encouraging more community participation without fear of retaliation.</li>
+                <li><i class="fa-solid fa-circle-info"></i> <span style="font-weight: bold;">Live Incident Map</span> : View ongoing incidents on a dynamic map, providing a transparent overview of crime hotspots and law enforcement responses.</li>
+            </ul>
+        </section>
+        
+        <%- include('./Dashboard.ejs')%>
+        <br>
+        <hr>
+        <%- include('./Analysis.ejs')%>
+        <br>
+        <hr>
+        <%- include('./statistics.ejs')%>
+        <%- include('./Trending.ejs')%>
+    </main>
 
 
-        <%- include("layouts/_home-footer.ejs") -%>
+<script src="https://kit.fontawesome.com/3e247721a8.js" crossorigin="anonymous"></script>
+
+<script>
+    // ==================== all =============
+ // for the changing color of the nav bar
+ let navbar = document.querySelector('.navbarcontrol');
+ let uparrow = document.querySelector('.uparrow');
+ let home = document.querySelector('.home');
+ let about = document.querySelector('.about');
+ let services = document.querySelector('.services');
+ let contact = document.querySelector('.contact');
+ 
+ window.addEventListener('scroll', ()=>{
+     // console.log(window.scrollY);
+     if(window.scrollY >= 50){
+         navbar.classList.add('navbarcontrolscroll')
+     }else{
+         navbar.classList.remove('navbarcontrolscroll')
+     }
+ })
+ window.addEventListener('scroll', ()=>{
+     // console.log(window.scrollY);
+     if(window.scrollY >= 600){
+         uparrow.classList.add('arrow')
+     }else{
+         uparrow.classList.remove('arrow')
+     }
+ })
+ // for nav bar and hamburger
+ let menu = document.querySelector('.hamburgercont');
+ let menu2 = document.querySelector('.navcollapsone');
+ let menu22 = document.querySelector('.navbarlist');
+ 
+ menu.onclick = function(){
+     menu.classList.toggle("openclose");
+     menu2.classList.toggle("navcollapsoneactive");
+     menu22.classList.toggle("navbarlistacive");
+ }
+ 
+ home.addEventListener('click', ()=>{
+     menu.classList.toggle("openclose");
+     menu2.classList.toggle("navcollapsoneactive");
+     menu22.classList.toggle("navbarlistacive");
+ })
+ 
+ about.addEventListener('click', ()=>{
+     menu.classList.toggle("openclose");
+     menu2.classList.toggle("navcollapsoneactive");
+     menu22.classList.toggle("navbarlistacive");
+ })
+ services.addEventListener('click', ()=>{
+     menu.classList.toggle("openclose");
+     menu2.classList.toggle("navcollapsoneactive");
+     menu22.classList.toggle("navbarlistacive");
+ })
+ contact.addEventListener('click', ()=>{
+     menu.classList.toggle("openclose");
+     menu2.classList.toggle("navcollapsoneactive");
+     menu22.classList.toggle("navbarlistacive");
+ })
+ // for nav bar and hamburger ends
+ 
+ // for main sliding section
+ let slideIndex = 1;
+ let isTransitioning = false;
+ let slideTimeout;
+ 
+ showSlides(slideIndex);
+ 
+ function plusSlides(n) {
+     if (isTransitioning) return; // Exit if a transition is in progress
+ 
+     clearTimeout(slideTimeout); // Clear any existing timeout to prevent overlapping
+     showSlides(slideIndex += n);
+ }
+ 
+ function currentSlide(n) {
+     if (isTransitioning) return; // Exit if a transition is in progress
+ 
+     clearTimeout(slideTimeout); // Clear any existing timeout to prevent overlapping
+     showSlides(slideIndex = n);
+ }
+ 
+ function showSlides(n) {
+     let slides = document.querySelectorAll(".main2 img");
+     let dots = document.querySelectorAll(".dot");
+ 
+     if (n > slides.length) { slideIndex = 1 }
+     if (n < 1) { slideIndex = slides.length }
+ 
+     // Set the flag to true to indicate that a transition is in progress
+     isTransitioning = true;
+ 
+     // Adjust the position of the slides container based on the current slide index
+     document.querySelector(".main2").style.transform = `translateX(-${(slideIndex - 1) * 100}%)`;
+ 
+     // Update dots
+     dots.forEach((dot, index) => {
+         dot.className = dot.className.replace(" active", "");
+         if (index === slideIndex - 1) {
+             dot.className += " active";
+         }
+     });
+ 
+     // After transition ends, reset the flag to allow further interactions
+     document.querySelector(".main2").addEventListener('transitionend', () => {
+         isTransitioning = false;
+     }, { once: true });
+ 
+     // Reset the slide timeout to allow automatic transitions after the current one completes
+     slideTimeout = setTimeout(() => {
+         if (!isTransitioning) {
+             plusSlides(1);
+         }
+     }, 5000); // Change image every 5 seconds
+ }
+</script>
+
+
+
+<script src="/js/script.js"></script>
+<%- include('layouts/footer')%>

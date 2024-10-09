@@ -59,61 +59,97 @@ document.getElementById("incidentType").addEventListener("change", function () {
 
 // REAL TIME LOCATION
 
-document.addEventListener("DOMContentLoaded", function () {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      function (position) {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-
-        // OpenStreetMap Nominatim reverse geocoding URL
-        const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
-
-        fetch(geocodeUrl)
-          .then((response) => response.json())
-          .then((data) => {
-            if (data && data.address) {
-              let locationName = "Location not found";
-
-              // Nominatim address breakdown
-              if (data.address.city) {
-                locationName = data.address.city;
-              } else if (data.address.town) {
-                locationName = data.address.town;
-              } else if (data.address.village) {
-                locationName = data.address.village;
-              } else if (data.address.state) {
-                locationName = data.address.state;
-              }
-
-              // Set location name to input field
-              document.getElementById("location").value = locationName;
-            } else {
-              document.getElementById("location").value = "Location not found";
-              alert(
-                "Location not found. Please make sure that your location is enabled."
-              );
-              window.location.href = '/dashboard';
-            }
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-            document.getElementById("location").value =
-              "Error retrieving location";
-          });
-      },
-      function (error) {
-        console.error("Geolocation error:", error);
-        alert(
-          "Error retrieving location. Please ensure location services are enabled."
-        );
-        window.location.href = '/dashboard';
-      }
-    );
+window.addEventListener('DOMContentLoaded', (event) => {
+  if ("geolocation" in navigator) {
+       navigator.geolocation.getCurrentPosition(
+           function (position) {
+                 var lat = position.coords.latitude;
+                 var lon = position.coords.longitude;
+                 
+                console.log(lat);
+                console.log(lon)
+  
+                
+                 fetch(`https://geocode.xyz/${lat},${lon}?geoit=json&auth=91621034661881661466x51189`)
+                    .then(response => response.json())
+                  .then(data => {
+                      var community = data.city || data.region || data.state || "Unknown Area";
+                      var road = data.staddress || '';
+                      var fullLocation = road ? `${road}, ${community}` : community;
+  
+                      document.getElementById("location").value = fullLocation;
+                       
+  
+                      console.log("Location set: " + fullLocation);
+                  })
+                  .catch(error => {
+                      console.error("Error with reverse geocoding:", error);
+                  });
+          },
+          function (error) {
+              console.error("Geolocation error:", error);
+          }
+      );
   } else {
-    alert("Geolocation is not supported by this browser. Please try another.");
+      alert("Geolocation is not supported by your browser.");
   }
-});
+  });
+
+// document.addEventListener("DOMContentLoaded", function () {
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(
+//       function (position) {
+//         const latitude = position.coords.latitude;
+//         const longitude = position.coords.longitude;
+
+//         // OpenStreetMap Nominatim reverse geocoding URL
+//         const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
+
+//         fetch(geocodeUrl)
+//           .then((response) => response.json())
+//           .then((data) => {
+//             if (data && data.address) {
+//               let locationName = "Location not found";
+
+//               // Nominatim address breakdown
+//               if (data.address.city) {
+//                 locationName = data.address.city;
+//               } else if (data.address.town) {
+//                 locationName = data.address.town;
+//               } else if (data.address.village) {
+//                 locationName = data.address.village;
+//               } else if (data.address.state) {
+//                 locationName = data.address.state;
+//               }
+
+//               // Set location name to input field
+//               document.getElementById("location").value = locationName;
+//             } else {
+//               document.getElementById("location").value = "Location not found";
+//               alert(
+//                 "Location not found. Please make sure that your location is enabled."
+//               );
+//               window.location.href = '/dashboard';
+//             }
+//           })
+//           .catch((error) => {
+//             console.error("Error:", error);
+//             document.getElementById("location").value =
+//               "Error retrieving location";
+//           });
+//       },
+//       function (error) {
+//         console.error("Geolocation error:", error);
+//         alert(
+//           "Error retrieving location. Please ensure location services are enabled."
+//         );
+//         window.location.href = '/dashboard';
+//       }
+//     );
+//   } else {
+//     alert("Geolocation is not supported by this browser. Please try another.");
+//   }
+// });
 
 
 // ============== saving the user  live location =================
@@ -216,3 +252,6 @@ document.addEventListener("DOMContentLoaded", function () {
 //     alert("Geolocation is not supported by this browser. Please try another.");
 //   }
 // });
+
+
+// 

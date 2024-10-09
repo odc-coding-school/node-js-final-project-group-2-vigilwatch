@@ -1,93 +1,67 @@
 const express = require('express');
 const db = require('../model/db');
 const multer = require('multer');
-const { getSocket } = require('../socket'); // Import getSocket
+const { v4: uuidv4 } = require("uuid");
 
 const router = express.Router();
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
+// Function to insert incident into the database with trending status and expiry
+const insertIncident = (incident) => {
+    const trendingExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours from now
+    const sql = `INSERT INTO incident_reports (id, incident_type, images, date, time, description, location, trending, trending_expiry, user_id) 
+                 VALUES (?, ?, ?, ?, ?, ?, ?, TRUE, ?, ?)`;
+    db.run(sql, [incident.id, incident.incident_type, JSON.stringify(images), incident.date, incident.time, incident.description, incident.location, trendingExpiry.toISOString(), incident.user_id], (err) => {
+        if (err) {
+            console.error('Error inserting incident:', err);
+        }
+    });
+};
+
 router.get('/report-incident', (req, res) => {
-    if (!req.session.user) {
-        return res.redirect('/');
+    // Check if the user is verified
+    if (!req.session.verified) {
+        return res.redirect('/verification');
     }
 
-    db.get('SELECT * FROM users WHERE id = ?', [req.session.user.id], (err, user) => {
-        if (err) {
-            console.error('Error occurred while fetching user data:', err);
-            return res.send('Error occurred while fetching user data');
-        }
-
-        if (!user) {
-            return res.send('User not found');
-        }
-
-        const base64Image = user.profile_picture ? user.profile_picture.toString('base64') : null;
-        const imageSrc = base64Image ? `data:image/png;base64,${base64Image}` : '/images/profile-default.png';
-
-        res.render('Report', { userProfile: imageSrc });
-    });
+    res.render('Report');
 });
 
 router.post('/report-incident', upload.array('images', 10), (req, res) => {
-    let { incidentType, otherIncident, date, time, description, location } = req.body;
-    const userId = req.session.user.id;
+    // Ensure the user is verified
+    if (!req.session.verified) {
+        return res.redirect('/verification');
+    }
 
-    db.get('SELECT location FROM users WHERE id = ?', [userId], (err, row) => {
-        if (err) {
-            console.error('Error fetching user location:', err);
-            return res.send('Error fetching user location');
-        }
+    const { incidentType, otherIncident, date, time, description, location } = req.body;
 
-        if (!row) {
-            return res.send('User not found');
-        }
+    if (!incidentType || !date || !time || !description || !location) {
+        return res.send('Please fill in all fields');
+    }
 
-        const savedLocation = row.location;
-        let images = req.files.map(file => file.buffer);
+    const userId = req.session.verified.userID;
 
-        // Save incident report
-       // Save incident report
-db.run('INSERT INTO incident_reports (incident_type, other_incident, images, date, time, description, location, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-    [incidentType, otherIncident, JSON.stringify(images), date, time, description, location, userId],
-    function (err) {
-        if (err) {
-            console.error('Error occurred while inserting incident report:', err);
-            return res.send('Error occurred while inserting incident report');
-        }
+    // Process images
+    let images = req.files.map(file => file.buffer);
 
-        // Notify all users in the same location
-        db.all('SELECT * FROM users WHERE location = ?', [savedLocation], (err, users) => {
-            if (err) {
-                console.error('Error fetching users for notification:', err);
-                return res.send('Error fetching users for notification');
-            }
+    // Prepare incident data
+    const incident = {
+        id: uuidv4(),
+        incident_type: incidentType,
+        other_incident: otherIncident,
+        images: JSON.stringify(images), // Store images as JSON
+        date: date,
+        time: time,
+        description: description,
+        location: location,
+        user_id: userId
+    };
 
-            console.log(`Notifying ${users.length} users in location: ${savedLocation}`);
+    // Insert the incident into the database and set it as trending
+    insertIncident(incident);
 
-            // Emit notification to all users
-            const io = getSocket(); // Get the io instance
-            users.forEach(user => {
-                const notificationMessage = `A new incident has been reported in your area: ${incidentType}.`;
-                db.run('INSERT INTO notification (notification, user_id) VALUES (?, ?)', [notificationMessage, user.id], (err) => {
-                    if (err) {
-                        console.error('Error inserting notification:', err);
-                    }
-                });
-
-                // Emit the notification to the connected users
-                io.emit('new_notification', {
-                    user_name: user.name,
-                    incident_type: incidentType,
-                    description: description
-                });
-            });
-        });
-
-        res.redirect('/dashboard'); // Redirect after reporting
-    });
-
-    });
+    res.redirect('/');
 });
 
 module.exports = router;
