@@ -1,31 +1,31 @@
 #dashboard-head {
     text-align: center;
-    margin-top: 3rem;
-    margin-left: -12pc;
+    /* margin-top: 3rem; */
+    /* margin-left: -12pc; */
 }
 
-#dashboard-head h2 {
+/* #dashboard-head h2 {
     text-transform: uppercase;
     font-family: 'Ubuntu', sans-serif;
     font-weight: bold;
     letter-spacing: 2px;
-}
+} */
 
 #search {
     margin: 0 auto;
-    width: 70%;
+    /* width: 50%; */
     height: 10vh;
     font-size: 1.5rem;
     font-weight: 600;
 }
 
-#incident-type-tabs {
+/* #incident-type-tabs {
     display: flex;
     justify-content: center;
     margin-top: 20px;
     margin-left: -12pc;
 
-}
+} */
 
 #incident-type-tabs button {
     margin: 0 5px;
@@ -49,9 +49,9 @@
 }
 
 .cards-grid {
-    display: grid;
+    /* display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 20px; */
     background-color: rgb(255, 255, 255);
     margin-top: 20px; margin-left: -16pc;
 }

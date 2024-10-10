@@ -2,12 +2,15 @@
     
 </style>
 <main id="incident_report">
-  <div id="dashboard-head">
-   <h2>Community Incidents Report</h2>
-   <div class="mb-3">
-    <input type="text" class="form-control shadow-sm" id="search" name="search" placeholder="Search community">
-   </div>
-  </div>
+
+    <div class="text-center" id="dashboard-head">
+        <h4 class="p-1 fw-6 text-center">Community Incidents Report</h4>
+    
+        <div class="mb-3">
+            <input type="text" class="form-control shadow-sm" id="search" name="search" placeholder="Search community">
+        </div>
+    </div>
+
   <div id="incident-type-tabs" class="d-flex justify-content-center">
     <ul class="nav nav-tabs" id="incidentTab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -41,7 +44,7 @@
               <% if (allIncidents.length > 0) { %>
                 <% allIncidents.slice(0, 4).forEach(incident => { %>
                   <div class="card">
-                    <div class="card-body">
+                    <div class="card-body col-md-12 col-sm-12">
                       <div class="align-self-center">
                         <div class="map-container" style="position: relative; width: 100%; height: 200px;">
                           <div class="map-preloader" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #f3f3f3; display: flex; justify-content: center; align-items: center;">
