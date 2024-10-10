@@ -1,1 +1,14 @@
+# Ignore node_modules folder
 node_modules/
+
+# Ignore sensitive files
+firebase-service-account.json
+
+# Ignore log files
+*.log
+
+# Ignore environment variables file
+.env
+
+# Ignore other sensitive files or folders
+secret-folder/

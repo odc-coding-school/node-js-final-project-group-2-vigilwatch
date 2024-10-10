@@ -47,6 +47,21 @@ db.serialize(() => {
     )`, (err) => {
         if (err) console.error('Error creating incident_reports table:', err);
     });
+    db.run(`CREATE TABLE IF NOT EXISTS pending_incidents (
+        id TEXT PRIMARY KEY,
+        incident_type TEXT NOT NULL,
+        other_incident TEXT,
+        images BLOB,
+        date TEXT NOT NULL,
+        time TEXT NOT NULL,
+        description TEXT NOT NULL,
+        location TEXT NOT NULL,
+        user_id TEXT,
+        status TEXT,
+        FOREIGN KEY(user_id) REFERENCES users(id)
+    )`, (err) => {
+        if (err) console.error('Error creating incident_reports table:', err);
+    });
 
     // Create 'notification' table with UUID as primary key and foreign key reference to users
     db.run(`CREATE TABLE IF NOT EXISTS notification (

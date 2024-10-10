@@ -5,6 +5,7 @@ const path = require('path');
 const db = require('./model/db');
 const http = require("http");
 const { Server } = require("socket.io");
+require('dotenv').config();
 
 // Import various routes
 const registerRoutes = require('./routes/registerRoutes');
