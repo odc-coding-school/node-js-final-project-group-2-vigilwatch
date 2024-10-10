@@ -7,8 +7,31 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/verification.css">
+    <style>
+        body {
+            background-color: #e1ecfe;
+        }
+
+        .details {
+            display: flex;
+            align-items: stretch; /* Ensures that both columns stretch to the same height */
+        }
+
+        #image {
+            border-radius: 5px 0 0 5px;
+            object-fit: cover; /* Ensures the image covers the container without distortion */
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+    </style>
 </head>
-<body style="background-color: #e1ecfe;">
+<body>
 
 <section class="h-100">
     <div class="container py-5">
@@ -19,11 +42,11 @@
                     alt="Verification"
                     class="img-fluid"
                     id="image"
-                    style="position: fixed; top: 40px; left: 0; height: calc(100vh - 50px); z-index: 1; overflow: hidden; border-radius: 5px 0 0 5px;"
+                    style="height: 100%;"
                 />
             </div>
             <div class="col-12 col-md-7 col-lg-6">
-                <div class="form-control py-5">
+                <div class="form-control py-5 h-100">
                     <h2 class="text-center" id="header-text">Reporter's Verification</h2>
 
                     <div class="d-flex align-items-center mb-3">
@@ -35,6 +58,7 @@
                         <label class="toggle-label ms-3">New Reporter</label>
                     </div>
 
+                    <!-- Old Reporter Form (Login Form) -->
                     <div class="form-section active" id="login-form">
                         <form id="verificationForm" action="/verification" method="post">
                             <label for="pseudo_name" class="form-label">Pseudo Name</label>
@@ -69,6 +93,7 @@
                         </form>
                     </div>
 
+                    <!-- New Reporter Form (Register Form) -->
                     <div class="form-section" id="register-form">
                         <form id="registerForm" action="/new-reporter" method="post">
                             <label for="national_id" class="form-label">National ID</label>
