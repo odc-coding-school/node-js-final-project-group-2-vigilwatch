@@ -124,39 +124,43 @@ router.get('/', (req, res) => {
                     callback(counts);
                 });
             };
-
             const getMonthlyIncidents = (callback) => {
                 const monthNumber = getMonthNumber(selectedMonth);
                 const query = `
-                    SELECT incident_type, COUNT(*) AS incidents_count
+                    SELECT incident_type, location, COUNT(*) AS incidents_count
                     FROM incident_reports 
                     WHERE strftime('%Y', date) = strftime('%Y', 'now') 
                     AND strftime('%m', date) = ?
-                    GROUP BY incident_type
+                    GROUP BY incident_type, location
                 `;
                 db.all(query, [monthNumber], (err, rows) => {
                     if (err) {
                         console.error('Error fetching monthly incident data:', err);
-                        return callback([]);
+                        return callback({ incidentData: [], totalIncident: 0, monthlyCounts: {} });
                     }
+                    
                     const incidentData = rows.map(row => ({
                         incident_type: row.incident_type,
+                        location: row.location,
                         incidents_count: row.incidents_count
                     }));
-
+            
                     // Calculate total incidents for the selected month
                     const totalIncident = incidentData.reduce((sum, incident) => sum + incident.incidents_count, 0);
-
-                    // Create counts for each incident type based on monthly data
+            
+                    // Compute monthlyCounts by incident type
                     const monthlyCounts = {};
                     incidentData.forEach(incident => {
-                        monthlyCounts[incident.incident_type] = incident.incidents_count;
+                        if (!monthlyCounts[incident.incident_type]) {
+                            monthlyCounts[incident.incident_type] = 0;
+                        }
+                        monthlyCounts[incident.incident_type] += incident.incidents_count;
                     });
-
-                    // Return the incident data, total incidents, and monthly counts
+            
                     callback({ incidentData, totalIncident, monthlyCounts });
                 });
             };
+            
 
             getIncidentCounts((counts) => {
                 getMonthlyIncidents(({ incidentData, totalIncident, monthlyCounts }) => {
