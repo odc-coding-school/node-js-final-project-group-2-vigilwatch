@@ -5,7 +5,7 @@
 <body style="background-color: #e1ecfe">
   <section class="h-100">
     <div class="container py-5">
-      <div class="row justify-content-center align-items-center details">
+      <div class="row justify-content-center align-items-start details">
         <!-- Image section (responsive) -->
         <div class="col-12 col-md-5 col-lg-4 mb-4 mb-md-0">
           <img
@@ -13,14 +13,10 @@
             alt="Verification"
             class="img-fluid"
             style="
-              position: fixed;
-              top: 40px;
-              left: 0;
-              height: calc(100vh - 50px);
-              z-index: 1;
-              overflow: hidden;
               border-radius: 5px 0 0 5px;
-              width: 40%;
+              height: auto; /* Allow height to adjust based on width */
+              max-height: 80vh; /* Limit height to 80% of viewport */
+              object-fit: cover; /* Maintain aspect ratio */
             "
           />
         </div>
@@ -41,16 +37,9 @@
               id="incidentForm"
               class="row gap-3 mt-3"
             >
-              <div class="col-md-12">
-                <label for="incidentType" class="form-label"
-                  >Incident Type</label
-                >
-                <select
-                  class="form-select"
-                  id="incidentType"
-                  name="incidentType"
-                  required
-                >
+              <div class="col-12">
+                <label for="incidentType" class="form-label">Incident Type</label>
+                <select class="form-select" id="incidentType" name="incidentType" required>
                   <option selected disabled>Select incident type</option>
                   <option value="fire">Fire</option>
                   <option value="violence">Violence</option>
@@ -60,70 +49,30 @@
                 </select>
               </div>
 
-              <div
-                class="col-md-12"
-                id="otherIncidentDiv"
-                style="display: none"
-              >
-                <label for="otherIncident" class="form-label"
-                  >Please specify the incident</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="otherIncident"
-                  name="otherIncident"
-                  placeholder="Specify other incident type"
-                />
+              <div class="col-12" id="otherIncidentDiv" style="display: none">
+                <label for="otherIncident" class="form-label">Please specify the incident</label>
+                <input type="text" class="form-control" id="otherIncident" name="otherIncident" placeholder="Specify other incident type" />
               </div>
 
               <div class="col-12">
-                <label for="images" class="form-label"
-                  >Upload Incident Images</label
-                >
-                <input
-                  class="form-control"
-                  type="file"
-                  id="images"
-                  name="images"
-                  accept="image/*"
-                  multiple
-                />
+                <label for="images" class="form-label">Upload Incident Images</label>
+                <input class="form-control" type="file" id="images" name="images" accept="image/*" multiple />
                 <div id="imagePreviewContainer" class="mt-3"></div>
               </div>
 
               <div class="col-12">
                 <label for="date" class="form-label">Date</label>
-                <input
-                  type="date"
-                  class="form-control"
-                  id="date"
-                  name="date"
-                  required
-                />
+                <input type="date" class="form-control" id="date" name="date" required />
               </div>
 
               <div class="col-12">
                 <label for="time" class="form-label">Time</label>
-                <input
-                  type="time"
-                  class="form-control"
-                  id="time"
-                  name="time"
-                  required
-                />
+                <input type="time" class="form-control" id="time" name="time" required />
               </div>
 
               <div class="col-12">
                 <label for="description" class="form-label">Description</label>
-                <textarea
-                  class="form-control"
-                  id="description"
-                  name="description"
-                  rows="3"
-                  placeholder="Tell us more about the case"
-                  required
-                ></textarea>
+                <textarea class="form-control" id="description" name="description" rows="3" placeholder="Tell us more about the case" required></textarea>
               </div>
 
               <div class="col-12">
@@ -132,9 +81,7 @@
               </div>
 
               <div class="col-12">
-                <button type="submit" class="w-100 btn btn-primary">
-                  Submit Incident Report
-                </button>
+                <button type="submit" class="w-100 btn btn-primary">Submit Incident Report</button>
               </div>
             </form>
           </div>
@@ -148,83 +95,40 @@
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
   <script>
-    document
-      .getElementById("incidentForm")
-      .addEventListener("submit", function (event) {
-        event.preventDefault(); // Prevent the form from submitting immediately
+    document.getElementById("incidentForm").addEventListener("submit", function (event) {
+      event.preventDefault(); // Prevent the form from submitting immediately
 
-        // SweetAlert confirmation
-        swal({
-          title: "Saved as Pending",
-          text: "Your incident report will be saved as pending until it can be approved.",
-          icon: "warning",
-          buttons: true,
-          dangerMode: true,
-        }).then((willSubmit) => {
-          if (willSubmit) {
-            // If user confirms, submit the form
-            this.submit();
-          } else {
-            // Optionally, you can show a message or take action on cancel
-            swal("Your incident report has not been submitted.");
-          }
-        });
-      });
-
-    document
-      .getElementById("images")
-      .addEventListener("change", function (event) {
-        const fileInput = event.target;
-        const maxFiles = 4;
-
-        if (fileInput.files.length > maxFiles) {
-          alert(`You can only upload a maximum of ${maxFiles} images.`);
-          // Clear the file input
-          fileInput.value = "";
+      // SweetAlert confirmation
+      swal({
+        title: "Saved as Pending",
+        text: "Your incident report will be saved as pending until it can be approved.",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willSubmit) => {
+        if (willSubmit) {
+          // If user confirms, submit the form
+          this.submit();
+        } else {
+          // Optionally, you can show a message or take action on cancel
+          swal("Your incident report has not been submitted.");
         }
       });
+    });
+
+    document.getElementById("images").addEventListener("change", function (event) {
+      const fileInput = event.target;
+      const maxFiles = 4;
+
+      if (fileInput.files.length > maxFiles) {
+        alert(`You can only upload a maximum of ${maxFiles} images.`);
+        // Clear the file input
+        fileInput.value = "";
+      }
+    });
   </script>
 
   <script src="/js/report.js"></script>
-
-  <!-- <script>
-    // Ensure all DOM elements are loaded before running this script
-    window.addEventListener('DOMContentLoaded', (event) => {
-        // Check if geolocation is supported by the browser
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(
-                function (position) {
-                    // Get the user's coordinates
-                    var lat = position.coords.latitude;
-                    var lon = position.coords.longitude;
-
-                    // Use Nominatim for reverse geocoding to get the area name
-                    fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            // Get more specific location information
-                            var community = data.address.neighbourhood || data.address.suburb || data.address.village || data.address.town || data.address.city || "Unknown Area";
-                            var road = data.address.road || '';
-                            var fullLocation = road ? `${road}, ${community}` : community;
-                            
-                            // Set the value of the hidden input field with the more specific location
-                            document.getElementById("location").value = fullLocation;
-
-                            console.log("Location set: " + fullLocation);
-                        })
-                        .catch(error => {
-                            console.error("Error with reverse geocoding:", error);
-                        });
-                },
-                function (error) {
-                    console.error("Geolocation error:", error);
-                }
-            );
-        } else {
-            alert("Geolocation is not supported by your browser.");
-        }
-    });
-</script> -->
 
   <%- include('layouts/footer')%>
 </body>
