@@ -1,85 +1,179 @@
 
 <%- include('layouts/header')%>
-
+    
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
 <link rel="stylesheet" href="/css/analysis.css">
-<link rel="stylesheet" href="/css/statistics.css">
+<!-- <link rel="stylesheet" href="/css/statistics.css"> -->
+
     <!-- <link rel="stylesheet" href="index.css"> -->
     <link rel="icon" href="/images/new-logo.png">
 
     <style>
-.navbarlogocont img {
-    width: 120px; 
-    height: auto; 
-    max-height: 80px; 
-}
-
-.navbarlogocont {
-    display: flex;
-    align-items: center;
-    gap: 10px; 
-}
-
-.navbarlogocont p {
-    font-size: 1.2rem; 
-    margin: 0;
-}
-.rounded-pulse {
-    border-radius: 50px; 
-    animation: pulse 1.5s infinite; 
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05); 
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-.contactbtn {
-    position: relative;
-    display: inline-flex;
-    align-items: center; 
-    transition: background-color 0.3s; 
-}
-
-.arrow-icon {
-    margin-left: 8px; 
-    transition: transform 0.3s; 
-}
-
-.contactbtn:hover {
-    background-color: #005f5f; 
-}
-
-.contactbtn:hover .arrow-icon {
-    transform: translateX(5px); 
-}
-
-
-
-
-.description {
-  transition: max-height 0.3s ease, opacity 0.3s ease;
-  overflow: hidden; /* Prevent overflow while transitioning */
-  max-height: 50px; /* Set a max height for the truncated state */
-}
-
-.description.expanded {
-  max-height: 500px; /* Adjust as needed for full height */
-  opacity: 1; /* Full opacity for the expanded state */
-}
-
-    </style>
+        .navbarlogocont img {
+            width: 120px; 
+            height: auto; 
+            max-height: 80px; 
+        }
+        
+        .navbarlogocont {
+            display: flex;
+            align-items: center;
+            gap: 10px; 
+        }
+        
+        .navbarlogocont p {
+            font-size: 1.2rem; 
+            margin: 0;
+        }
+        .rounded-pulse {
+            border-radius: 50px; 
+            animation: pulse 1.5s infinite; 
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05); 
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        .contactbtn {
+            position: relative;
+            display: inline-flex;
+            align-items: center; 
+            transition: background-color 0.3s; 
+        }
+        
+        .arrow-icon {
+            margin-left: 8px; 
+            transition: transform 0.3s; 
+        }
+        
+        .contactbtn:hover {
+            background-color: #005f5f; 
+        }
+        
+        .contactbtn:hover .arrow-icon {
+            transform: translateX(5px); 
+        }
+        
+        .description {
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            overflow: hidden; 
+            max-height: 50px; 
+        }
+        
+        .description.expanded {
+            max-height: 500px; 
+            opacity: 1; 
+        }
+        .sidebar {
+                background-color: #f8f9fa;
+                padding: 15px;
+            }
+            .main-content {
+                background-color: #ffffff;
+                padding: 15px;
+            }
+        
+            </style><style>
+          /* Set the height of the navbar */
+          .navbarcontrol {
+              position: fixed;
+              top: 0;
+              left: 0;
+              width: 100%;
+              z-index: 1000; /* Ensure navbar stays on top of content */
+              background-color: #fff; /* Set background to avoid transparency issues */
+          }
+        
+          /* Add padding-top to body so content starts below navbar */
+          body {
+              padding-top: 80px; /* Adjust this based on navbar height */
+          }
+        
+          .navbarlogocont img {
+              width: 120px;
+              height: auto;
+              max-height: 80px;
+          }
+        
+          .navbarlogocont {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+          }
+        
+          .navbarlogocont p {
+              font-size: 1.2rem;
+              margin: 0;
+          }
+        
+          .rounded-pulse {
+              border-radius: 50px;
+              animation: pulse 1.5s infinite;
+          }
+        
+          @keyframes pulse {
+              0% {
+                  transform: scale(1);
+              }
+              50% {
+                  transform: scale(1.05);
+              }
+              100% {
+                  transform: scale(1);
+              }
+          }
+        
+          .contactbtn {
+              position: relative;
+              display: inline-flex;
+              align-items: center;
+              transition: background-color 0.3s;
+          }
+        
+          .arrow-icon {
+              margin-left: 8px;
+              transition: transform 0.3s;
+          }
+        
+          .contactbtn:hover {
+              background-color: #005f5f;
+          }
+        
+          .contactbtn:hover .arrow-icon {
+              transform: translateX(5px);
+          }
+        
+          .description {
+              transition: max-height 0.3s ease, opacity 0.3s ease;
+              overflow: hidden;
+              max-height: 50px;
+          }
+        
+          .description.expanded {
+              max-height: 500px;
+              opacity: 1;
+          }
+        
+          .sidebar {
+              background-color: #f8f9fa;
+              padding: 15px;
+          }
+        
+          .main-content {
+              background-color: #ffffff;
+              padding: 15px;
+          }
+        </style>
 </head>
 <body id="index-body">
     <nav class="navbarcontrol shadow-sm">
@@ -110,109 +204,204 @@
             </div>
         </div>    
     </nav>
-    <main class="centered-content">
-        <section class="mainsection" id="home">
-            <!-- main1 -->
-            <section class="main1">
-                <div class="main2">
-                    <img src="/images/car1.png" alt="Image 1">
-                <img src="/images/officer1.png" alt="Image 2">
-                <img src="/images/handcuff.jpg" alt="Image 3">
-            </div>
-            <!-- Left and right controls -->
-            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-            <a class="next" onclick="plusSlides(1)">&#10095;</a>
-
-            <!-- Indicators -->
-            <div class="dot-container">
-                <span class="dot" onclick="currentSlide(1)"></span>
-                <span class="dot" onclick="currentSlide(2)"></span>
-                <span class="dot" onclick="currentSlide(3)"></span>
-            </div>
-            <!-- textsection -->
-            <div class="textsection">
-                <div class="textsectio-paracont">
-                    <p>With</p>
-                    <p>Vigil Watch</p>
-                    <p>Your safety is our priority, and</p>
-                    <p>serving you is our dedication.</p>
-                    <a href="/report-incident" class="contactbtn" style="background-color: teal; border: none; border-radius: 70px; color: #fff; padding: 10px 20px; text-decoration: none;">
-                        Explore with us 
-                        <i class="fa-solid fa-arrow-right-long arrow-icon" style="color: rgb(255, 255, 255);"></i>
-                    </a>
-                    <!-- <button class="contactbtn">Report Case <i class="fa-solid fa-arrow-right-long"></i></button> -->
+<!-- Content Container  -->
+<div class="container-fluid">
+    <div class="row">
+        <!-- Left Sidebar -->
+         <!-- Left Sidebar -->
+         <div class="col-md-3 col-sm-12 order-md-1 sidebar">
+            <div class="shadow rounded p-4 mb-md-5">
+                <div class="trending-incidents trend-container">
+                    <h3 style="color: black;">Trending Incidents</h3>
+                    <div class="trend-body">
+                        <% if (incidents.length > 0) { %>
+                            <% incidents.forEach(incident => { %>
+                                <div class="incident-card mb-4">
+                                    <h2 style="text-transform: capitalize; display: flex; align-items: center;">
+                                        <span style="margin-right: 10px;"><%= incident.incident_type %></span>
+                                        <span class="badge rounded-pill  pulse" style="background-color: teal;">New</span>
+                                    </h2>
+                                    <p style="font-weight: 600;">
+                                        <span class="description" id="desc-<%= incident.id %>">
+                                            <%= incident.description.length > 50 ? incident.description.substring(0, 50) + '...' : incident.description %>
+                                        </span>
+                                        <% if (incident.description.length > 50) { %>
+                                            <a href="#" onclick="toggleReadMore('<%= incident.id %>', `<%= incident.description.replace(/`/g, '\\`') %>`)">Read more</a>
+                                        <% } %>
+                                    </p>
+                                    <p><strong>Location:</strong> <%= incident.location %></p>
+                                    <p><%= incident.date %> - <%= incident.time %></p>
+                                    <p>
+                                        <img src="/images/profile-default.png" alt="default profile" style="width: 20px; height: 20px;">
+                                        <%= incident.pseudo_name %>
+                                    </p>
+                                    <% if (incident.imageSrcs && incident.imageSrcs.length > 0) { %>
+                                        <div class="incident-images">
+                                            <% incident.imageSrcs.forEach(src => { %>
+                                                <img src="<%= src %>" alt="Incident Image" style="width: 40px; height: 40px;">
+                                            <% }) %>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            <% }) %>
+                        <% } else { %>
+                            <p>No trending incidents at the moment.</p>
+                        <% } %>
+                    </div>
                 </div>
-            
             </div>
-            <!-- textsection ends -->
-        </section>
-
-        <section class="little-about shadow-sm">
-            <div class="about-details">
-                <img src="/images/police.png" alt="police">
-                <div class="about_info">
-                    <h2>Vigil Watch: Empowering Communities for Safer Cities</h2>
-                    <p>Vigil Watch is a comprehensive crime management platform designed to streamline reporting and enhance public safety. With a focus on real-time incident tracking, user-friendly reporting, and community engagement, Vigil Watch serves as a critical tool for citizens, law enforcement, and community leaders.</p>
-                </div>
-            </div>
-            <h4>Key Features</h4>
-            <ul>
-                <li><i class="fa-solid fa-circle-info"></i> <span style="font-weight: bold;">Easy Reporting</span>: Vigil Watch allows citizens to quickly report incidents through an intuitive interface, ensuring vital information reaches law enforcement instantly.</li>
-                <li><i class="fa-solid fa-circle-info"></i> <span style="font-weight: bold;">Real-Time Alerts</span> : Stay informed about crimes in your area with real-time notifications, helping you stay safe and aware.</li>
-                <li><i class="fa-solid fa-circle-info"></i> <span style="font-weight: bold;">Anonymous Reporting</span> : Protect your identity while reporting suspicious activities, encouraging more community participation without fear of retaliation.</li>
-                <li><i class="fa-solid fa-circle-info"></i> <span style="font-weight: bold;">Live Incident Map</span> : View ongoing incidents on a dynamic map, providing a transparent overview of crime hotspots and law enforcement responses.</li>
-            </ul>
-        </section>
-        
-        <%- include('./Dashboard.ejs')%>
-        <br>
-        <hr>
-        <%- include('./Analysis.ejs')%>
-        <br>
-        <hr>
-        <%- include('./statistics.ejs')%>
-        <%- include('./Trending.ejs')%>
-
-
-    <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-      
-            <div class="modal-header">
-              <h5 class="modal-title" id="contactModalLabel">Contact Us</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-  
-
-            <div class="modal-body">
-              <form id="contactForm">
-                <div class="mb-3">
-                  <label for="user-name" class="form-label">Your Name</label>
-                  <input type="text" class="form-control" id="user-name" placeholder="Enter your name" required>
-                </div>
-                <div class="mb-3">
-                  <label for="email" class="form-label">Email address</label>
-                  <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
-                </div>
-                <div class="mb-3">
-                  <label for="subject" class="form-label">Subject</label>
-                  <input type="text" class="form-control" id="subject" placeholder="Enter subject" required>
-                </div>
-                <div class="mb-3">
-                  <label for="message" class="form-label">Message</label>
-                  <textarea class="form-control" id="message" rows="4" placeholder="Write your message" required></textarea>
-                </div>
-              </form>
-            </div>
-  
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary" form="contactForm">Send Message</button>
-            </div>
-          </div>
         </div>
-      </div>
-    </main>
+
+        <!-- Main Content -->
+        <main class="col-lg-6 col-md-12 col-sm-12 centered-content  order-md-1 order-sm-1">
+            <section class="mainsection" id="home">
+                <!-- main1 -->
+                <section class="main1">
+                    <div class="main2">
+                        <img src="/images/car1.png" alt="Image 1">
+                    <img src="/images/officer1.png" alt="Image 2">
+                    <img src="/images/handcuff.jpg" alt="Image 3">
+                </div>
+                <!-- Left and right controls -->
+                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+                <!-- Indicators -->
+                <div class="dot-container">
+                    <span class="dot" onclick="currentSlide(1)"></span>
+                    <span class="dot" onclick="currentSlide(2)"></span>
+                    <span class="dot" onclick="currentSlide(3)"></span>
+                </div>
+                <!-- textsection -->
+                <div class="textsection">
+                    <div class="textsectio-paracont">
+                        <p>With</p>
+                        <p>Vigil Watch</p>
+                        <p>Your safety is our priority, and</p>
+                        <p>serving you is our dedication.</p>
+                        <a href="/report-incident" class="contactbtn" style="background-color: teal; border: none; border-radius: 70px; color: #fff; text-decoration: none;">
+                            Explore with us 
+                            <i class="fa-solid fa-arrow-right-long arrow-icon" style="color: rgb(255, 255, 255);"></i>
+                        </a>
+                        <!-- <button class="contactbtn">Report Case <i class="fa-solid fa-arrow-right-long"></i></button> -->
+                    </div>
+                
+                </div>
+                <!-- textsection ends -->
+            </section>
+
+            <section class="little-about shadow-sm">
+                <div class="about-details row justify-content-center align-items-center mt-4 mb-4">
+                    <div class="col-md-6 col-sm-12 ">
+                        <img src="/images/police.png" alt="police" class="img-fluid justify-content-center align-items-center w-md-100">
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <div class="about_info">
+                            <h2 class="h4">Vigil Watch: Empowering Communities for Safer Cities</h2>
+                            <p>Vigil Watch is a comprehensive crime management platform designed to streamline reporting and enhance public safety. With a focus on real-time incident tracking, user-friendly reporting, and community engagement, Vigil Watch serves as a critical tool for citizens, law enforcement, and community leaders.</p>
+                        </div>
+                    </div>
+                </div>
+                <h4>Key Features</h4>
+                <ul>
+                    <li><i class="fa-solid fa-circle-info"></i> <span style="font-weight: bold;">Easy Reporting</span>: Vigil Watch allows citizens to quickly report incidents through an intuitive interface, ensuring vital information reaches law enforcement instantly.</li>
+                    <li><i class="fa-solid fa-circle-info"></i> <span style="font-weight: bold;">Real-Time Alerts</span> : Stay informed about crimes in your area with real-time notifications, helping you stay safe and aware.</li>
+                    <li><i class="fa-solid fa-circle-info"></i> <span style="font-weight: bold;">Anonymous Reporting</span> : Protect your identity while reporting suspicious activities, encouraging more community participation without fear of retaliation.</li>
+                    <li><i class="fa-solid fa-circle-info"></i> <span style="font-weight: bold;">Live Incident Map</span> : View ongoing incidents on a dynamic map, providing a transparent overview of crime hotspots and law enforcement responses.</li>
+                </ul>
+            </section>
+            
+            <%- include('./Dashboard.ejs')%>
+            <br>
+            <hr>
+            <%- include('./Analysis.ejs')%>
+            <br>
+            <hr>
+            <%- include('./statistics.ejs')%>
+
+        <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+        
+                <div class="modal-header">
+                <h5 class="modal-title" id="contactModalLabel">Contact Us</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+    
+
+                <div class="modal-body">
+                <form id="contactForm">
+                    <div class="mb-3">
+                    <label for="user-name" class="form-label">Your Name</label>
+                    <input type="text" class="form-control" id="user-name" placeholder="Enter your name" required>
+                    </div>
+                    <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="mb-3">
+                    <label for="subject" class="form-label">Subject</label>
+                    <input type="text" class="form-control" id="subject" placeholder="Enter subject" required>
+                    </div>
+                    <div class="mb-3">
+                    <label for="message" class="form-label">Message</label>
+                    <textarea class="form-control" id="message" rows="4" placeholder="Write your message" required></textarea>
+                    </div>
+                </form>
+                </div>
+    
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" form="contactForm">Send Message</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        </main>
+
+        <!-- Right Sidebar -->
+        <div class="col-md-3 col-sm-12 order-md-3 sidebar">
+            <!-- Top Reporters Section -->
+            <div class="col-md-6 col-sm-12" id="top-reporters">
+                <div class="">
+                    <div class="top-reporters-container">
+                        <h3 style="color: black;">Top Reporters</h3>
+                        
+                        <!-- Search Box -->
+                        <form id="search-form" class="mb-3">
+                            <input type="text" class="form-control" id="search-input" placeholder="Search reporters..." aria-label="Search reporters">
+                        </form>
+
+                        <div class="top-reporters-body" id="reporters-list">
+                            <div>
+                                <% if (topReporters.length > 0) { %>
+                                    <% topReporters.forEach((reporter, index) => { %>
+                                        <div class="reporter-item d-flex justify-content-between align-items-center">
+                                            <div class="d-flex align-items-center">
+                                                <img src="/images/profile-default.png" alt="profile" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">
+                                                <span class="reporter-name"><%= reporter.name %></span>
+                                            </div>
+                                            <span>
+                                                <button class="btn btn-secondary btn-sm ms-3 follow-btn" data-reporter="<%= reporter.name %>" data-reporter-id="<%= reporter.id %>">Follow</button>
+                                            </span>
+                                        </div>
+                                        <div style="margin-left: 10px;">
+                                            <p style="margin: 0;font-size: 0.75rem;color: #666;">followers: <span class="badge rounded-pill" style="background-color: teal;"><%= reporter.followers || '00' %></span></p> 
+                                        </div>
+                                        <hr>
+                                    <% }); %>
+                                <% } else { %>
+                                    <p style="color: red;">No top reporters available.</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Right sidebar ends -->
+    </div>
+</div>
 
 <!-- Bootstrap JS and dependencies -->
 
