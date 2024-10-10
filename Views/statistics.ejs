@@ -78,6 +78,7 @@
                                 <div id="chart" style="height: 500px; width: 800px; margin-left: -5pc;overflow: scroll;"></div>
                             <% } %>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -126,3 +127,25 @@
     }
 </script>
 
+<script>
+  const incidentData = <%= JSON.stringify(incidentData) %>; // Pass data from server
+  const showNoDataMessage = <%= showNoDataMessage %>;
+
+  if (!showNoDataMessage) {
+    // Initialize map
+    const map = L.map('heatmap').setView([51.505, -0.09], 13); // Default view
+
+    // Load map tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Prepare heat map data: [latitude, longitude, intensity]
+    const heatData = incidentData.map(incident => [incident.latitude, incident.longitude, incident.incidents_count]);
+
+    // Create heat map layer
+    L.heatLayer(heatData, { radius: 25 }).addTo(map);
+  } else {
+    document.getElementById('heatmap').innerHTML = "<p>No data available for this month.</p>";
+  }
+</script>
