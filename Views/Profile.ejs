@@ -1,0 +1,281 @@
+<!-- User profile page -->
+<%- include('layouts/header')%>
+<link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+  
+  <header>
+    <%- include ('layouts/profileNavbar')%>
+  </header>
+  
+  <main>  
+ <div class="wrapper">
+  <div class="contents">
+    <div class="header">
+      <div class="cover-picture">
+        <img src="<%= coverPicture %>" alt="cover profile" />
+        <div class="camera-icon cover-camera">
+          <i class="fa fa-camera"></i>
+          <!-- Hidden input field for cover picture upload -->
+          <input type="file" id="cover-picture-upload" name="coverPicture" accept="image/*" style="display:none;" onchange="handleCoverPictureChange(event)">
+        </div>
+      </div>
+      <div class="profile-picture">
+        <img src="<%= userProfile %>" alt="profile-picture" />
+        <div class="camera-icon profile-camera">
+          <i class="fa fa-camera"></i>
+          <!-- Hidden input field for profile picture upload -->
+          <input type="file" id="profile-picture-upload" name="profilePicture" accept="image/*" style="display:none;" onchange="handleProfilePictureChange(event)">
+          
+        </div>
+      </div>
+      <div class="info">
+       <h4><%= user.name %></h4>
+       <p id="bio"><%= user.bio %></p>
+       <div class="neighbors">
+         Neighbours:
+         <% if (neighbors.length > 0) { %>
+           <% neighbors.forEach(neighbor => { %>
+             <img src="<%= neighbor.profile_picture 
+                       ? 'data:image/jpeg;base64,' + neighbor.profile_picture.toString('base64') 
+                       : '/images/profile-default.png' %>" 
+                  alt="<%= neighbor.name %>" 
+                  class="rounded-circle" width="50" height="50">
+           <% }); %>
+         <% } else { %>
+           <p style="margin-left: 6pc;">No neighbors found</p>
+         <% } %>
+       </div>
+       
+     </div>
+     
+     <div id="profile-type-tabs" class="d-flex justify-content-between  mx-3">
+      <ul class="nav nav-tabs" id="profileTab" role="tablist">
+       <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="report-tab" data-bs-toggle="tab" data-bs-target="#report" type="button" role="tab" aria-controls="report" aria-selected="true">
+          <i class="fas fa-chart-line"></i> Incidents Reported
+        </button>
+      </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="about-tab" data-bs-toggle="tab" data-bs-target="#about" type="button" role="tab" aria-controls="about" aria-selected="false">
+            <i class="fa fa-user"></i> About
+          </button>
+        </li>
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content" id="profileTabContent">
+      <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">
+        <ul>
+          <li><i class="fa fa-user"></i> Name: <%= user.name %></li>
+          <li><i class="fa-solid fa-map-location"></i> Location: <%= user.location %></li>
+          <li><i class="fa-solid fa-phone"></i><span></span> <a href="tel:<%=user.phone%>" style="color: #262626; text-decoration: none;"><%= user.phone %></a></li>
+          <li><i class="fa-solid fa-mail"></i><span></span>
+            <% if (user.email) { %>
+              <a href="mailto:<%= user.email %>" style="color: #262626; text-decoration: none;"><%= user.email %></a>
+            <% } else { %>
+              <span>No email address available</span>
+            <% } %>
+          </li>
+          
+          
+          <br>
+          <li><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBio">Add Bio</button></li>
+        </ul>
+      </div>
+    
+      <!-- Modal -->
+      <div class="modal fade" id="addBio" tabindex="-1" aria-labelledby="BioModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="BioModalLabel">Add Bio</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="/addbio" method="post">
+                <input type="text" name="bio" id="bio" placeholder="Add Bio (50 characters)" required maxlength="50">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Incident Report Tab Content -->
+      <div class="tab-pane fade show active" id="report" role="tabpanel" aria-labelledby="report-tab">
+       <section id="incidents-results" style="margin-top: 20px; margin-left: 20px;">
+         <article>
+           <div class="cards-grid">
+             <% if (allIncidents.length > 0) { %>
+               <% allIncidents.forEach(incident => { %>
+                 <div class="card shadow-sm">
+                   <div class="card-body">
+                     <div class="align-self-center">
+                      
+                       <div class="">
+                        <span>
+                         <img src="data:image/jpeg;base64,<%= incident.profile_picture %>" alt="profile picture" id="card-profile">
+                        </span>
+                         <span id="name">
+                                                  <%= incident.name %>
+                                                </span> <br>
+                        <span id="incident_type">
+
+                         <%= incident.incident_type !== 'fire' && incident.incident_type !== 'violence' && incident.incident_type !== 'theft' && incident.incident_type !== 'vandalism' ? 'Other - ' + incident.incident_type : incident.incident_type %> Incident
+                        </span>
+                        <div id="description">
+                         <p class="description-text" id="description-<%= incident.id %>">
+                           <%= incident.description.length > 200 ? incident.description.substring(0, 200) + '...' : incident.description %>
+                         </p>
+                         <% if (incident.description.length > 200) { %>
+                           <p class="read-more-link" id="read-more-<%= incident.id %>" onclick="toggleDescription('<%= incident.id %>')">Read More</p>
+                           <p class="read-less-link" id="read-less-<%= incident.id %>" style="display: none;" onclick="toggleDescription('<%= incident.id %>')">Read Less</p>
+                         <% } %>
+                         <p class="full-description" id="full-description-<%= incident.id %>" style="display: none;">
+                           <%= incident.description %>
+                         </p>
+                       </div>
+                       <% if (incident.imageSrcs && incident.imageSrcs.length > 0) { %>
+                        <% incident.imageSrcs.forEach(imageSrc => { %>
+                          <img src="<%= imageSrc %>" alt="Incident Image" class="incident-image" id="images">
+                        <% }); %>
+                      <% } else { %>
+                        <p>No images available</p>
+                      <% } %>
+                         <br>
+                         <span style="color: #505050; font-size: 12px;">
+                           <%= incident.formatted_date %> - <%= incident.formatted_time %>
+                         </span>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+               <% }) %>
+             <% } else { %>
+               <h2>You have no reported incidents available.</h2>
+             <% } %>
+           </div>
+         </article>
+       </section>
+     </div>
+     
+    </div>
+    
+      </div>
+    </div>
+  </div>
+</main>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+
+// Listen for new notifications
+socket.on('new_notification', (data) => {
+   console.log('Received new notification:', data);
+
+   // Play notification sound
+   const audio = new Audio('/sounds/notification-sound.mp3');
+   audio.play().catch(err => {
+       console.log('Audio playback error:', err);
+   });
+
+   // Display notification message (this works even if you're on a different page)
+   if (Notification.permission === "granted") {
+       new Notification(`New Incident: ${data.incident_type}`, {
+           body: `${data.description}`,
+           icon: '/images/Logo.png'
+       });
+   } else {
+       // Request permission to show notifications
+       Notification.requestPermission().then(permission => {
+           if (permission === "granted") {
+               new Notification(`New Incident: ${data.incident_type}`, {
+                   body: `${data.description}`,
+                   icon: '/images/Logo.png'
+               });
+           }
+       });
+   }
+
+   // Optionally, show an alert as well (not as elegant, but useful)
+   alert(`You have a new notification: ${data.incident_type} - ${data.description}`);
+});
+
+ </script>
+<script>
+ document.querySelector('.cover-camera').addEventListener('click', () => {
+    document.getElementById('cover-picture-upload').click();
+  });
+
+  document.querySelector('.profile-camera').addEventListener('click', () => {
+    document.getElementById('profile-picture-upload').click();
+  });
+
+  function handleCoverPictureChange(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('coverPicture', file);
+
+      fetch('/updateCoverPicture', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          document.querySelector('.cover-picture img').src = data.newCoverPictureUrl;
+        } else {
+          console.error('Error uploading cover picture:', data.error);
+        }
+      })
+      .catch(err => console.error('Upload error:', err));
+    }
+  }
+
+  function handleProfilePictureChange(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('profilePicture', file);
+
+      fetch('/updateProfilePicture', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          document.querySelector('.profile-picture img').src = data.newProfilePictureUrl;
+        } else {
+          console.error('Error uploading profile picture:', data.error);
+        }
+      })
+      .catch(err => console.error('Upload error:', err));
+    }
+  }
+
+  function toggleDescription(incidentId) {
+    const shortDesc = document.getElementById(`description-${incidentId}`);
+    const fullDesc = document.getElementById(`full-description-${incidentId}`);
+    const readMore = document.getElementById(`read-more-${incidentId}`);
+    const readLess = document.getElementById(`read-less-${incidentId}`);
+
+    if (fullDesc.style.display === 'none' || fullDesc.style.display === '') {
+      fullDesc.style.display = 'block';
+      shortDesc.style.display = 'none';
+      readMore.style.display = 'none';
+      readLess.style.display = 'block';
+    } else {
+      fullDesc.style.display = 'none';
+      shortDesc.style.display = 'block';
+      readMore.style.display = 'block';
+      readLess.style.display = 'none';
+    }
+  }
+
+  </script>
+
+<%- include('layouts/footer')%>

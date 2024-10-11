@@ -1,0 +1,332 @@
+
+.wrapper {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.cover-picture {
+  position: relative;
+  width: 75%; /* Full width to match Facebook cover style */
+  height: 70vh; /* Set a specific height */
+  background-color: #f3f3f3; /* Fallback color */
+  overflow: hidden; /* Hide overflow for the image */
+  margin-top: 4pc;
+ }
+
+ .cover-picture img {
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.camera-icon {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  line-height: 10px;
+  border-radius: 50%;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.profile-picture {
+  position: relative;
+  margin-top: -75px; /* Adjust position to overlap the cover picture */
+  display: inline-block;
+  z-index: 1; /* Ensure the profile picture is on top */
+}
+
+.profile-picture img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+}
+
+.profile-camera {
+  bottom: 0;
+  right: 0;
+}
+
+.info {
+  margin-top: 10px;
+  line-height: 2px;
+}
+.info h4{
+ font-size: 2.5rem;
+}
+.info img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+#profile-type-tabs {
+  margin-left: -45pc;
+}
+
+#profileTabContent {
+  margin-top: 10px;
+}
+
+ul li {
+  list-style-type: none;
+  font-size: 1.2rem;
+}
+
+.camera-icon input[type="file"] {
+  display: none;
+}
+
+/* Ensure the tabs container is centered */
+#profile-type-tabs {
+ margin-top: 20px;
+}
+
+.nav-tabs .nav-link {
+ border-radius: 25px; 
+ padding: 5px 5px; 
+ color: #171717; 
+ font-size: 1rem;
+ background-color: #e7f0ff; 
+ margin-left: 1pc;
+
+}
+
+
+/* Style for the active tab */
+.nav-tabs .nav-link.active {
+ color: #171717; /* White text for active tab */
+ background-color: #e7f0ff; /* Blue background for active tab */
+}
+
+/* Hover effect */
+.nav-tabs .nav-link:hover {
+ background-color: #d0e7ff; /* Slightly darker blue for hover effect */
+}
+
+/* Ensure the tab content area is properly spaced */
+#profileTabContent {
+ margin-top: 20px;
+}
+
+#card-profile{
+ width: 50px;
+ height: 50px;
+ border-radius: 50%;
+}
+#incident_type{
+ text-transform: capitalize;
+ font-size: 1.5rem;
+ font-weight: 600;
+}
+.card{
+ width: 50%;
+ margin-bottom: 20px;
+}
+
+.read-more-link,
+.read-less-link {
+  color: rgb(37, 37, 156);
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.read-more-link:hover,
+.read-less-link:hover {
+  text-decoration: none;
+}
+
+#images{
+ width: 100px;
+ height: 100px;
+ border-radius: 5px;
+ 
+}
+
+#name{
+ color: #505050;
+ font-family: 'Ubuntu',
+ sans-serif;
+ font-size: 1.3rem;
+ font-family: 'Ubuntu', sans-serif;
+ padding-left: 10px;
+}
+
+
+
+/* Extra Small Devices (Portrait Phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .cover-picture {
+    width: 100%; 
+    height: 40vh; 
+  }
+
+  .profile-picture img {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .info {
+    margin-left: 10px;
+  }
+
+  .info h4 {
+    font-size: 2rem;
+  }
+
+  .nav-tabs {
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+    width: 100%;
+    margin: 0 auto;        
+  }
+
+  .nav-tabs .nav-link {
+    font-size: 0.8rem;
+    margin-left: 0; 
+    padding: 10px 15px;
+    margin-left: 1pc;
+
+  }
+
+  .card {
+    width: 100%; 
+  }
+
+  #name {
+    font-size: 1rem; 
+  }
+}
+
+/* Small Devices (Landscape Phones, 576px to 767px) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .cover-picture {
+    width: 100%; 
+    height: 50vh; 
+  }
+
+  .profile-picture img {
+    width: 150px;
+    height: 150px;
+  }
+  .info {
+    margin-left: 15px;
+  }
+  .info h4 {
+    font-size: 2rem; 
+  }
+
+  .nav-tabs .nav-link {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+
+  .card {
+    width: 80%; 
+  }
+
+  #name {
+    font-size: 1.1rem;
+  }
+}
+
+/* Medium Devices (Tablets, 768px to 991px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .cover-picture {
+    width: 100%; 
+    height: 70vh;
+  }
+
+  .profile-picture img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .info {
+    margin-left: 15px;
+  }
+  .info h4 {
+    font-size: 2rem; 
+  }
+
+  .nav-tabs .nav-link {
+    padding: 10px 18px;
+    font-size: 1rem;
+  }
+
+  .card {
+    width: 70%; 
+  }
+
+  #name {
+    font-size: 1.2rem;
+  }
+}
+
+/* Large Devices (Desktops, 992px to 1199px) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .cover-picture {
+    width: 75%; 
+    height: 50vh;
+  }
+
+  .profile-picture img {
+    width: 140px;
+    height: 140px;
+  }
+
+  .info h4 {
+    font-size: 2.2rem; 
+  }
+
+  .nav-tabs .nav-link {
+    padding: 12px 20px;
+    font-size: 1rem;
+  }
+
+  .card {
+    width: 60%; 
+  }
+
+  #name {
+    font-size: 1.25rem;
+  }
+}
+
+/* Extra Large Devices (Large Desktops, 1200px and above) */
+@media (min-width: 1200px) {
+  .cover-picture {
+    width: 75%;
+    height: 50vh;
+  }
+
+  .profile-picture img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .info h4 {
+    font-size: 2.5rem;
+  }
+
+  .nav-tabs .nav-link {
+    padding: 15px 25px;
+    font-size: 1.2rem;
+  }
+
+  .card {
+    width: 50%; 
+  }
+
+  #name {
+    font-size: 1.3rem;
+  }
+}

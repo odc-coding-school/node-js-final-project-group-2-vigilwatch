@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> Sign Up | VigilWatch </title>
+    <link rel="stylesheet" href="/css/registration.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+
+<body class="d-flex align-items-center py-4 bg-body-tertiary">
+
+    <main class="signup-form w-100 m-auto">
+
+        <div class="row text-center">
+            <div class="col-12">
+                <img src="/images/Logo.png" alt="logoimage" width="72" height="57">
+            </div>
+            <div class="col-12">
+                <h1 class="h4 fw-bold text-uppercase">Sign Up</h1>
+            </div>
+        </div>
+
+        <form action="/registration" method="post" enctype="multipart/form-data" class="row gap-3 p-4 shadow">
+
+            <div class="col-md-12">
+                <label for="fullName" class="form-label">Full Name</label>
+                <input type="text" class="form-control" placeholder="Full Name" name="name" id="fullName" required>
+            </div>
+
+            <div class="col-md-12">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" placeholder="Email (optional)" name="email" id="email">
+            </div>
+
+            <div class="col-12">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" class="form-control" id="location" name="location" placeholder="E.g: Logan Town"
+                    required>
+            </div>
+
+            <div class="col-12">
+                <label for="sex" class="form-label">Gender</label>
+                <select name="sex" id="sex" required class="form-select">
+                    <option selected disabled>Choose...</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+
+            <div class="col-12">
+                <label for="phoneNumber" class="form-label">Phone Number</label>
+                <div class="d-flex">
+                    <div class="col-2">
+                        <input type="tel" class="form-control" id="phone" placeholder="+231" readonly disabled>
+                    </div>
+                    <div class="col-10">
+                        <input type="tel" class="form-control" id="phone" name="phone" placeholder="XXXXXXXXX" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="password" class="form-label">Password</label>
+                <div class=" input-group flex-nowrap">
+                    <input type="password" name="password" placeholder="Enter your password" class="form-control"
+                        id="password" required>
+
+                    <span class="input-group-text" id="addon-wrapping" onclick="togglePasswordVisibility()"><i
+                            id="toggleIcon" class="bi bi-eye"></i></span>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="confirm_password" class="form-label">Confirm Password</label>
+
+                <div class=" input-group flex-nowrap">
+
+                    <input type="password" name="confirm_password" placeholder="Confirm your password"
+                        class="form-control" id="confirm_password" required>
+
+                    <span class="input-group-text" onclick="toggleConfirmPasswordVisibility()"><i
+                            id="ConfirmPasswordtoggleIcon" class="bi bi-eye"></i></span>
+                </div>
+            </div>
+
+            <div class="col-12">
+
+                <label for="profile_picture" class="form-label">Profile Picture</label>
+                <input type="file" class="form-control" id="profile_picture" name="profile_picture"
+                    accept="image/jpg, image/jpeg, image/png" onchange="previewImage(event)">
+            </div>
+            <div class="row  d-flex align-items-center justify-content-between ">
+
+                <div class="col-lg-5 col-md-6 col-sm-12">
+                    <button type="submit" class="w-100 btn btn-primary">Sign Up</button>
+                </div>
+
+                <div class="col-lg-7 col-md-6 col-sm-12 p-2 fw-bold">
+                    <span>Already Have Account?</span>
+                    <a href="/login" class="displaylogin">Log In</a>
+                </div>
+
+            </div>
+
+        </form>
+    </main>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/registration.js"></script>
+
+</body>
+
+</html>

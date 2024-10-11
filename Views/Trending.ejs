@@ -1,0 +1,158 @@
+
+
+<!-- Top Reporters Section -->
+<div class="col-md-6 col-sm-12" id="top-reporters">
+    <div class=""> 
+        <div class="top-reporters-container">
+            
+                    <div class="top-reporters-body" id="reporters-list">
+                <div>
+                    <h3 style="color: black;">Top Reporters</h3>
+                    <% if (topReporters.length > 0) { %>
+                        <% topReporters.forEach((reporter, index) => { %>
+                            <div class="reporter-item d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <img src="/images/profile-default.png" alt="profile" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">
+                                    <span class="reporter-name"><%= reporter.name %></span>
+                                </div>
+                                <span>
+                                    <button class="btn btn-secondary btn-sm ms-3 follow-btn" data-reporter="<%= reporter.name %>" data-reporter-id="<%= reporter.id %>">Follow</button>
+                                </span>
+                            </div>
+                            <div style="margin-left: 10px;">
+                                <p style="margin: 0;font-size: 0.75rem;color: #666;">followers: <span class="badge rounded-pill" style="background-color: teal;"><%= reporter.followers || '00' %></span></p> 
+                            </div>
+                            <hr>
+                        <% }); %>
+                    <% } else { %>
+                        <p style="color: red;">No top reporters available.</p>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Pop-up box element -->
+<div id="popup-box" style="display: none; position: fixed; top: 20px; right: 20px; background-color: #4CAF50; color: white; padding: 15px; border-radius: 5px; z-index: 1000;">
+    <span id="popup-message"></span>
+</div>
+
+<script>
+   
+</script>
+
+<script>
+  
+// Function to trigger confetti
+function triggerConfetti() {
+    confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+    });
+}
+
+// Function to show the pop-up message
+function showPopup(message) {
+    const popup = document.getElementById('popup-box');
+    const messageElement = document.getElementById('popup-message');
+
+    // Set the message and display the pop-up
+    messageElement.innerText = message;
+    popup.style.display = 'block';
+
+    // Hide the pop-up after 3 seconds
+    setTimeout(() => {
+        popup.style.display = 'none';
+    }, 3000);
+}
+
+// Initialize followed reporters from local storage
+function initializeFollowedReporters() {
+    const followedReporters = JSON.parse(localStorage.getItem('followedReporters')) || {};
+
+    document.querySelectorAll('.follow-btn').forEach(button => {
+        const reporterId = button.getAttribute('data-reporter-id');
+        if (followedReporters[reporterId]) {
+            button.textContent = 'Following';
+            button.classList.remove('btn-secondary');
+            button.classList.add('btn-success');
+        }
+    });
+}
+
+// Add event listener to all follow buttons
+document.querySelectorAll('.follow-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        const reporterName = this.getAttribute('data-reporter');
+        const reporterId = this.getAttribute('data-reporter-id');
+        const followedReporters = JSON.parse(localStorage.getItem('followedReporters')) || {};
+
+        // Check if the user is already following
+        if (this.classList.contains('btn-success')) {
+            // Unfollow the reporter
+            this.textContent = 'Follow';
+            this.classList.remove('btn-success');
+            this.classList.add('btn-secondary');
+
+            // Remove from local storage
+            delete followedReporters[reporterId];
+            localStorage.setItem('followedReporters', JSON.stringify(followedReporters));
+
+            // Update the follower count in the database
+            fetch(`/update-follower-count/${reporterId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Follower count decreased successfully');
+                } else {
+                    console.error('Error updating follower count:', data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        } else {
+            // Follow the reporter
+            this.textContent = 'Following';
+            this.classList.remove('btn-secondary');
+            this.classList.add('btn-success');
+
+            // Add to local storage
+            followedReporters[reporterId] = true;
+            localStorage.setItem('followedReporters', JSON.stringify(followedReporters));
+
+            // Show the pop-up box with the follow message
+            showPopup('You are now following ' + reporterName);
+
+            // Update the follower count in the database
+            fetch(`/update-follower-count/${reporterId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Follower count updated successfully');
+                } else {
+                    console.error('Error updating follower count:', data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Trigger the confetti celebration
+        triggerConfetti();
+    });
+});
+
+// Call the function to initialize followed reporters on page load
+initializeFollowedReporters();
+</script>

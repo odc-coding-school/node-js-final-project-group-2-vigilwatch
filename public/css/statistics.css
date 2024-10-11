@@ -1,0 +1,147 @@
+/* Base Styles */
+
+
+.statistics {
+  width: 100%;
+  padding: 0 20px; /* Add padding around the main content */
+  background:linear-gradient(to right, rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8),rgba(0,0,0,.8)),url("/images/statistics.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  background-attachment: fixed;
+  color: #fff;
+  display: block;
+
+}
+
+@keyframes pulse {
+  0% {
+      transform: scale(1);
+  }
+  50% {
+      transform: scale(1.1);
+  }
+  100% {
+      transform: scale(1);
+  }
+}
+
+.pulse {
+  animation: pulse 1s infinite;
+}
+
+
+.analysis h2 {
+  text-transform: uppercase;
+  font-family: 'Ubuntu', sans-serif;
+  letter-spacing: 2px;
+}
+
+#incident-month{
+  font-size: 2rem;
+  padding-top: -6pc;
+}
+
+.card-num{
+  background-color: rgb(32, 149, 188);
+  padding: 1rem;
+  height: auto;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.5em 0.75em;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #fff;
+  background-color: #007bff; /* Bootstrap primary color */
+  border-radius: 1rem;
+}
+
+.incident-card {
+  margin-bottom: 1rem;
+  width: 100%;
+  color: black;
+}
+
+.incident-title {
+  font-weight: bold;
+}
+
+.incident-date {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+#description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  display: block;
+}
+
+#trending-profile {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  text-align: right;
+}
+
+/* Dark Mode Styles */
+body.dark-mode .analysis {
+  color: #fff;
+}
+
+body.dark-mode .card {
+  background-color: #343a40;
+}
+
+body.dark-mode .trend-container {
+  background-color: #495057;
+  border-right: 1px solid #6c757d;
+}
+
+body.dark-mode .incident-card {
+  color: #fff;
+}
+
+body.dark-mode .incident-date {
+  color: #adb5bd;
+}
+
+/* Incident description */
+.incident-description {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* Button Row */
+#incident_button {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  z-index: 1000;
+  margin-left: 3pc;
+  margin-bottom: 3px;
+}
+.top{
+  text-align: center;
+  padding-top: 1rem;
+  margin-bottom: -15px;
+}
+#chart{
+  height: 400px;
+   width: 700px;
+    overflow:scroll;
+     margin-left: -5pc;
+  border-radius: 10px;
+}
+#chart::-webkit-scrollbar{
+  display: none;
+}

@@ -1,0 +1,645 @@
+
+<%- include('layouts/header')%>
+    
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/css/analysis.css">
+<link rel="stylesheet" href="/css/statistics.css">
+
+    <!-- <link rel="stylesheet" href="index.css"> -->
+    <link rel="icon" href="/images/new-logo.png">
+
+    <style>
+        .navbarlogocont img {
+            width: 120px; 
+            height: auto; 
+            max-height: 80px; 
+        }
+        
+        .navbarlogocont {
+            display: flex;
+            align-items: center;
+            gap: 10px; 
+        }
+        
+        .navbarlogocont p {
+            font-size: 1.2rem; 
+            margin: 0;
+        }
+        .rounded-pulse {
+            border-radius: 50px; 
+            animation: pulse 1.5s infinite; 
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05); 
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        .contactbtn {
+            position: relative;
+            display: inline-flex;
+            align-items: center; 
+            transition: background-color 0.3s; 
+        }
+        
+        .arrow-icon {
+            margin-left: 8px; 
+            transition: transform 0.3s; 
+        }
+        
+        .contactbtn:hover {
+            background-color: #005f5f; 
+        }
+        
+        .contactbtn:hover .arrow-icon {
+            transform: translateX(5px); 
+        }
+        
+        .description {
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            overflow: hidden; 
+            max-height: 50px; 
+        }
+        
+        .description.expanded {
+            max-height: 500px; 
+            opacity: 1; 
+        }
+        .sidebar {
+                background-color: #f8f9fa;
+                padding: 15px;
+            }
+            .main-content {
+                background-color: #ffffff;
+                padding: 15px;
+            }
+        
+          
+          /* Set the height of the navbar */
+          .navbarcontrol {
+              position: fixed;
+              top: 0;
+              left: 0;
+              width: 100%;
+              z-index: 1000; /* Ensure navbar stays on top of content */
+              background-color: #fff; /* Set background to avoid transparency issues */
+          }
+        
+          /* Add padding-top to body so content starts below navbar */
+          body {
+              padding-top: 80px; /* Adjust this based on navbar height */
+          }
+        
+          .navbarlogocont img {
+              width: 120px;
+              height: auto;
+              max-height: 80px;
+          }
+        
+          .navbarlogocont {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+          }
+        
+          .navbarlogocont p {
+              font-size: 1.2rem;
+              margin: 0;
+          }
+        
+          .rounded-pulse {
+              border-radius: 50px;
+              animation: pulse 1.5s infinite;
+          }
+        
+          @keyframes pulse {
+              0% {
+                  transform: scale(1);
+              }
+              50% {
+                  transform: scale(1.05);
+              }
+              100% {
+                  transform: scale(1);
+              }
+          }
+        
+          .contactbtn {
+              position: relative;
+              display: inline-flex;
+              align-items: center;
+              transition: background-color 0.3s;
+          }
+        
+          .arrow-icon {
+              margin-left: 8px;
+              transition: transform 0.3s;
+          }
+        
+          .contactbtn:hover {
+              background-color: #005f5f;
+          }
+        
+          .contactbtn:hover .arrow-icon {
+              transform: translateX(5px);
+          }
+        
+          .description {
+              transition: max-height 0.3s ease, opacity 0.3s ease;
+              overflow: hidden;
+              max-height: 50px;
+          }
+        
+          .description.expanded {
+              max-height: 500px;
+              opacity: 1;
+          }
+        
+          .sidebar {
+              background-color: #f8f9fa;
+              padding: 15px;
+          }
+        
+          .main-content {
+              background-color: #ffffff;
+              padding: 15px;
+          }
+          /* Sidebar container */
+.trend-container {
+  width: 22%;
+  background-color: #f8f9fa;
+  border-left: 1px solid #ddd;
+  padding: 1rem;
+  position: fixed;
+  top: 70px;
+  left: 0; 
+  height: calc(100vh - 70px); 
+  z-index: 1;
+  overflow: hidden; 
+  border-radius: 5px 0 0 5px;
+}
+
+/* Scrollable content within the sidebar */
+.trend-body {
+  max-height: calc(100vh - 150px); /* Fit content within the sidebar */
+  overflow-y: auto; /* Allow vertical scrolling */
+  padding-right: 10px;
+}
+.top-reporters-container {
+  width: 20%;
+  background-color: #f8f9fa;
+  border-left: 1px solid #ddd;
+  padding: 1rem;
+  position: fixed;
+  top: 70px;
+  right: 0; /* Stick it to the right side */
+  height: calc(100vh - 70px); /* Full height minus header */
+  z-index: 1;
+  overflow: hidden; /* No scrolling for the entire sidebar */
+  border-radius: 5px 0 0 5px;
+}
+
+
+/* Scrollable content within the sidebar */
+.top-reporters-body {
+  max-height: calc(100vh - 150px); /* Fit content within the sidebar */
+  overflow-y: auto; /* Allow vertical scrolling */
+  padding-right: 10px;
+}
+
+/* Scrollable content within the sidebar */
+.trend-body {
+  max-height: calc(100vh - 150px); /* Fit content within the sidebar */
+  overflow-y: auto; /* Allow vertical scrolling */
+  padding-right: 10px;
+}
+
+/* Hide scrollbar for WebKit browsers */
+.trend-body::-webkit-scrollbar {
+  display: none; /* Hide scrollbar */
+}
+
+/* Hide scrollbar in Firefox */
+.trend-body {
+  scrollbar-width: none; /* Hide scrollbar */
+}
+#outside_trend{
+    display: none;
+}
+ /* For screens <= 768px */
+@media (max-width: 768px) {
+    .trend-container, .top-reporters-container {
+        position: relative;
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto; /* Enable horizontal scrolling */
+        white-space: nowrap; /* Prevent wrapping */
+        padding: 0;
+    }
+
+    /* Adjust inner content to fit in a row */
+    .trend-body, .top-reporters-body {
+        max-height: none; /* Remove fixed height for scroll */
+        overflow-y: hidden;
+        flex: 1 0 auto;
+        padding: 10px;
+        display: inline-block;
+        width: 50px; /* Use auto width for better adaptability */
+    }
+
+    /* Ensure incident cards stay inline */
+    .incident-card {
+        min-width: 300px;
+        margin-right: 10px;
+        display: inline-block; /* Display inline to stay in row */
+    }
+
+    /* Remove fixed positioning for small screens */
+    .trend-container, .top-reporters-container {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        border: none;
+        background-color: transparent; /* Optional: Change background for small devices */
+    }
+    #inside_trend{
+        display: none;
+    }
+    #outside_trend{
+        display: block;
+    }
+    #chart{
+        width: 400px;
+        border-radius: 0;
+    }
+}
+
+/* For screens between 769px and 991px */
+@media (min-width: 769px) and (max-width: 991px) {
+    .trend-container, .top-reporters-container {
+        position: relative;
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto; /* Enable horizontal scrolling */
+        white-space: nowrap; /* Prevent wrapping */
+        padding: 0;
+    }
+
+    /* Adjust inner content to fit in a row */
+    .trend-body, .top-reporters-body {
+        max-height: none; /* Remove fixed height for scroll */
+        overflow-y: hidden;
+        flex: 1 0 auto;
+        padding: 10px;
+        display: inline-block;
+        width: 400px; /* Use auto width for better adaptability */
+    }
+
+    /* Ensure incident cards stay inline */
+    .incident-card {
+        min-width: 300px;
+        margin-right: 10px;
+        display: inline-block; /* Display inline to stay in row */
+    }
+
+    /* Remove fixed positioning for small screens */
+    .trend-container, .top-reporters-container {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        border: none;
+        background-color: transparent; /* Optional: Change background for small devices */
+    }
+}
+
+        </style>
+</head>
+<body id="index-body">
+    <nav class="navbarcontrol shadow-sm">
+        <div class="navbarlogocont">
+            <a href="#top"><img src="/images/new-logo.png" alt="vigil watch logo"></a>
+        </div>
+        <div class="navbarlistcont">
+            <div class="navcollapsone">
+                <ol class="navbarlist">
+                    <li><a href="/" class="home">Home</a></li>
+                    <!-- <li><a href="" class="about">About</a></li>
+                    <li><a href="" class="services">Services</a></li>
+                    <li><a href="" class="contact btn " data-bs-toggle="modal" data-bs-target="#contactModal">Contact</a></li> -->
+                    <li><a href="#incident_report" class="contact">Incident Report</a></li>
+                    <li><a href="#analysis" class="contact">Analysis</a></li>
+                </ol>
+                <div class="navbtncont">
+                    <a href="/report-incident">
+                        <button class="btn btn-light rounded-pulse" style="margin-top: -5px; background-color: teal; color: #fff;">Report Incident</button>
+                    </a>
+                </div>
+                
+            </div>
+            <div class="hamburgercont" style="background-color: #000000;">
+                <div class="line line1"></div>
+                <div class="line line2"></div>
+                <div class="line line3"></div>
+            </div>
+        </div>    
+    </nav>
+<!-- Content Container  -->
+<div class="container-fluid">
+    <div class="row">
+        <!-- Left Sidebar -->
+         <!-- Left Sidebar -->
+         <div class="col-md-3 col-sm-12 order-md-1 sidebar">
+            <div class="shadow rounded p-4 mb-md-5">
+                <h3 style="color: black;" id="outside_trend">Trending Incidents</h3>
+                <div class="trending-incidents trend-container">
+                    <h4 style="color: black;" id="inside_trend">Trending Incidents</h4>
+                    <div class="trend-body">
+                        <% if (incidents.length > 0) { %>
+                            <% incidents.forEach(incident => { %>
+                                <div class="incident-card mb-4">
+                                    <h2 style="text-transform: capitalize; display: flex; align-items: center;">
+                                        <span style="margin-right: 10px;"><%= incident.incident_type %></span>
+                                        <span class="badge rounded-pill  pulse" style="background-color: teal;">New</span>
+                                    </h2>
+                                    <p style="font-weight: 600;">
+                                        <span class="description" id="desc-<%= incident.id %>">
+                                            <%= incident.description.length > 30 ? incident.description.substring(0, 30) + '...' : incident.description %>
+                                        </span>
+                                        <% if (incident.description.length > 50) { %>
+                                            <a href="#" onclick="toggleReadMore('<%= incident.id %>', `<%= incident.description.replace(/`/g, '\\`') %>`)">Read more</a>
+                                        <% } %>
+                                    </p>
+                                    <p><strong>Location:</strong> <%= incident.location %></p>
+                                    <p><%= incident.date %> - <%= incident.time %></p>
+                                    <p>
+                                        <img src="/images/profile-default.png" alt="default profile" style="width: 20px; height: 20px;">
+                                        <%= incident.pseudo_name %>
+                                    </p>
+                                    <% if (incident.imageSrcs && incident.imageSrcs.length > 0) { %>
+                                        <div class="incident-images">
+                                            <% incident.imageSrcs.forEach(src => { %>
+                                                <img src="<%= src %>" alt="Incident Image" style="width: 40px; height: 40px;">
+                                            <% }) %>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            <% }) %>
+                        <% } else { %>
+                            <p>No trending incidents at the moment.</p>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="col-lg-6 col-md-12 col-sm-12 centered-content  order-md-1 order-sm-1">
+            <section class="mainsection" id="home">
+                <!-- main1 -->
+                <section class="main1">
+                    <div class="main2">
+                        <img src="/images/car1.png" alt="Image 1">
+                    <img src="/images/officer1.png" alt="Image 2">
+                    <img src="/images/handcuff.jpg" alt="Image 3">
+                </div>
+                <!-- Left and right controls -->
+                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+                <!-- Indicators -->
+                <div class="dot-container">
+                    <span class="dot" onclick="currentSlide(1)"></span>
+                    <span class="dot" onclick="currentSlide(2)"></span>
+                    <span class="dot" onclick="currentSlide(3)"></span>
+                </div>
+                <!-- textsection -->
+                <div class="textsection">
+                    <div class="textsectio-paracont">
+                        <p>With</p>
+                        <p>Vigil Watch</p>
+                        <p>Your safety is our priority, and</p>
+                        <p>serving you is our dedication.</p>
+                        <a href="/report-incident" class="contactbtn" style="background-color: teal; border: none; border-radius: 70px; color: #fff; text-decoration: none;">
+                            Explore with us 
+                            <i class="fa-solid fa-arrow-right-long arrow-icon" style="color: rgb(255, 255, 255);"></i>
+                        </a>
+                        <!-- <button class="contactbtn">Report Case <i class="fa-solid fa-arrow-right-long"></i></button> -->
+                    </div>
+                
+                </div>
+                <!-- textsection ends -->
+            </section>
+
+            <section class="little-about shadow-sm">
+                <div class="about-details row justify-content-center align-items-center mt-4 mb-4">
+                    <div class="col-md-6 col-sm-12 ">
+                        <img src="/images/police.png" alt="police" class="img-fluid justify-content-center align-items-center w-md-100">
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <div class="about_info">
+                            <h2 class="h4">Vigil Watch: Empowering Communities for Safer Cities</h2>
+                            <p>Vigil Watch is a comprehensive crime management platform designed to streamline reporting and enhance public safety. With a focus on real-time incident tracking, user-friendly reporting, and community engagement, Vigil Watch serves as a critical tool for citizens, law enforcement, and community leaders.</p>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="p-3 mb-2">Key Features</h4>
+                    <ul class="p-4 mb-4" style="list-style-type: none; margin-bottom: 15px;">
+                        <li class="mb-2"><i class="fa-solid fa-circle-info"></i> <span style="font-weight: bold;">Easy Reporting</span>: Vigil Watch allows citizens to quickly report incidents through an intuitive interface, ensuring vital information reaches law enforcement instantly.</li>
+                        <li class="mb-2"><i class="fa-solid fa-circle-info"></i> <span style="font-weight: bold;">Real-Time Alerts</span> : Stay informed about crimes in your area with real-time notifications, helping you stay safe and aware.</li>
+                        <li class="mb-2"><i class="fa-solid fa-circle-info"></i> <span style="font-weight: bold;">Anonymous Reporting</span> : Protect your identity while reporting suspicious activities, encouraging more community participation without fear of retaliation.</li>
+                        <li class="mb-2"><i class="fa-solid fa-circle-info"></i> <span style="font-weight: bold;">Live Incident Map</span> : View ongoing incidents on a dynamic map, providing a transparent overview of crime hotspots and law enforcement responses.</li>
+                    </ul>
+            </section>
+            
+            <%- include('./Dashboard.ejs')%>
+            <br>
+            <hr>
+            <%- include('./Analysis.ejs')%>
+            <br>
+            <hr>
+            <%- include('./statistics.ejs')%>
+            <%- include('./Trending.ejs')%>
+
+        <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+        
+                <div class="modal-header">
+                <h5 class="modal-title" id="contactModalLabel">Contact Us</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+    
+
+                <div class="modal-body">
+                <form id="contactForm">
+                    <div class="mb-3">
+                    <label for="user-name" class="form-label">Your Name</label>
+                    <input type="text" class="form-control" id="user-name" placeholder="Enter your name" required>
+                    </div>
+                    <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="mb-3">
+                    <label for="subject" class="form-label">Subject</label>
+                    <input type="text" class="form-control" id="subject" placeholder="Enter subject" required>
+                    </div>
+                    <div class="mb-3">
+                    <label for="message" class="form-label">Message</label>
+                    <textarea class="form-control" id="message" rows="4" placeholder="Write your message" required></textarea>
+                    </div>
+                </form>
+                </div>
+    
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" form="contactForm">Send Message</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        </main>
+
+        <!-- Right Sidebar -->
+     
+        <!-- Right sidebar ends -->
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+
+<script>
+    // for the changing color of the nav bar
+let navbar = document.querySelector('.navbarcontrol');
+let uparrow = document.querySelector('.uparrow');
+let home = document.querySelector('.home');
+let about = document.querySelector('.about');
+let services = document.querySelector('.services');
+let contact = document.querySelector('.contact');
+
+window.addEventListener('scroll', ()=>{
+    // console.log(window.scrollY);
+    if(window.scrollY >= 50){
+        navbar.classList.add('navbarcontrolscroll')
+    }else{
+        navbar.classList.remove('navbarcontrolscroll')
+    }
+})
+window.addEventListener('scroll', ()=>{
+    // console.log(window.scrollY);
+    if(window.scrollY >= 600){
+        uparrow.classList.add('arrow')
+    }else{
+        uparrow.classList.remove('arrow')
+    }
+})
+// for nav bar and hamburger
+let menu = document.querySelector('.hamburgercont');
+let menu2 = document.querySelector('.navcollapsone');
+let menu22 = document.querySelector('.navbarlist');
+
+menu.onclick = function(){
+    menu.classList.toggle("openclose");
+    menu2.classList.toggle("navcollapsoneactive");
+    menu22.classList.toggle("navbarlistacive");
+}
+
+home.addEventListener('click', ()=>{
+    menu.classList.toggle("openclose");
+    menu2.classList.toggle("navcollapsoneactive");
+    menu22.classList.toggle("navbarlistacive");
+})
+
+about.addEventListener('click', ()=>{
+    menu.classList.toggle("openclose");
+    menu2.classList.toggle("navcollapsoneactive");
+    menu22.classList.toggle("navbarlistacive");
+})
+services.addEventListener('click', ()=>{
+    menu.classList.toggle("openclose");
+    menu2.classList.toggle("navcollapsoneactive");
+    menu22.classList.toggle("navbarlistacive");
+})
+contact.addEventListener('click', ()=>{
+    menu.classList.toggle("openclose");
+    menu2.classList.toggle("navcollapsoneactive");
+    menu22.classList.toggle("navbarlistacive");
+})
+// for nav bar and hamburger ends
+
+// for main sliding section
+let slideIndex = 1;
+let isTransitioning = false;
+let slideTimeout;
+
+showSlides(slideIndex);
+
+function plusSlides(n) {
+    if (isTransitioning) return; // Exit if a transition is in progress
+
+    clearTimeout(slideTimeout); // Clear any existing timeout to prevent overlapping
+    showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+    if (isTransitioning) return; // Exit if a transition is in progress
+
+    clearTimeout(slideTimeout); // Clear any existing timeout to prevent overlapping
+    showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+    let slides = document.querySelectorAll(".main2 img");
+    let dots = document.querySelectorAll(".dot");
+
+    if (n > slides.length) { slideIndex = 1 }
+    if (n < 1) { slideIndex = slides.length }
+
+    // Set the flag to true to indicate that a transition is in progress
+    isTransitioning = true;
+
+    // Adjust the position of the slides container based on the current slide index
+    document.querySelector(".main2").style.transform = `translateX(-${(slideIndex - 1) * 100}%)`;
+
+    // Update dots
+    dots.forEach((dot, index) => {
+        dot.className = dot.className.replace(" active", "");
+        if (index === slideIndex - 1) {
+            dot.className += " active";
+        }
+    });
+
+    // After transition ends, reset the flag to allow further interactions
+    document.querySelector(".main2").addEventListener('transitionend', () => {
+        isTransitioning = false;
+    }, { once: true });
+
+    // Reset the slide timeout to allow automatic transitions after the current one completes
+    slideTimeout = setTimeout(() => {
+        if (!isTransitioning) {
+            plusSlides(1);
+        }
+    }, 5000); // Change image every 5 seconds
+}
+
+
+</script>
+
+<script src="/js/script.js"></script>
+
+<%- include('layouts/footer')%>

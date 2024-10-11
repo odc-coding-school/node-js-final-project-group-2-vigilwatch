@@ -1,0 +1,190 @@
+body.light-mode {
+  background-color: #e7f0ff;
+  color: #000;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode {
+  background-color: #343a40;
+  color: #fff;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Navbar */
+#main-navbar {
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* List Group Items */
+.list-group-item {
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+/* Dark Mode Styles */
+body.dark-mode .sidebar {
+  background-color: #343a40 !important; /* Bootstrap's bg-dark */
+  box-shadow: 0 2px 5px rgba(255, 255, 255, 0.16), 0 2px 10px rgba(255, 255, 255, 0.12);
+}
+
+body.dark-mode .sidebar .list-group-item {
+  background-color: #343a40;
+  color: #fff;
+  border: none;
+}
+
+body.dark-mode .sidebar .list-group-item:hover {
+  background-color: #495057;
+  color: #fff;
+}
+
+body.dark-mode .sidebar .list-group-item.active {
+  background-color: #495057;
+  color: #fff;
+  border-color: #495057;
+  box-shadow: 0 2px 5px rgba(255, 255, 255, 0.16), 0 2px 10px rgba(255, 255, 255, 0.12);
+}
+
+body.dark-mode #main-navbar {
+  background-color: #343a40 !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode #main-navbar .nav-link,
+body.dark-mode #main-navbar .navbar-brand,
+body.dark-mode #main-navbar .fas {
+  color: #fff !important;
+}
+
+/* Light Mode Overrides */
+body.light-mode #main-navbar .nav-link,
+body.light-mode #main-navbar .navbar-brand,
+body.light-mode #main-navbar .fas {
+  color: #000 !important;
+}
+
+/* Ensure Icons Inherit Color */
+#main-navbar .fas {
+  transition: color 0.3s;
+}
+
+/* Theme Toggle Icon Transition */
+#theme-icon {
+  transition: color 0.3s, transform 0.3s;
+}
+
+/* Main Content */
+main {
+  margin: 0 auto;
+  background-color: #ffffff;
+  width: 70%; /* Adjusted width for better fit */
+  margin-top: 6rem;
+  padding: 1rem; /* Added padding */
+  border-radius: 5px;
+}
+
+.details {
+  padding: 0.5rem;
+}
+
+.details .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.details .header h4 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Buttons Section */
+.buttons {
+  margin-bottom: 1rem; /* Added margin for spacing between buttons and content */
+}
+
+.buttons button {
+  background-color: #e7f0ff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-family: 'Poppins', sans-serif;
+  margin-inline: 5px;
+  padding: 5px;
+}
+
+.buttons .active {
+  background-color: #9cbdf5; /* Highlight the active tab */
+  color: white;
+}
+
+/* Card Container */
+.card_container {
+  margin-bottom: 2rem; /* Adjusted margin for better spacing */
+}
+
+.card {
+  max-width: 1000px;
+  border: none;
+}
+
+.card span {
+  border-radius: 5px;
+}
+
+/* Profile Image */
+.card span img,
+img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+/* Info Section */
+.info {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.info #date {
+  color: #666;
+  font-size: 12px;
+}
+
+#description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  display: inline-block;
+}
+
+/* Media Breakpoint for small devices */
+@media (max-width: 768px) {
+  main {
+      width: 90%; /* Wider on smaller screens */
+      margin-left: auto;
+      margin-right: auto; /* Centered */
+  }
+
+  .details .header h4 {
+      font-size: 1.2rem; /* Smaller header text */
+  }
+
+  .buttons button {
+      font-size: 0.9rem; /* Smaller button text */
+      padding: 3px; /* Reduced padding */
+  }
+
+  .card {
+      width: 100%;
+  }
+
+  .info #date {
+      font-size: 10px; /* Smaller date text */
+  }
+
+  #description {
+      font-size: 14px; /* Adjusted font size for description */
+  }
+}

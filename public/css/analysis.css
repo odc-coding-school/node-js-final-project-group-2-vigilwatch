@@ -1,0 +1,169 @@
+#dashboard-head {
+    text-align: center;
+    margin-top: 3rem;
+    margin-left: -12pc;
+}
+
+#dashboard-head h2 {
+    text-transform: uppercase;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+#search {
+    margin: 0 auto;
+    width: 50%;
+    height: 10vh;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+#incident-type-tabs {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-left: -12pc;
+}
+
+#incident-type-tabs button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    font-size: 0.875rem;
+    border-radius: 5px;
+}
+
+#incident-type-tabs .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+}
+
+#incident-type-tabs .btn-light {
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+    color: #000;
+}
+
+.cards-grid {
+    background-color: rgb(255, 255, 255);
+    margin-top: 20px;
+    margin-left: -16pc;
+}
+
+.card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: auto;
+    width: 100%;
+    overflow: hidden;
+    margin-right: 18px;
+}
+
+#card-profile {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+
+.tooltip-wrapper {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.tooltip-wrapper .tooltip-box {
+    visibility: hidden;
+    width: 400px;
+    background-color: #ffffff;
+    color: #000000;
+    text-align: left;
+    border-radius: 5px;
+    padding: 10px;
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+    z-index: 1;
+}
+
+.tooltip-wrapper:hover .tooltip-box {
+    visibility: visible;
+    opacity: 1;
+}
+
+.hover-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px;
+    align-items: center;
+}
+
+.hover-item img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+}
+
+.info #description {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: block;
+}
+
+#name {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.tooltip-box div {
+    margin-top: 5px;
+}
+
+#images {
+    width: 80px;
+    height: 80px;
+    vertical-align: middle;
+    margin-top: 2rem;
+    margin-inline: 5px;
+}
+
+.spinner-border {
+    display: none;
+    margin-left: 10px;
+}
+
+/* Media Query for smaller devices */
+@media (max-width: 768px) {
+    #dashboard-head {
+        margin-left: 0; /* Center the header */
+        margin-right: 0;
+    }
+    
+    #incident-type-tabs {
+        margin-left: 0; /* Center the tabs */
+        margin-right: 0;
+        flex-wrap: wrap; /* Allow buttons to wrap in smaller screens */
+    }
+
+    .cards-grid {
+        margin-left: 0; /* Center the card grid */
+        margin-right: 0;
+    }
+
+    #search {
+        width: 90%; /* Make search bar wider on smaller screens */
+    }
+}

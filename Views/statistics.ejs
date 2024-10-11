@@ -1,0 +1,149 @@
+
+
+    <main class="statistics" id="analysis">
+        <div class="top">
+            <h2>Analysis Report</h2>
+            <p>We provide a clear and understandable analysis reports for each month</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-4 col-sm-4 justify-content-center align-items-center">
+                <div class="month-selector">
+                    <select id="month" class="form-select" onchange="changeMonth()" style="color: black;">
+                        <option selected disabled>Select Month</option>
+                        <option value="Jan">January</option>
+                        <option value="Feb">February</option>
+                        <option value="Mar">March</option>
+                        <option value="Apr">April</option>
+                        <option value="May">May</option>
+                        <option value="Jun">June</option>
+                        <option value="Jul">July</option>
+                        <option value="Aug">August</option>
+                        <option value="Sep">September</option>
+                        <option value="Oct">October</option>
+                        <option value="Nov">November</option>
+                        <option value="Dec">December</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+       
+        <h3 class="text-center " id="incident-month">
+            Incidents Analysis for <%= selectedMonth %>
+        </h3>
+
+        <div class="mt-4 d-flex justify-content-center flex-wrap" id="incident_button">
+            <button class="btn btn-primary me-2" onclick="filterIncidents('fire')">Fire (<%= fireCount %>)</button>
+            <button class="btn btn-danger me-2" onclick="filterIncidents('violence')">Violence (<%= violenceCount %>)</button>
+            <button class="btn btn-warning me-2" onclick="filterIncidents('theft')">Theft (<%= theftCount %>)</button>
+            <button class="btn btn-dark me-2" onclick="filterIncidents('vandalism')">Vandalism (<%= vandalismCount %>)</button>
+            <button class="btn btn-secondary" onclick="filterIncidents('other')">Other (<%= otherCount %>)</button>
+        </div>
+
+        <!-- Card and Chart Section -->
+        <div class="row mx-5">
+            <div>
+                <div class="row d-flex align-items-center gap-5">
+                    <div class="card-num">
+                        <div class="card-body" >
+                            <p class="card-title fs-3 mb-2">Total Incidents</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h3 class="card-subtitle fw-bold display-3">
+                                    <%= totalIncident < 10 ? '0' + totalIncident : totalIncident %>
+                                    <div class="card-text fs-3">
+                                        <i class="fa-solid fa-arrow-up-right-dots"></i> Counting..
+                                    </div>
+                                </h3>
+                            </div>
+                          
+                        </div>
+                    </div>
+
+
+ 
+
+                  
+                      
+
+                    <div class="shadow rounded">
+    
+                        <div class="bg-light">
+                            <h5 style="color: black;">Incident Analysis Chart</h5>
+                            <% if (showNoDataMessage) { %>
+                                <p style="color: black;">No data available for <%= selectedMonth %>.</p>
+                            <% } else { %>
+                                <div id="chart"></div>
+
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+          
+        </div>
+        
+    </main>
+
+
+<!-- Include Google Charts library -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart', 'bar']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Incident Type');
+        data.addColumn('string', 'Location');
+        data.addColumn('number', 'Count');
+
+        // Add rows with incident data
+        data.addRows([
+            <% incidentData.forEach(incident => { %>
+                ['<%= incident.incident_type %>', '<%= incident.location %>', <%= incident.incidents_count %>],
+            <% }) %>
+        ]);
+
+        var options = {
+            chart: {
+                title: 'Incidents and Locations'
+            },
+            bars: 'horizontal',
+            hAxis: {
+                title: 'Count',
+                minValue: 0
+            },
+            vAxis: {
+                title: 'Incident Type'
+            }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('chart'));
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+    }
+</script>
+
+<script>
+  const incidentData = <%= JSON.stringify(incidentData) %>; // Pass data from server
+  const showNoDataMessage = <%= showNoDataMessage %>;
+
+  if (!showNoDataMessage) {
+    // Initialize map
+    const map = L.map('heatmap').setView([51.505, -0.09], 13); // Default view
+
+    // Load map tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Prepare heat map data: [latitude, longitude, intensity]
+    const heatData = incidentData.map(incident => [incident.latitude, incident.longitude, incident.incidents_count]);
+
+    // Create heat map layer
+    L.heatLayer(heatData, { radius: 25 }).addTo(map);
+  } else {
+    document.getElementById('heatmap').innerHTML = "<p>No data available for this month.</p>";
+  }
+</script>

@@ -1,0 +1,99 @@
+<!-- This is our footer layout excluding the landing page  -->
+ <!-- This is our footer layout excluding the landing page  -->
+<nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+ <!-- Container wrapper -->
+ <div class="container-fluid">
+     <!-- Toggle button -->
+     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+         <i class="fas fa-bars"></i>
+     </button>
+
+     <!-- Brand -->
+     <a class="navbar-brand" href="#">
+         <img src="/images/Logo.png" height="45"  alt="logo" loading="lazy" />
+     </a>
+
+     <!-- Right links -->
+     <ul class="navbar-nav ms-auto d-flex flex-row">
+         <li class="nav-item">
+             <a class="nav-link me-3 me-lg-0" href="/notification" id="notification" role="button">
+                 <i class="fas fa-bell" style="font-size: 1.2rem;margin-top: 10px;"></i>
+                 <span class="badge rounded-pill badge-notification bg-danger">0</span>
+             </a>
+             
+         </li>
+         
+         </li>
+
+         <li class="nav-item me-3 me-lg-0" style="margin-top: 5px;">
+             <a class="nav-link" href="/chat">
+               <i class="fas fa-message" style="margin-top: 7px;"></i>
+               <span class="badge rounded-pill badge-notification bg-danger">0</span>
+             </a>
+           </li>
+           <li class="nav-item me-3 me-lg-0" style="margin-top: 5px;">
+             <a class="nav-link" href="#" id="theme-toggle" onclick="toggleTheme()">
+               <i class="fas fa-moon" id="theme-icon" style="margin-top: 6px;"></i>
+             </a>
+           </li>
+           <li class="nav-item dropdown">
+             <a class="nav-link d-flex align-items-center" href="#" id="profile" role="button" aria-expanded="false">
+                 <img src="<%= userProfile %>" class="rounded-circle" height="40" width="40" loading="lazy" alt="user"
+                      style="box-shadow: inset 0 0 52px rgba(0, 0, 0, 0.5);" />
+                 &nbsp;
+             </a>
+         </li>
+
+        
+         
+     </ul>
+ </div>
+ <!-- Container wrapper -->
+  
+</nav>
+
+
+<!-- <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+<div class="container-fluid">
+   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+       <i class="fas fa-bars"></i>
+   </button>
+
+   <a class="navbar-brand" href="#">
+       <img src="/images/Logo.png" height="60"  alt="" loading="lazy" />
+   </a>
+
+   <ul class="navbar-nav ms-auto d-flex flex-row">
+     <li class="nav-item">
+           <a class="nav-link me-3 me-lg-0 " href="#" id="notification" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+               <i class="fas fa-bell" style="font-size: 1.2rem;margin-top: 10px;"></i>
+               <span class="badge rounded-pill badge-notification bg-danger">0</span>
+           </a>
+           
+       </li>
+       
+       </li>
+
+       <li class="nav-item me-3 me-lg-0" style="margin-top: 5px;">
+         <a class="nav-link" href="#">
+           <i class="fas fa-message" style="margin-top: 6px;"></i>
+           <span class="badge rounded-pill badge-notification bg-danger">0</span>
+         </a>
+       </li>
+       <li class="nav-item me-3 me-lg-0" style="margin-top: 5px;">
+         <a class="nav-link" href="#" id="theme-toggle" onclick="toggleTheme()">
+           <i class="fas fa-moon" id="theme-icon" style="margin-top: 6px;"></i>
+         </a>
+       </li>
+       <li class="nav-item dropdown">
+         <a class="nav-link d-flex align-items-center" href="#" id="profile" role="button" aria-expanded="false">
+             <img src="<%= userProfile %>" class="rounded-circle" height="40" width="40" loading="lazy" alt="user"
+                  style="box-shadow: inset 0 0 52px rgba(0, 0, 0, 0.5);" />
+             &nbsp;
+         </a>
+     </li>
+       
+   </ul>
+</div>
+
+</nav> -->
