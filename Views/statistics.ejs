@@ -67,10 +67,8 @@
                       
 
                     <div class="shadow rounded">
-                        <button id="change-chart" class="btn" style="background-color: rgb(32, 149, 188);color: #fff;">Change to Classic</button>
-    <br>
-    <br>
-                       
+    
+                        <div class="bg-light">
                             <h5 style="color: black;">Incident Analysis Chart</h5>
                             <% if (showNoDataMessage) { %>
                                 <p style="color: black;">No data available for <%= selectedMonth %>.</p>
@@ -78,6 +76,7 @@
                                 <div id="chart"></div>
 
                             <% } %>
+                        </div>
                     </div>
                 </div>
             </div>
