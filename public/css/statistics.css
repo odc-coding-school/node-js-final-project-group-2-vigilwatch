@@ -49,65 +49,7 @@
   border-radius: 5px;
   margin-top: 5px;
 }
-/* Sidebar container */
-.trend-container {
-  width: 22%;
-  background-color: #f8f9fa;
-  border-left: 1px solid #ddd;
-  padding: 1rem;
-  position: fixed;
-  top: 70px;
-  left: 0; 
-  height: calc(100vh - 70px); 
-  z-index: 1;
-  overflow: hidden; 
-  border-radius: 5px 0 0 5px;
-}
 
-/* Scrollable content within the sidebar */
-.trend-body {
-  max-height: calc(100vh - 150px); /* Fit content within the sidebar */
-  overflow-y: auto; /* Allow vertical scrolling */
-  padding-right: 10px;
-}
-.top-reporters-container {
-  width: 20%;
-  background-color: #f8f9fa;
-  border-left: 1px solid #ddd;
-  padding: 1rem;
-  position: fixed;
-  top: 70px;
-  right: 0; /* Stick it to the right side */
-  height: calc(100vh - 70px); /* Full height minus header */
-  z-index: 1;
-  overflow: hidden; /* No scrolling for the entire sidebar */
-  border-radius: 5px 0 0 5px;
-}
-
-
-/* Scrollable content within the sidebar */
-.top-reporters-body {
-  max-height: calc(100vh - 150px); /* Fit content within the sidebar */
-  overflow-y: auto; /* Allow vertical scrolling */
-  padding-right: 10px;
-}
-
-/* Scrollable content within the sidebar */
-.trend-body {
-  max-height: calc(100vh - 150px); /* Fit content within the sidebar */
-  overflow-y: auto; /* Allow vertical scrolling */
-  padding-right: 10px;
-}
-
-/* Hide scrollbar for WebKit browsers */
-.trend-body::-webkit-scrollbar {
-  display: none; /* Hide scrollbar */
-}
-
-/* Hide scrollbar in Firefox */
-.trend-body {
-  scrollbar-width: none; /* Hide scrollbar */
-}
 .badge {
   display: inline-block;
   padding: 0.5em 0.75em;
@@ -193,51 +135,13 @@ body.dark-mode .incident-date {
   padding-top: 1rem;
   margin-bottom: -15px;
 }
-
-
-/* Media Queries */
-@media (max-width: 768px) {
-  .report-container-form {
-      width: 100%;
-      padding: 1rem;
-  }
-  #incident_button {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+#chart{
+  height: 400px;
+   width: 700px;
+    overflow:scroll;
+     margin-left: -5pc;
+  border-radius: 10px;
 }
-  .card {
-      width: 100%;
-      height: auto;
-      padding-left: 20px;
-  }
-  .trend-container {
-      display: none;
-  }
-}
-
-@media (min-width: 769px) and (max-width: 991px) {
-  .report-container-form {
-      width: 80%;
-  }
-  .card {
-      width: 80%;
-      height: auto;
-  }
-  .trend-container {
-      max-width: 50%;
-  }
-}
-
-@media (min-width: 992px) and (max-width: 1200px) {
-  .report-container-form {
-      width: 70%;
-  }
-  .card {
-      width: 70%;
-      height: 12rem;
-  }
-  .trend-container {
-      max-width: 40%;
-  }
+#chart::-webkit-scrollbar{
+  display: none;
 }

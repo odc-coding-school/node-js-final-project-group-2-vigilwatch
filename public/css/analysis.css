@@ -1,39 +1,36 @@
 #dashboard-head {
     text-align: center;
-    /* margin-top: 3rem; */
-    /* margin-left: -12pc; */
+    margin-top: 3rem;
+    margin-left: -12pc;
 }
 
-/* #dashboard-head h2 {
+#dashboard-head h2 {
     text-transform: uppercase;
     font-family: 'Ubuntu', sans-serif;
     font-weight: bold;
     letter-spacing: 2px;
-} */
+}
 
 #search {
     margin: 0 auto;
-    /* width: 50%; */
+    width: 50%;
     height: 10vh;
     font-size: 1.5rem;
     font-weight: 600;
 }
 
-/* #incident-type-tabs {
+#incident-type-tabs {
     display: flex;
     justify-content: center;
     margin-top: 20px;
     margin-left: -12pc;
-
-} */
+}
 
 #incident-type-tabs button {
     margin: 0 5px;
     padding: 5px 10px;
     font-size: 0.875rem;
-    /* Smaller font size */
     border-radius: 5px;
-    /* Optional: rounded corners */
 }
 
 #incident-type-tabs .btn-primary {
@@ -49,11 +46,9 @@
 }
 
 .cards-grid {
-    /* display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px; */
     background-color: rgb(255, 255, 255);
-    margin-top: 20px; margin-left: -16pc;
+    margin-top: 20px;
+    margin-left: -16pc;
 }
 
 .card {
@@ -89,10 +84,8 @@
     padding: 10px;
     position: absolute;
     bottom: 125%;
-    /* Position above the text */
     left: 50%;
     margin-left: -100px;
-    /* Center the tooltip */
     opacity: 0;
     transition: opacity 0.3s, visibility 0.3s;
     z-index: 1;
@@ -106,11 +99,8 @@
 .hover-item {
     display: grid;
     grid-template-columns: auto 1fr;
-    /* The first column for the image, the second for the text */
     gap: 20px;
-    /* Optional: adds space between the image and the text */
     align-items: center;
-    /* Vertically align the image and text */
 }
 
 .hover-item img {
@@ -126,11 +116,6 @@
 }
 
 .info #description {
- white-space: nowrap; 
- overflow: hidden; 
- text-overflow: ellipsis; 
- max-width: 100%; 
- display: block; 
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -138,13 +123,10 @@
     display: block;
 }
 
-
 #name {
     font-size: 16px;
     font-weight: bold;
 }
-
-
 
 .tooltip-box div {
     margin-top: 5px;
@@ -157,8 +139,31 @@
     margin-top: 2rem;
     margin-inline: 5px;
 }
- /* Add any required CSS here */
- .spinner-border {
+
+.spinner-border {
     display: none;
     margin-left: 10px;
-  }
+}
+
+/* Media Query for smaller devices */
+@media (max-width: 768px) {
+    #dashboard-head {
+        margin-left: 0; /* Center the header */
+        margin-right: 0;
+    }
+    
+    #incident-type-tabs {
+        margin-left: 0; /* Center the tabs */
+        margin-right: 0;
+        flex-wrap: wrap; /* Allow buttons to wrap in smaller screens */
+    }
+
+    .cards-grid {
+        margin-left: 0; /* Center the card grid */
+        margin-right: 0;
+    }
+
+    #search {
+        width: 90%; /* Make search bar wider on smaller screens */
+    }
+}

@@ -1,60 +1,13 @@
-<!-- Trending Incidents Section -->
-<div class="col-md-6 col-sm-12" id="trending-incident">
-    <div class="shadow rounded p-4">
-        <div class="trending-incidents trend-container">
-            <h3 style="color: black;">Trending Incidents</h3>
-            <div class="trend-body">
-                <% if (incidents.length > 0) { %>
-                    <% incidents.forEach(incident => { %>
-                        <div class="incident-card">
-                            <h2 style="text-transform: capitalize; display: flex; align-items: center;">
-                                <span style="margin-right: 10px;"><%= incident.incident_type %></span>
-                                <span class="badge rounded-pill  pulse" style="background-color: teal;">New</span>
-                            </h2>
-                            <p style="font-weight: 600;">
-                                <span class="description" id="desc-<%= incident.id %>">
-                                    <%= incident.description.length > 50 ? incident.description.substring(0, 50) + '...' : incident.description %>
-                                </span>
-                                <% if (incident.description.length > 50) { %>
-                                    <a href="#" onclick="toggleReadMore('<%= incident.id %>', `<%= incident.description.replace(/`/g, '\\`') %>`)">Read more</a>
-                                <% } %>
-                            </p>
-                            <p><strong>Location:</strong> <%= incident.location %></p>
-                            <p><%= incident.date %> - <%= incident.time %></p>
-                            <p>
-                                <img src="/images/profile-default.png" alt="default profile" style="width: 20px; height: 20px;">
-                                <%= incident.pseudo_name %>
-                            </p>
-                            <% if (incident.imageSrcs && incident.imageSrcs.length > 0) { %>
-                                <div class="incident-images">
-                                    <% incident.imageSrcs.forEach(src => { %>
-                                        <img src="<%= src %>" alt="Incident Image" style="width: 40px; height: 40px;">
-                                    <% }) %>
-                                </div>
-                            <% } %>
-                        </div>
-                    <% }) %>
-                <% } else { %>
-                    <p>No trending incidents at the moment.</p>
-                <% } %>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <!-- Top Reporters Section -->
 <div class="col-md-6 col-sm-12" id="top-reporters">
-    <div class="">
+    <div class=""> 
         <div class="top-reporters-container">
-            <h3 style="color: black;">Top Reporters</h3>
             
-            <!-- Search Box -->
-            <!-- <form id="search-form" class="mb-3">
-                <input type="text" class="form-control" id="search-input" placeholder="Search reporters..." aria-label="Search reporters">
-            </form> -->
-<hr>
-            <div class="top-reporters-body" id="reporters-list">
+                    <div class="top-reporters-body" id="reporters-list">
                 <div>
+                    <h3 style="color: black;">Top Reporters</h3>
                     <% if (topReporters.length > 0) { %>
                         <% topReporters.forEach((reporter, index) => { %>
                             <div class="reporter-item d-flex justify-content-between align-items-center">
