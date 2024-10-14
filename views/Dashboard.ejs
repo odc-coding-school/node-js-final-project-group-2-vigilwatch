@@ -1,0 +1,135 @@
+<!-- This is the dashboard page -->
+<link rel="stylesheet" href="/css/dashboard.css">
+<title>Dashboard</title>
+</head>
+<body>
+
+<!-- Dashboard.ejs -->
+<div class="dashboard-container">
+    <div class="profile-section">
+    </div>
+
+    <h2 class="text-center mt-3" >Latest Feeds</h2>
+    <hr>
+    <div class="incidents-section" id="detailed-incident-cards">
+        <% if (detailedIncidents.length > 0) { %>
+            <% detailedIncidents.slice(0, 4).forEach(incident => { %> 
+                <div class="incident-card shadow-lg">
+                    <div class="map-container" style="position: relative; width: 100%; height: 200px;">
+                        <div class="map-preloader" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #f3f3f3; display: flex; justify-content: center; align-items: center;">
+                          <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">loading...</span>
+                          </div>
+                        </div>
+                        <iframe
+                          width="100%"
+                          height="100%"
+                          frameborder="0"
+                          style="border:0; display: none;"
+                          src="https://www.gomaps.pro/maps/embed/v1/place?key=AlzaSydsurS3YqxGVdqaV4yrn1AD-8nu9OhpIUB&q=<%= encodeURIComponent(incident.location) %>"
+                          allowfullscreen>
+                        </iframe>
+                      </div>
+                    <h3>Incident: <%= incident.incident_type %></h3>
+                    <p>Location: <%= incident.location %></p>
+                    <p>Time: <%= incident.formatted_time %></p>
+                    <p>Date: <%= incident.formatted_date %></p>
+                    <% if (incident.imageSrcs && incident.imageSrcs.length > 0) { %>
+                        <div class="incident-images">
+                            <% incident.imageSrcs.forEach(src => { %>
+                                <img src="<%= src %>" alt="Incident Image">
+                            <% }) %>
+                        </div>
+                    <% } %>
+                    <p><img style="width: 30px;height: 30px; border-radius: 50%;" src="/images/profile-default.png" alt="profile"><%= incident.pseudo_name %></p> 
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>No Latest feeds to show.</p>
+        <% } %>
+    </div>
+    <% if (detailedIncidents.length > 4) { %> 
+        <button class="btn" id="load-more-detailed" style="background-color: teal; color: #fff; margin-top: 2pc;width: 40%;margin: 0 auto;">Load more</button>
+    <% } %> 
+
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let currentIndexDetailed = 4; 
+        const detailedIncidents = <%- JSON.stringify(detailedIncidents) %>; 
+        const detailedCardsContainer = document.getElementById('detailed-incident-cards');
+        const loadMoreBtnDetailed = document.getElementById('load-more-detailed');
+
+        console.log(detailedIncidents); 
+
+        loadMoreBtnDetailed.addEventListener('click', () => {
+            loadMoreBtnDetailed.innerHTML = '<i class="fa fa-spinner fa-spin"></i> processing...';
+            loadMoreBtnDetailed.disabled = true;
+
+            setTimeout(() => {
+                const newIncidents = detailedIncidents.slice(currentIndexDetailed, currentIndexDetailed + 4); 
+                console.log(newIncidents); 
+
+
+                newIncidents.forEach((incident) => {
+                    const cardHtml = `
+                        <div class="incident-card shadow-lg">
+                             <div class="map-container" style="position: relative; width: 100%; height: 200px;">
+                        <div class="map-preloader" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #f3f3f3; display: flex; justify-content: center; align-items: center;">
+                          <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">loading...</span>
+                          </div>
+                        </div>
+                        <iframe
+                          width="100%"
+                          height="100%"
+                          frameborder="0"
+                          style="border:0; display: none;"
+                                            src="https://www.gomaps.pro/maps/embed/v1/place?key=AlzaSydsurS3YqxGVdqaV4yrn1AD-8nu9OhpIUB&q=${encodeURIComponent(incident.location)}"
+
+                          allowfullscreen>
+                        </iframe>
+                      </div>
+                            <h3>Incident: ${incident.incident_type}</h3>
+                            <p>Location: ${incident.location}</p>
+                            <p>Time: ${incident.formatted_time}</p>
+                            <p>Date: ${incident.formatted_date}</p>
+                            ${incident.imageSrcs && incident.imageSrcs.length > 0 ? `
+                                <div class="incident-images">
+                                    ${incident.imageSrcs.map(src => `<img src="${src}" alt="Incident Image">`).join('')}
+                                </div>
+                            ` : ''}
+                            <p><img src='/images/profile-default.png' alt='default profile' style="width: 30px;height: 30px; border-radius: 50%" > ${incident.pseudo_name}</p>
+                        </div>
+                    `;
+
+                    detailedCardsContainer.insertAdjacentHTML('beforeend', cardHtml);
+                });
+
+                currentIndexDetailed += 4; 
+                console.log(currentIndexDetailed);
+
+                loadMoreBtnDetailed.innerHTML = 'Load more';
+                loadMoreBtnDetailed.disabled = false;
+
+                if (currentIndexDetailed >= detailedIncidents.length) {
+                    loadMoreBtnDetailed.style.display = 'none';
+                }
+            }, 2000); 
+        });
+    });
+</script>
+
+<script>
+    // Activate Bootstrap 5 tooltips
+    document.addEventListener('DOMContentLoaded', function () {
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+            new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+</script>
+
+<%- include('layouts/footer') %>

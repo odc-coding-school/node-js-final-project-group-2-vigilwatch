@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Group 2">
+    <title>Sign in| VigilWatch</title>
+    <link href="../css/vendor/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="../css/log-in.css" rel="stylesheet">
+</head>
+
+<body class="d-flex align-items-center py-4 bg-body-tertiary">
+
+    <main class="form-signin w-100 m-auto">
+        <form action="/login" method="post" class=" rounded shadow bg-body-tertiary p-5">
+            <div class="text-center text-primary mb-2">
+                <img class=" mb-4" src="../images/logo2.png" alt="" width="72" height="57">
+                <span class="h3 mb-3 fw-normal">
+                    <strong>V</strong>igil <strong>W</strong>itch
+                </span>
+            </div>
+
+            <div class="mb-3">
+                <!-- <label for="phone-number" class="form-label">Phone Number</label> -->
+                <input type="tel" class="form-control form-control-lg" id="phone" name="phone"
+                    placeholder="Enter phone number" required>
+            </div>
+
+            <div class="mb-3">
+                <!-- <label for="password" class="form-label">Password</label> -->
+                <input type="password" class="form-control form-control-lg" id="password" placeholder="Enter password"
+                    name="password" required>
+            </div>
+
+            <div class="form-check text-start my-3">
+                <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                    <h6>Remember me</h6>
+                </label>
+            </div>
+            <button class="btn btn-primary w-100 fs-5 my-2" type="submit">Sign in</button>
+            <div class="mt-3 text-center">
+                <p>
+                    <a href="#" class="link-offset-2 link-underline link-underline-opacity-0">Forgot
+                        password?</a>
+                </p>
+                <strong class="signup-text">
+                    Don't Have Account? <a href="/registration"
+                        class="link-offset-2 link-underline link-underline-opacity-0">
+                        Sign Up</a>
+                    </strongcl>
+            </div>
+        </form>
+    </main>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

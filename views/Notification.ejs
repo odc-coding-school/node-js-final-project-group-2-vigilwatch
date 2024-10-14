@@ -1,0 +1,168 @@
+<!-- Notification Page -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>Vigil Watch | Crime Management System</title>
+  <link rel="shortcut icon" href="/images/Logo.png" type="image/x-icon">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+  <!-- Google Fonts Roboto -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
+  <!-- Bootstrap CSS -->
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/notification.css">
+</head>
+
+<body>
+  <header>
+    <%- include('layouts/profileNavbar') %>
+  </header>
+
+  <main>
+    <div class="container" style="background-color: white;">
+      <div class="details">
+        <div class="header">
+          <h4>Notifications</h4>
+          <i class="fa fa-ellipsis" style="color: #666; cursor: pointer;"></i>
+        </div>
+
+        <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+          <h2>All Notifications</h2>
+          <div class="notification_body">
+            <% if (notifications.length > 0) { %>
+              <% notifications.forEach(notification => { %>
+                <div class="card_container mt-5 <%= notification.read === 0 ? 'unread' : 'read' %>">
+                  <div class="card" style="border: none;">
+                    <div class="card-header">
+                      <h5 class="card-title">
+                        <span>
+                          <img src="data:image/png;base64,<%= notification.profile_picture.toString('base64') %>" alt="profile" class="profile-img" />
+                          <div class="info">
+                            <span><%= notification.user_name %></span>
+                            <span id="date"><i class="fa fa-clock" style="color: #9cbdf5"></i> <%= notification.date %>, <%= notification.time %></span>
+                          </div>
+                        </span>
+                      </h5>
+                    </div>
+                    <div class="card-body">
+                      <h6 style="text-transform: capitalize;"><%= notification.incident_type %> Incident Reported</h6>
+                      <p><%= notification.description %>.</p>
+                      <a href="#" class="btn btn-primary read-more-btn" data-id="<%= notification.id %>">Read more</a>
+                    </div>
+                  </div>
+                </div>
+              <% }); %>
+            <% } else { %>
+              <p>No notifications available.</p>
+            <% } %>
+          </div>
+        </div>
+
+        <!-- Modal Structure -->
+        <div class="modal fade" id="notificationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="notificationModalLabel">
+                  <div class="info">
+                    <span id="modal-user-name"></span>
+                    <span id="modal-date-time"><i class="fa fa-clock" style="color: #9cbdf5"></i> </span>
+                  </div>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p id="modal-description"></p>
+                <div class="images" id="modal-images"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+   const socket = io();
+
+// Listen for new notifications
+socket.on('new_notification', (data) => {
+    console.log('Received new notification:', data);
+
+    // Play notification sound
+    const audio = new Audio('/sounds/notification-sound.mp3');
+    audio.play().catch(err => {
+        console.log('Audio playback error:', err);
+    });
+
+    // Display notification message (this works even if you're on a different page)
+    if (Notification.permission === "granted") {
+        new Notification(`New Incident: ${data.incident_type}`, {
+            body: `${data.description}`,
+            icon: '/images/Logo.png'
+        });
+    } else {
+        // Request permission to show notifications
+        Notification.requestPermission().then(permission => {
+            if (permission === "granted") {
+                new Notification(`New Incident: ${data.incident_type}`, {
+                    body: `${data.description}`,
+                    icon: '/images/Logo.png'
+                });
+            }
+        });
+    }
+
+    // Optionally, show an alert as well (not as elegant, but useful)
+    alert(`You have a new notification: ${data.incident_type} - ${data.description}`);
+});
+
+  </script>
+
+  <script>
+    // Ensure that notifications array is available globally
+    const notifications = <%- JSON.stringify(notifications) %>;
+
+    // Simulate content loading (this part seems fine)
+    setTimeout(function () {
+      document.querySelectorAll('.placeholder').forEach(function (el) {
+        el.classList.remove('placeholder');
+      });
+      document.querySelectorAll('.placeholder-glow').forEach(function (el) {
+        el.classList.remove('placeholder-glow');
+      });
+      document.getElementById('button-placeholder').classList.remove('disabled');
+    }, 3000);
+
+    document.querySelectorAll('.read-more-btn').forEach(button => {
+      button.addEventListener('click', function (event) {
+        event.preventDefault();
+        const notificationId = this.getAttribute('data-id');
+
+        console.log('Notification ID:', notificationId);  // Debugging
+
+        // Show the modal with the notification details (existing code)
+        const notification = notifications.find(n => n.id == notificationId);
+        if (notification) {
+          document.getElementById('modal-user-name').textContent = notification.user_name;
+          document.getElementById('modal-date-time').innerHTML = `<i class="fa fa-clock" style="color: #9cbdf5"></i> ${notification.date}, ${notification.time}`;
+          document.getElementById('modal-description').textContent = notification.description;
+
+          // Open the modal
+          const notificationModal = new bootstrap.Modal(document.getElementById('notificationModal'));
+          notificationModal.show();
+
+             }
+      });
+    });
+  </script>
+
+  <%- include('layouts/footer') %>
+</body>
+</html>

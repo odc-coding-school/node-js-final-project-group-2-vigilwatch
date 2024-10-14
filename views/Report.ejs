@@ -1,0 +1,134 @@
+<!-- This is our Incident Report Page -->
+<%- include('layouts/header')%>
+<link rel="stylesheet" href="/css/report.css" />
+
+<body style="background-color: #e1ecfe">
+  <section class="h-100">
+    <div class="container py-5">
+      <div class="row justify-content-center align-items-start details">
+        <!-- Image section (responsive) -->
+        <div class="col-12 col-md-5 col-lg-4 mb-4 mb-md-0">
+          <img
+            src="/images/new-reporter.jpeg"
+            alt="Verification"
+            class="img-fluid"
+            style="
+              border-radius: 5px 0 0 5px;
+              height: auto; /* Allow height to adjust based on width */
+              max-height: 80vh; /* Limit height to 80% of viewport */
+              object-fit: cover; /* Maintain aspect ratio */
+            "
+          />
+        </div>
+
+        <!-- Form section (responsive) -->
+        <div class="col-12 col-md-7 col-lg-6">
+          <div class="form-control py-5">
+            <div class="row text-center mt-4">
+              <div class="col-12">
+                <h1 class="h4 fw-bold text-uppercase">Incident Report Form</h1>
+              </div>
+            </div>
+
+            <form
+              action="/report-incident"
+              method="post"
+              enctype="multipart/form-data"
+              id="incidentForm"
+              class="row gap-3 mt-3"
+            >
+              <div class="col-12">
+                <label for="incidentType" class="form-label">Incident Type</label>
+                <select class="form-select" id="incidentType" name="incidentType" required>
+                  <option selected disabled>Select incident type</option>
+                  <option value="fire">Fire</option>
+                  <option value="violence">Violence</option>
+                  <option value="theft">Theft</option>
+                  <option value="vandalism">Vandalism</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div class="col-12" id="otherIncidentDiv" style="display: none">
+                <label for="otherIncident" class="form-label">Please specify the incident</label>
+                <input type="text" class="form-control" id="otherIncident" name="otherIncident" placeholder="Specify other incident type" />
+              </div>
+
+              <div class="col-12">
+                <label for="images" class="form-label">Upload Incident Images</label>
+                <input class="form-control" type="file" id="images" name="images" accept="image/*" multiple />
+                <div id="imagePreviewContainer" class="mt-3"></div>
+              </div>
+
+              <div class="col-12">
+                <label for="date" class="form-label">Date</label>
+                <input type="date" class="form-control" id="date" name="date" required />
+              </div>
+
+              <div class="col-12">
+                <label for="time" class="form-label">Time</label>
+                <input type="time" class="form-control" id="time" name="time" required />
+              </div>
+
+              <div class="col-12">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="3" placeholder="Tell us more about the case" required></textarea>
+              </div>
+
+              <div class="col-12">
+                <!-- Real-time Location (Hidden) -->
+                <input type="hidden" id="location" name="location" value="" />
+              </div>
+
+              <div class="col-12">
+                <button type="submit" class="w-100 btn btn-primary">Submit Incident Report</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="report-container-form w-100"></main>
+
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+  <script>
+    document.getElementById("incidentForm").addEventListener("submit", function (event) {
+      event.preventDefault(); // Prevent the form from submitting immediately
+
+      // SweetAlert confirmation
+      swal({
+        title: "Saved as Pending",
+        text: "Your incident report will be saved as pending until it can be approved.",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willSubmit) => {
+        if (willSubmit) {
+          // If user confirms, submit the form
+          this.submit();
+        } else {
+          // Optionally, you can show a message or take action on cancel
+          swal("Your incident report has not been submitted.");
+        }
+      });
+    });
+
+    document.getElementById("images").addEventListener("change", function (event) {
+      const fileInput = event.target;
+      const maxFiles = 4;
+
+      if (fileInput.files.length > maxFiles) {
+        alert(`You can only upload a maximum of ${maxFiles} images.`);
+        // Clear the file input
+        fileInput.value = "";
+      }
+    });
+  </script>
+
+  <script src="/js/report.js"></script>
+
+  <%- include('layouts/footer')%>
+</body>

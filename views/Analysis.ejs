@@ -1,0 +1,777 @@
+<style>
+    
+</style>
+<main id="incident_report">
+
+    <div class="text-center" id="dashboard-head">
+        <h4 class="p-1 fw-6 text-center">Community Incidents Report</h4>
+    
+        <div class="mb-3">
+            <input type="text" class="form-control shadow-sm" id="search" name="search" placeholder="Search community">
+        </div>
+    </div>
+
+  <div id="incident-type-tabs" class="d-flex justify-content-center">
+    <ul class="nav nav-tabs" id="incidentTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab" aria-controls="all" aria-selected="true">ALL</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="fire-tab" data-bs-toggle="tab" data-bs-target="#fire" type="button" role="tab" aria-controls="fire" aria-selected="false">Fire</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="violence-tab" data-bs-toggle="tab" data-bs-target="#violence" type="button" role="tab" aria-controls="violence" aria-selected="false">Violence</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="theft-tab" data-bs-toggle="tab" data-bs-target="#theft" type="button" role="tab" aria-controls="theft" aria-selected="false">Theft</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="vandalism-tab" data-bs-toggle="tab" data-bs-target="#vandalism" type="button" role="tab" aria-controls="vandalism" aria-selected="false">Vandalism</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="other-tab" data-bs-toggle="tab" data-bs-target="#other" type="button" role="tab" aria-controls="other" aria-selected="false">Other</button>
+        </li>
+        
+    </ul>
+</div>
+
+
+<div class="tab-content" id="incidentTabContent" >
+    <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+        <section id="incidents-results">
+          <article style="background-color: #fff;">
+            <div class="cards-grid" id="all-incident-cards">
+              <% if (allIncidents.length > 0) { %>
+                <% allIncidents.slice(0, 4).forEach(incident => { %>
+                  <div class="card">
+                    <div class="card-body col-md-12 col-sm-12">
+                      <div class="align-self-center">
+                        <div class="map-container" style="position: relative; width: 100%; height: 200px;">
+                          <div class="map-preloader" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #f3f3f3; display: flex; justify-content: center; align-items: center;">
+                            <div class="spinner-border text-primary" role="status">
+                              <span class="visually-hidden">loading...</span>
+                            </div>
+                          </div>
+                          <iframe
+                            width="100%"
+                            height="100%"
+                            frameborder="0"
+                            style="border:0; display: none;"
+                            src="https://www.gomaps.pro/maps/embed/v1/place?key=AlzaSydsurS3YqxGVdqaV4yrn1AD-8nu9OhpIUB&q=<%= encodeURIComponent(incident.location) %>"
+                            allowfullscreen>
+                          </iframe>
+                        </div>
+                        <h6 class="card-title" style="margin-top: 5px;"><%= incident.location %></h6>
+                        <div class="">
+                          <h3 style="margin-bottom: -5px;"><%= incident.incident_count < 10 ? '0' + incident.incident_count : incident.incident_count %></h3>
+                          <span>Total Number of Incidents</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <% }) %>
+              <% } else { %>
+                <h2>No incidents available.</h2>
+              <% } %>
+            </div>
+  
+            <!-- Show "Load more" button only if there are more than 4 incidents -->
+            <% if (allIncidents.length > 4) { %>
+                <button type="button" class="btn mt-3 w-10" id="load-more-all" style="background-color: teal; color: #fff; font-size: 1rem;">
+                    Load more
+                  </button>
+            <% } %>
+          </article>
+        </section>
+      </div>
+    
+
+    <div class="tab-pane fade" id="fire" role="tabpanel" aria-labelledby="fire-tab">
+        <section id="incidents-results" >
+            <article  style="background-color: #fff;">
+                <div class="cards-grid">
+                    <% 
+                        <!-- // Filter incidents by type -->
+                        const fireIncidents = groupedIncidents.filter(incident => incident.incident_type === 'fire');
+                        
+                        if (fireIncidents.length > 0) { 
+                    %>
+                        <% fireIncidents.slice(0, 4).forEach(incident => { %>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="align-self-center">
+                                        <div class="map-container" style="position: relative; width: 100%; height: 200px;">
+                                            <div class="map-preloader" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #f3f3f3; display: flex; justify-content: center; align-items: center;">
+                                                <div class="spinner-border text-primary" role="status">
+                                                    <span class="visually-hidden">processing...</span>
+                                                </div>
+                                            </div>
+                                            <iframe
+                                                width="100%"
+                                                height="100%"
+                                                frameborder="0"
+                                                style="border:0; display: none;"
+                                                src="https://www.gomaps.pro/maps/embed/v1/place?key=AlzaSydsurS3YqxGVdqaV4yrn1AD-8nu9OhpIUB&q=<%= encodeURIComponent(incident.location) %>"
+                                                allowfullscreen>
+                                            </iframe>
+                                        </div>
+                                        <h6 class="card-title" style="margin-top: 5px;"><%= incident.location %></h6>
+                                        <div class="">
+                                            <h3 style="margin-bottom: -5px;"><%= incident.incident_count < 10 ? '0' + incident.incident_count : incident.incident_count %></h3>
+                                            <span>Number of Incidents</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <h2>No fire incidents available.</h2>
+                    <% } %>
+                </div>
+                <% if (fireIncidents.length > 4) { %>
+                    <button class="btn" id="load-more-fire" style="background-color: teal; color: #fff; margin-top: 2pc;">Load more</button>
+                <% } %>       
+                 </article>
+        </section>
+        
+    </div>
+
+    
+    <div class="tab-pane fade" id="violence" role="tabpanel" aria-labelledby="violence-tab">
+        <section id="incidents-results">
+            <article style="background-color: #fff;">
+                <div class="cards-grid">
+                    <% 
+                    const violenceIncidents = groupedIncidents.filter(incident => incident.incident_type === 'violence');
+                    if (violenceIncidents.length > 0) { 
+                        violenceIncidents.slice(0, 4).forEach(incident => { 
+                    %>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="align-self-center">
+                                    <div class="map-container" style="position: relative; width: 100%; height: 200px;">
+                                        <div class="map-preloader" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #f3f3f3; display: flex; justify-content: center; align-items: center;">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">processing...</span>
+                                            </div>
+                                        </div>
+                                        <iframe
+                                            width="100%"
+                                            height="100%"
+                                            frameborder="0"
+                                            style="border:0; display: none;"
+                                            src="https://www.gomaps.pro/maps/embed/v1/place?key=AlzaSydsurS3YqxGVdqaV4yrn1AD-8nu9OhpIUB&q=<%= encodeURIComponent(incident.location) %>"
+                                            allowfullscreen>
+                                        </iframe>
+                                    </div>
+                                    <h6 class="card-title" style="margin-top: 5px;"><%= incident.location %></h6>
+                                    <div class="">
+                                        <h3 style="margin-bottom: -5px;"><%= incident.incident_count < 10 ? '0' + incident.incident_count : incident.incident_count %></h3>
+                                        <span>Number of Incidents</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% 
+                        }); 
+                    } else { 
+                    %>
+                        <div class="no-data">
+                            <h2>No incidents of violence found.</h2>
+                        </div>
+                    <% 
+                    } 
+                    %>
+                </div>
+                <% if (violenceIncidents.length > 4) { %>
+                    <button class="btn" id="load-more-violence" style="background-color: teal; color: #fff; margin-top: 2pc;">Load more</button>
+                <% } %> 
+            </article>
+        </section>
+    </div>
+    
+
+    <div class="tab-pane fade" id="theft" role="tabpanel" aria-labelledby="theft-tab">
+        <section id="incidents-results" >
+            <article  style="background-color: #fff;">
+                <div class="cards-grid">
+                    <% 
+                    const theftIncidents = groupedIncidents.filter(incident => incident.incident_type === 'theft');
+                    if (theftIncidents.length > 0) { 
+                        theftIncidents.slice(0, 4).forEach(incident => { 
+                    %>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="align-self-center">
+                                    <div class="map-container" style="position: relative; width: 100%; height: 200px;">
+                                        <div class="map-preloader" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #f3f3f3; display: flex; justify-content: center; align-items: center;">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">processing...</span>
+                                            </div>
+                                        </div>
+                                        <iframe
+                                            width="100%"
+                                            height="100%"
+                                            frameborder="0"
+                                            style="border:0; display: none;"
+                                            src="https://www.gomaps.pro/maps/embed/v1/place?key=AlzaSydsurS3YqxGVdqaV4yrn1AD-8nu9OhpIUB&q=<%= encodeURIComponent(incident.location) %>"
+                                            allowfullscreen>
+                                        </iframe>
+                                    </div>
+                                    <h6 class="card-title" style="margin-top: 5px;"><%= incident.location %></h6>
+                                    <div class="">
+                                        <h3 style="margin-bottom: -5px;"><%= incident.incident_count < 10 ? '0' + incident.incident_count : incident.incident_count %></h3>
+                                        <span>Number of Incidents</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% 
+                        }); 
+                    } else { 
+                    %>
+                        <div class="no-data">
+                            <h2>No theft incidents found.</h2>
+                        </div>
+                    <% 
+                    } 
+                    %>
+                </div>
+                <% if (theftIncidents.length > 4) { %>
+                    <button class="btn" id="load-more-theft" style="background-color: teal; color: #fff; margin-top: 2pc;">Load more</button>
+                <% } %> 
+                        </article>
+        </section>
+        
+    </div>
+
+    <div class="tab-pane fade" id="vandalism" role="tabpanel" aria-labelledby="vandalism-tab">
+        <section id="incidents-results" >
+            <article  style="background-color: #fff;">
+                <div class="cards-grid">
+                    <% 
+                    const vandalismIncidents = groupedIncidents.filter(incident => incident.incident_type === 'vandalism');
+                    if (vandalismIncidents.length > 0) { 
+                        vandalismIncidents.slice(0, 4).forEach(incident => { 
+                    %>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="align-self-center">
+                                    <div class="map-container" style="position: relative; width: 100%; height: 200px;">
+                                        <div class="map-preloader" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #f3f3f3; display: flex; justify-content: center; align-items: center;">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">processing...</span>
+                                            </div>
+                                        </div>
+                                        <iframe
+                                            width="100%"
+                                            height="100%"
+                                            frameborder="0"
+                                            style="border:0; display: none;"
+                                            src="https://www.gomaps.pro/maps/embed/v1/place?key=AlzaSydsurS3YqxGVdqaV4yrn1AD-8nu9OhpIUB&q=<%= encodeURIComponent(incident.location) %>"
+                                            allowfullscreen>
+                                        </iframe>
+                                    </div>
+                                    <h6 class="card-title" style="margin-top: 5px;"><%= incident.location %></h6>
+                                    <div class="">
+                                        <h3 style="margin-bottom: -5px;"><%= incident.incident_count < 10 ? '0' + incident.incident_count : incident.incident_count %></h3>
+                                        <span>Number of Incidents</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% 
+                        }); 
+                    } else { 
+                    %>
+                        <div class="no-data">
+                            <h2>No vandalism incidents found.</h2>
+                        </div>
+                    <% 
+                    } 
+                    %>
+                </div>
+                <% if (vandalismIncidents.length > 4) { %>
+                    <button class="btn" id="load-more-vandalism" style="background-color: teal; color: #fff; margin-top: 2pc;">Load more</button>
+                <% } %> 
+                        </article>
+        </section>
+        
+    </div>
+
+    <div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">
+        <section id="incidents-results" >
+            <article  style="background-color: #fff;">
+                <div class="cards-grid">
+                    <% 
+                    const otherIncidents = groupedIncidents.filter(incident => 
+                        incident.incident_type !== 'fire' && 
+                        incident.incident_type !== 'violence' && 
+                        incident.incident_type !== 'theft' && 
+                        incident.incident_type !== 'vandalism'
+                    );
+                    if (otherIncidents.length > 0) { 
+                        otherIncidents.slice(0, 4).forEach(incident => { 
+                    %>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="align-self-center">
+                                    <div class="map-container" style="position: relative; width: 100%; height: 200px;">
+                                        <div class="map-preloader" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #f3f3f3; display: flex; justify-content: center; align-items: center;">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">processing...</span>
+                                            </div>
+                                        </div>
+                                        <iframe
+                                            width="100%"
+                                            height="100%"
+                                            frameborder="0"
+                                            style="border:0; display: none;"
+                                            src="https://www.gomaps.pro/maps/embed/v1/place?key=AlzaSydsurS3YqxGVdqaV4yrn1AD-8nu9OhpIUB&q=<%= encodeURIComponent(incident.location) %>"
+                                            allowfullscreen>
+                                        </iframe>
+                                    </div>
+                                    <h6 class="card-title" style="margin-top: 5px;"><%= incident.location %></h6>
+                                    <div class="">
+                                        <h3 style="margin-bottom: -5px;"><%= incident.incident_count < 10 ? '0' + incident.incident_count : incident.incident_count %></h3>
+                                        <span>Number of Incidents</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% 
+                        }); 
+                    } else { 
+                    %>
+                        <div class="no-data">
+                            <h2>No incidents of other types found.</h2>
+                        </div>
+                    <% 
+                    } 
+                    %>
+                </div>
+                <% if (otherIncidents.length > 4) { %>
+                    <button class="btn" id="load-more-other" style="background-color: teal; color: #fff; margin-top: 2pc;">Load more</button>
+                <% } %> 
+                        </article>
+        </section>
+        
+    </div>
+    
+</div>
+
+
+
+
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let currentIndex = 4; // Tracks the current number of displayed incidents for "All"
+        const allIncidents = <%- JSON.stringify(allIncidents) %>; // Pass incidents array to JavaScript
+        const cardsGridAll = document.getElementById('all-incident-cards');
+        const loadMoreBtnAll = document.getElementById('load-more-all');
+
+        console.log(allIncidents); // Debugging: Check incidents array
+
+        loadMoreBtnAll.addEventListener('click', () => {
+            loadMoreBtnAll.innerHTML = '<i class="fa fa-spinner fa-spin"></i> processing...';
+            loadMoreBtnAll.disabled = true;
+
+            setTimeout(() => {
+                const newIncidents = allIncidents.slice(currentIndex, currentIndex + 4);
+                console.log(newIncidents); // Debugging: Check new incidents to load
+
+                newIncidents.forEach((incident, index) => {
+                    // Create new card HTML structure
+                    const cardHtml = `
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="align-self-center">
+                                    <div class="map-container" style="position: relative; width: 100%; height: 200px;">
+                                        <div class="map-preloader" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #f3f3f3; display: flex; justify-content: center; align-items: center;">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">processing...</span>
+                                            </div>
+                                        </div>
+                                        <iframe
+                                            id="map-${currentIndex + index}" 
+                                            width="100%"
+                                            height="100%"
+                                            frameborder="0"
+                                            style="border:0;"
+                                            src="https://www.gomaps.pro/maps/embed/v1/place?key=AlzaSydsurS3YqxGVdqaV4yrn1AD-8nu9OhpIUB&q=${encodeURIComponent(incident.location)}"
+                                            allowfullscreen>
+                                        </iframe>
+                                    </div>
+                                    <h6 class="card-title" style="margin-top: 5px;">${incident.location}</h6>
+                                    <div>
+                                        <h3 style="margin-bottom: -5px;">${incident.incident_count < 10 ? '0' + incident.incident_count : incident.incident_count}</h3>
+                                        <span>Total Number of Incidents</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    cardsGridAll.insertAdjacentHTML('beforeend', cardHtml);
+
+                    const mapFrame = document.getElementById(`map-${currentIndex + index}`);
+                    const preloader = mapFrame.previousElementSibling;
+                    setTimeout(() => {
+                        preloader.style.display = 'none'; 
+                        mapFrame.style.display = 'block'; 
+                    }, 1000); 
+                });
+
+                currentIndex += 4;
+                console.log(currentIndex); 
+                loadMoreBtnAll.innerHTML = 'Load more';
+                loadMoreBtnAll.disabled = false;
+
+                if (currentIndex >= allIncidents.length) {
+                    loadMoreBtnAll.style.display = 'none';
+                }
+            }, 2000); 
+        });
+    });
+</script>
+
+
+<script>
+
+  
+      // "Fire" Incidents Tab
+      let fireIndex = 4; // Tracks the current number of displayed fire incidents
+      const fireIncidents = <%- JSON.stringify(fireIncidents) %>; // Pass fire incidents array to JavaScript
+      const cardsGridFire = document.querySelector('#fire .cards-grid');
+      const loadMoreBtnFire = document.querySelector('#fire button.btn');
+  
+      loadMoreBtnFire.addEventListener('click', () => {
+        loadMoreBtnFire.innerHTML = '<i class="fa fa-spinner fa-spin"></i> processing...';
+        loadMoreBtnFire.disabled = true;
+  
+        setTimeout(() => {
+          const newFireIncidents = fireIncidents.slice(fireIndex, fireIndex + 4);
+          newFireIncidents.forEach((incident, index) => {
+            const cardHtml = `
+              <div class="card">
+                <div class="card-body">
+                  <div class="align-self-center">
+                    <div class="map-container" style="position: relative; width: 100%; height: 200px;">
+                      <div class="map-preloader" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #f3f3f3; display: flex; justify-content: center; align-items: center;">
+                        <div class="spinner-border text-primary" role="status">
+                          <span class="visually-hidden">processing...</span>
+                        </div>
+                      </div>
+                      <iframe
+                        id="fire-map-${fireIndex + index}" 
+                        width="100%"
+                        height="100%"
+                        frameborder="0"
+                        style="border:0;"
+                        src="https://www.gomaps.pro/maps/embed/v1/place?key=AlzaSydsurS3YqxGVdqaV4yrn1AD-8nu9OhpIUB&q=${encodeURIComponent(incident.location)}"
+                        allowfullscreen>
+                      </iframe>
+                    </div>
+                    <h6 class="card-title" style="margin-top: 5px;">${incident.location}</h6>
+                    <div class="">
+                      <h3 style="margin-bottom: -5px;">${incident.incident_count < 10 ? '0' + incident.incident_count : incident.incident_count}</h3>
+                      <span>Number of Incidents</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+            cardsGridFire.insertAdjacentHTML('beforeend', cardHtml);
+  
+            const mapFrameFire = document.getElementById(`fire-map-${fireIndex + index}`);
+            const preloaderFire = mapFrameFire.previousElementSibling;
+            setTimeout(() => {
+              preloaderFire.style.display = 'none';
+              mapFrameFire.style.display = 'block';
+            }, 1000);
+          });
+  
+          fireIndex += 4;
+  
+          loadMoreBtnFire.innerHTML = 'Load more';
+          loadMoreBtnFire.disabled = false;
+  
+          if (fireIndex >= fireIncidents.length) {
+            loadMoreBtnFire.style.display = 'none';
+          }
+        }, 2000);
+      });
+
+</script>
+
+<script>
+ 
+
+    // violence tab
+    let violenceIndex = 4; // Tracks the current number of displayed violence incidents
+    const violenceIncidents = <%- JSON.stringify(violenceIncidents) %>; // Pass violence incidents array to JavaScript
+    const cardsGridViolence = document.querySelector('#violence .cards-grid');
+    const loadMoreBtnViolence = document.querySelector('#load-more-violence');
+
+    loadMoreBtnViolence.addEventListener('click', () => {
+        loadMoreBtnViolence.innerHTML = '<i class="fa fa-spinner fa-spin"></i> processing...';
+        loadMoreBtnViolence.disabled = true;
+
+        setTimeout(() => {
+            const newViolenceIncidents = violenceIncidents.slice(violenceIndex, violenceIndex + 4);
+            newViolenceIncidents.forEach((incident, index) => {
+                const cardHtml = `
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="align-self-center">
+                                <div class="map-container" style="position: relative; width: 100%; height: 200px;">
+                                    <div class="map-preloader" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #f3f3f3; display: flex; justify-content: center; align-items: center;">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">processing...</span>
+                                        </div>
+                                    </div>
+                                    <iframe
+                                        id="violence-map-${violenceIndex + index}" 
+                                        width="100%"
+                                        height="100%"
+                                        frameborder="0"
+                                        style="border:0;"
+                                        src="https://www.gomaps.pro/maps/embed/v1/place?key=AlzaSydsurS3YqxGVdqaV4yrn1AD-8nu9OhpIUB&q=${encodeURIComponent(incident.location)}"
+                                        allowfullscreen>
+                                    </iframe>
+                                </div>
+                                <h6 class="card-title" style="margin-top: 5px;">${incident.location}</h6>
+                                <div class="">
+                                    <h3 style="margin-bottom: -5px;">${incident.incident_count < 10 ? '0' + incident.incident_count : incident.incident_count}</h3>
+                                    <span>Number of Incidents</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                cardsGridViolence.insertAdjacentHTML('beforeend', cardHtml);
+
+                const mapFrameViolence = document.getElementById(`violence-map-${violenceIndex + index}`);
+                const preloaderViolence = mapFrameViolence.previousElementSibling;
+                setTimeout(() => {
+                    preloaderViolence.style.display = 'none';
+                    mapFrameViolence.style.display = 'block';
+                }, 1000);
+            });
+
+            violenceIndex += 4;
+
+            loadMoreBtnViolence.innerHTML = 'Load more';
+            loadMoreBtnViolence.disabled = false;
+
+            if (violenceIndex >= violenceIncidents.length) {
+                loadMoreBtnViolence.style.display = 'none';
+            }
+        }, 2000);
+    });
+
+
+
+  </script>
+
+  <script>
+      // Theft Incidents Tab
+let theftIndex = 4; // Tracks the current number of displayed theft incidents
+const theftIncidents = <%- JSON.stringify(theftIncidents) %>; // Pass theft incidents array to JavaScript
+const cardsGridTheft = document.querySelector('#theft .cards-grid');
+const loadMoreBtnTheft = document.querySelector('#load-more-theft');
+
+loadMoreBtnTheft.addEventListener('click', () => {
+    loadMoreBtnTheft.innerHTML = '<i class="fa fa-spinner fa-spin"></i> processing...';
+    loadMoreBtnTheft.disabled = true;
+
+    setTimeout(() => {
+        const newTheftIncidents = theftIncidents.slice(theftIndex, theftIndex + 4);
+        newTheftIncidents.forEach((incident, index) => {
+            const cardHtml = `
+                <div class="card">
+                    <div class="card-body">
+                        <div class="align-self-center">
+                            <div class="map-container" style="position: relative; width: 100%; height: 200px;">
+                                <div class="map-preloader" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #f3f3f3; display: flex; justify-content: center; align-items: center;">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">processing...</span>
+                                    </div>
+                                </div>
+                                <iframe
+                                    id="theft-map-${theftIndex + index}" 
+                                    width="100%"
+                                    height="100%"
+                                    frameborder="0"
+                                    style="border:0;"
+                                    src="https://www.gomaps.pro/maps/embed/v1/place?key=AlzaSydsurS3YqxGVdqaV4yrn1AD-8nu9OhpIUB&q=${encodeURIComponent(incident.location)}"
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                            <h6 class="card-title" style="margin-top: 5px;">${incident.location}</h6>
+                            <div class="">
+                                <h3 style="margin-bottom: -5px;">${incident.incident_count < 10 ? '0' + incident.incident_count : incident.incident_count}</h3>
+                                <span>Number of Incidents</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            cardsGridTheft.insertAdjacentHTML('beforeend', cardHtml);
+
+            const mapFrameTheft = document.getElementById(`theft-map-${theftIndex + index}`);
+            const preloaderTheft = mapFrameTheft.previousElementSibling;
+            setTimeout(() => {
+                preloaderTheft.style.display = 'none';
+                mapFrameTheft.style.display = 'block';
+            }, 1000);
+        });
+
+        theftIndex += 4;
+
+        loadMoreBtnTheft.innerHTML = 'Load more';
+        loadMoreBtnTheft.disabled = false;
+
+        if (theftIndex >= theftIncidents.length) {
+            loadMoreBtnTheft.style.display = 'none';
+        }
+    }, 2000);
+});
+  </script>
+
+
+  
+  <script>
+    let vandalismIndex = 4; // Tracks the current number of displayed vandalism incidents
+const vandalismIncidents = <%- JSON.stringify(vandalismIncidents) %>; // Pass vandalism incidents array to JavaScript
+const cardsGridVandalism = document.querySelector('#vandalism .cards-grid');
+const loadMoreBtnVandalism = document.querySelector('#load-more-vandalism');
+
+loadMoreBtnVandalism.addEventListener('click', () => {
+    loadMoreBtnVandalism.innerHTML = '<i class="fa fa-spinner fa-spin"></i> processing...';
+    loadMoreBtnVandalism.disabled = true;
+
+    setTimeout(() => {
+        const newVandalismIncidents = vandalismIncidents.slice(vandalismIndex, vandalismIndex + 4);
+        newVandalismIncidents.forEach((incident, index) => {
+            const cardHtml = `
+                <div class="card">
+                    <div class="card-body">
+                        <div class="align-self-center">
+                            <div class="map-container" style="position: relative; width: 100%; height: 200px;">
+                                <div class="map-preloader" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #f3f3f3; display: flex; justify-content: center; align-items: center;">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">processing...</span>
+                                    </div>
+                                </div>
+                                <iframe
+                                    id="vandalism-map-${vandalismIndex + index}" 
+                                    width="100%"
+                                    height="100%"
+                                    frameborder="0"
+                                    style="border:0;"
+                                    src="https://www.gomaps.pro/maps/embed/v1/place?key=AlzaSydsurS3YqxGVdqaV4yrn1AD-8nu9OhpIUB&q=${encodeURIComponent(incident.location)}"
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                            <h6 class="card-title" style="margin-top: 5px;">${incident.location}</h6>
+                            <div class="">
+                                <h3 style="margin-bottom: -5px;">${incident.incident_count < 10 ? '0' + incident.incident_count : incident.incident_count}</h3>
+                                <span>Number of Incidents</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            cardsGridVandalism.insertAdjacentHTML('beforeend', cardHtml);
+
+            const mapFrameVandalism = document.getElementById(`vandalism-map-${vandalismIndex + index}`);
+            const preloaderVandalism = mapFrameVandalism.previousElementSibling;
+            setTimeout(() => {
+                preloaderVandalism.style.display = 'none';
+                mapFrameVandalism.style.display = 'block';
+            }, 1000);
+        });
+
+        vandalismIndex += 4;
+
+        loadMoreBtnVandalism.innerHTML = 'Load more';
+        loadMoreBtnVandalism.disabled = false;
+
+        if (vandalismIndex >= vandalismIncidents.length) {
+            loadMoreBtnVandalism.style.display = 'none';
+        }
+    }, 2000);
+});
+  </script>
+
+<!-- OTHER INCIDENT -->
+<script>
+
+    //  other incidents tab
+    let otherIndex = 4; // Tracks the current number of displayed other incidents
+    const otherIncidents = <%- JSON.stringify(otherIncidents) %>; // Pass other incidents array to JavaScript
+    const cardsGridOther = document.querySelector('#other .cards-grid');
+    const loadMoreBtnOther = document.querySelector('#load-more-other');
+    
+    loadMoreBtnOther.addEventListener('click', () => {
+        loadMoreBtnOther.innerHTML = '<i class="fa fa-spinner fa-spin"></i> processing...';
+        loadMoreBtnOther.disabled = true;
+    
+        setTimeout(() => {
+            const newOtherIncidents = otherIncidents.slice(otherIndex, otherIndex + 4);
+            newOtherIncidents.forEach((incident, index) => {
+                const cardHtml = `
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="align-self-center">
+                                <div class="map-container" style="position: relative; width: 100%; height: 200px;">
+                                    <div class="map-preloader" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #f3f3f3; display: flex; justify-content: center; align-items: center;">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">processing...</span>
+                                        </div>
+                                    </div>
+                                    <iframe
+                                        id="other-map-${otherIndex + index}" 
+                                        width="100%"
+                                        height="100%"
+                                        frameborder="0"
+                                        style="border:0;"
+                                        src="https://www.gomaps.pro/maps/embed/v1/place?key=AlzaSydsurS3YqxGVdqaV4yrn1AD-8nu9OhpIUB&q=${encodeURIComponent(incident.location)}"
+                                        allowfullscreen>
+                                    </iframe>
+                                </div>
+                                <h6 class="card-title" style="margin-top: 5px;">${incident.location}</h6>
+                                <div class="">
+                                    <h3 style="margin-bottom: -5px;">${incident.incident_count < 10 ? '0' + incident.incident_count : incident.incident_count}</h3>
+                                    <span>Number of Incidents</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                cardsGridOther.insertAdjacentHTML('beforeend', cardHtml);
+    
+                const mapFrameOther = document.getElementById(`other-map-${otherIndex + index}`);
+                const preloaderOther = mapFrameOther.previousElementSibling;
+                setTimeout(() => {
+                    preloaderOther.style.display = 'none';
+                    mapFrameOther.style.display = 'block';
+                }, 1000);
+            });
+    
+            otherIndex += 4;
+    
+            loadMoreBtnOther.innerHTML = 'Load more';
+            loadMoreBtnOther.disabled = false;
+    
+            if (otherIndex >= otherIncidents.length) {
+                loadMoreBtnOther.style.display = 'none';
+            }
+        }, 2000);
+    });
+      </script>
+
+
